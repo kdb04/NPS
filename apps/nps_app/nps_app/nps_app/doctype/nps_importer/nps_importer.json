@@ -1,0 +1,86 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-11 15:45:57.571021",
+ "custom": 1,
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "file_type",
+  "uploaded_file",
+  "date_for",
+  "status",
+  "remark"
+ ],
+ "fields": [
+  {
+   "fieldname": "file_type",
+   "fieldtype": "Select",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "File Type",
+   "options": "\nAgent Contribution JV\nContribution JV\nModification JV",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "uploaded_file",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "File",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_for",
+   "fieldtype": "Date",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Date for",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nPending\nProcessing\nFailed\nSuccess",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "remark",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-06-16 17:49:39.464603",
+ "modified_by": "Administrator",
+ "module": "nps_app",
+ "name": "NPS Importer",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "__python_module": "nps_app.nps_importer.nps_importer",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,29 @@
+{
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2025-06-09 22:29:14.972589",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "No",
+ "letterhead": null,
+ "modified": "2025-06-10 11:28:47.022240",
+ "modified_by": "Administrator",
+ "module": "nps_app",
+ "name": "tier_calc2",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT\n    name AS \"Contribution ID\",\n    full_name AS \"Full Name\",\n    contribution_type AS \"Contribution Type\",\n    item->>'type' AS \"Tier\",\n    item->>'amount' AS \"Base Amount\",\n    item->>'cgst' AS \"CGST\",\n    item->>'igst' AS \"IGST\",\n    item->>'sgst' AS \"SGST\",\n    item->>'service_charge' AS \"Service Charge\",\n    item->>'total_amount' AS \"Total Amount\"\nFROM\n    \"tabnps_agent_contribution\",\n    jsonb_array_elements(contribution::jsonb->'items') AS item\nORDER BY\n    item->>'type' DESC\n\n",
+ "ref_doctype": "nps_agent_contribution",
+ "report_name": "tier_calc2",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "timeout": 0
+}

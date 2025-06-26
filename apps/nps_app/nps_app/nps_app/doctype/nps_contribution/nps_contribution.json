@@ -1,0 +1,171 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-11 12:38:42.390768",
+ "custom": 1,
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "user_id",
+  "status",
+  "order_details",
+  "order_response",
+  "amount",
+  "order_id",
+  "order_type",
+  "nps_status",
+  "nps_response",
+  "refund",
+  "recapture",
+  "push_as_new_transaction",
+  "capture_at",
+  "send_to_cra_at"
+ ],
+ "fields": [
+  {
+   "fieldname": "user_id",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "User ID",
+   "permlevel": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "New\nProcessing\nCaptured\nRefund\nFailed\nCancelled",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "order_details",
+   "fieldtype": "JSON",
+   "label": "Order request",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "order_response",
+   "fieldtype": "JSON",
+   "label": "Order response",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "order_id",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "label": "Order ID",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "order_type",
+   "fieldtype": "Select",
+   "label": "Order Type",
+   "options": "Additional\nInitial",
+   "permlevel": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "nps_status",
+   "fieldtype": "Select",
+   "label": "NPS Status",
+   "options": "New\nProcessing\nFailed\nError\nSubmitted",
+   "permlevel": 3
+  },
+  {
+   "fieldname": "nps_response",
+   "fieldtype": "JSON",
+   "label": "NPS Response",
+   "permlevel": 3
+  },
+  {
+   "depends_on": "eval:((doc.status == 'captured') && (doc.nps_status != 'submitted'));",
+   "fieldname": "refund",
+   "fieldtype": "Button",
+   "label": "Refund",
+   "permlevel": 1
+  },
+  {
+   "depends_on": "eval:((\n(doc.status == 'new') \n|| (doc.status == 'processing')\n|| (doc.status == 'failed')\n) || (\n(doc.status == 'captured') \n&&  (\n(doc.nps_status == 'new') \n|| (doc.nps_status == 'processing')\n)\n) || (\n(doc.status == \"captured\")\n&& (doc.nps_status == \"error\")\n));    ",
+   "fieldname": "recapture",
+   "fieldtype": "Button",
+   "label": "Re-capture"
+  },
+  {
+   "depends_on": "eval:((doc.status == \"captured\") && (doc.nps_status == \"error\"));",
+   "fieldname": "push_as_new_transaction",
+   "fieldtype": "Button",
+   "label": "Push as new transaction"
+  },
+  {
+   "fieldname": "capture_at",
+   "fieldtype": "Datetime",
+   "label": "Order capture at",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "send_to_cra_at",
+   "fieldtype": "Datetime",
+   "label": "Send to CRA at",
+   "permlevel": 3,
+   "set_only_once": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-06-11 12:38:42.569680",
+ "modified_by": "Administrator",
+ "module": "nps_app",
+ "name": "nps_contribution",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "API Access",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "read": 1,
+   "role": "NPS Response Edit",
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,29 @@
+{
+ "add_total_row": 0,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2025-06-09 22:47:38.331059",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "No",
+ "letterhead": null,
+ "modified": "2025-06-10 11:43:56.899893",
+ "modified_by": "Administrator",
+ "module": "nps_app",
+ "name": "total_calc2",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "SELECT \n    item->>'type' AS \"Tier\", \n    SUM((item->>'total_amount')::NUMERIC) AS \"Tier Amount\" \nFROM \n    \"tabnps_agent_contribution\",\n    jsonb_array_elements(contribution::jsonb->'items') AS item\nGROUP BY\n    item->>'type'\nORDER BY \n    \"Tier\" DESC",
+ "ref_doctype": "nps_agent_contribution",
+ "report_name": "total_calc2",
+ "report_type": "Query Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "timeout": 0
+}

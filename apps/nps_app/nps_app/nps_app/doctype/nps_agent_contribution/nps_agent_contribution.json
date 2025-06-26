@@ -1,0 +1,280 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-11 12:38:42.616308",
+ "custom": 1,
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "cra_transaction_id",
+  "reference_id",
+  "pran",
+  "full_name",
+  "email",
+  "mobile",
+  "pan",
+  "state",
+  "place_of_supply",
+  "gstin",
+  "pop_agent",
+  "payment_aggregator",
+  "contribution_type",
+  "contribution_timestamp",
+  "contribution",
+  "payment_aggregator_meta",
+  "corporate",
+  "metadata",
+  "is_email_sent",
+  "email_sent_at",
+  "column_break_2",
+  "section_break_4",
+  "column_break_6",
+  "section_break_8",
+  "column_break_10",
+  "section_break_12",
+  "column_break_14",
+  "section_break_16",
+  "column_break_18",
+  "section_break_20",
+  "column_break_22",
+  "section_break_24",
+  "column_break_26",
+  "section_break_28"
+ ],
+ "fields": [
+  {
+   "fieldname": "cra_transaction_id",
+   "fieldtype": "Data",
+   "label": "CRA Transaction ID",
+   "length": 30,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pop SE Reference ID",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "pran",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "label": "PRAN",
+   "length": 40,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Client name",
+   "length": 255,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Client Email",
+   "length": 255,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "mobile",
+   "fieldtype": "Data",
+   "label": "Client mobile",
+   "length": 14,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "pan",
+   "fieldtype": "Data",
+   "label": "Client PAN",
+   "length": 12,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "label": "Client state",
+   "options": "Andhra Pradesh\nArunachal Pradesh\nAssam\nBihar\nChhattisgarh\nGoa\nGujarat\nHaryana\nHimachal Pradesh\nJharkhand\nKarnataka\nKerala\nMadhya Pradesh\nMaharashtra\nManipur\nMeghalaya\nMizoram\nNagaland\nOdisha\nPunjab\nRajasthan\nSikkim\nTamil Nadu\nTelangana\nTripura\nUttar Pradesh\nUttarakhand\nWest Bengal\nAndaman and Nicobar Islands\nChandigarh\nDadra and Nagar Haveli\nDaman and Diu\nDelhi\nJammu and Kashmir\nLadakh\nLakshadweep\nPuducherry",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "place_of_supply",
+   "fieldtype": "Small Text",
+   "label": "Client Address for Invoice",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "gstin",
+   "fieldtype": "Data",
+   "label": "GSTIN",
+   "length": 17,
+   "read_only": 1
+  },
+  {
+   "fieldname": "pop_agent",
+   "fieldtype": "Select",
+   "label": "POP SE Registration Number",
+   "options": "1741875",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_aggregator",
+   "fieldtype": "Select",
+   "label": "Payment Aggregator",
+   "options": "Razorpay",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "contribution_type",
+   "fieldtype": "Select",
+   "label": "Contribution Type",
+   "options": "Initial\nAdditional\nRegular-c\nArrears-c",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "contribution_timestamp",
+   "fieldtype": "Datetime",
+   "label": "Contribution Timestamp",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "contribution",
+   "fieldtype": "JSON",
+   "label": "Contribution Details",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_aggregator_meta",
+   "fieldtype": "JSON",
+   "label": "Payment Details",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "corporate",
+   "fieldtype": "JSON",
+   "label": "Corporate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "metadata",
+   "fieldtype": "JSON",
+   "label": "Meta",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_email_sent",
+   "fieldtype": "Check",
+   "label": "Email Sent",
+   "read_only": 1
+  },
+  {
+   "fieldname": "email_sent_at",
+   "fieldtype": "Datetime",
+   "label": "Email Sent At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_4",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_10",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_12",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_14",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_16",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_20",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_22",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_24",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_26",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_28",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-06-11 12:38:42.714934",
+ "modified_by": "Administrator",
+ "module": "nps_app",
+ "name": "nps_agent_contribution",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
