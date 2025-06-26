@@ -1,0 +1,12 @@
+2025-06-04 15:22:35,206 ERROR frappe New Exception collected in error log
+Site: demo.local
+Form Dict: {'with_parent': '1', 'cached_timestamp': '', 'cmd': 'frappe.desk.form.load.getdoctype'}
+2025-06-04 15:22:44,057 ERROR frappe New Exception collected in error log
+Site: demo.local
+Form Dict: {'with_parent': '1', 'cached_timestamp': '', 'cmd': 'frappe.desk.form.load.getdoctype'}
+2025-06-04 15:22:57,098 ERROR frappe New Exception collected in error log
+Site: demo.local
+Form Dict: {'with_parent': '1', 'cached_timestamp': '', 'cmd': 'frappe.desk.form.load.getdoctype'}
+2025-06-04 15:42:33,070 ERROR frappe New Exception collected in error log
+Site: demo.local
+Form Dict: {'report_name': 'Account Summary', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}

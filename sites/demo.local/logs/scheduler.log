@@ -1,0 +1,50 @@
+2025-06-10 11:50:01,026 ERROR scheduler Exception in Enqueue Events for Site demo.local
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 385, in connect_check_health
+    sock = self.retry.call_with_retry(
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/retry.py", line 87, in call_with_retry
+    return do()
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 386, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 797, in _connect
+    raise err
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 781, in _connect
+    sock.connect(socket_address)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/scheduler.py", line 120, in enqueue_events_for_site
+    enqueue_events()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/scheduler.py", line 140, in enqueue_events
+    if job_type.enqueue():
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 71, in enqueue
+    if not self.is_job_in_queue():
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 93, in is_job_in_queue
+    return is_job_enqueued(self.rq_job_id)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/background_jobs.py", line 663, in is_job_enqueued
+    return get_job_status(job_id) in (JobStatus.QUEUED, JobStatus.STARTED)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/background_jobs.py", line 668, in get_job_status
+    if job := get_job(job_id):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/background_jobs.py", line 674, in get_job
+    return Job.fetch(create_job_id(job_id), connection=get_redis_conn())
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/rq/job.py", line 670, in fetch
+    job.refresh()
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/rq/job.py", line 1033, in refresh
+    data = self.connection.hgetall(self.key)
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/commands/core.py", line 4959, in hgetall
+    return self.execute_command("HGETALL", name, keys=[name])
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/client.py", line 623, in execute_command
+    return self._execute_command(*args, **options)
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/client.py", line 629, in _execute_command
+    conn = self.connection or pool.get_connection()
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/utils.py", line 191, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 1530, in get_connection
+    connection.connect()
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 379, in connect
+    self.connect_check_health(check_health=True)
+  File "/home/nikhilsrivatsa/demo/env/lib/python3.10/site-packages/redis/connection.py", line 391, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:11000. Connection refused.

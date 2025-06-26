@@ -1,0 +1,1266 @@
+2025-06-11 11:37:17,273 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 228, in run
+    result = generate_report_result(report, filters, user, custom_columns, is_tree, parent_field)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 84, in generate_report_result
+    res = get_report_result(report, filters) or []
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 62, in get_report_result
+    res = report.execute_query_report(filters)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/report/report.py", line 155, in execute_query_report
+    result = [list(t) for t in frappe.db.sql(self.query, filters)]
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.UndefinedColumn: column "Registration" does not exist
+LINE 7:     SUM("Registration") AS "Registration",
+                ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 231, in run
+    frappe.log_error("Report Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-11 11:41:35,137 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 228, in run
+    result = generate_report_result(report, filters, user, custom_columns, is_tree, parent_field)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 84, in generate_report_result
+    res = get_report_result(report, filters) or []
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 62, in get_report_result
+    res = report.execute_query_report(filters)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/report/report.py", line 155, in execute_query_report
+    result = [list(t) for t in frappe.db.sql(self.query, filters)]
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.SyntaxError: syntax error at or near "SUM"
+LINE 8:     SUM("Base Amount" + "GST" + "Transaction Charges" + "Reg...
+            ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 231, in run
+    frappe.log_error("Report Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-11 11:54:41,968 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 228, in run
+    result = generate_report_result(report, filters, user, custom_columns, is_tree, parent_field)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 84, in generate_report_result
+    res = get_report_result(report, filters) or []
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 62, in get_report_result
+    res = report.execute_query_report(filters)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/report/report.py", line 155, in execute_query_report
+    result = [list(t) for t in frappe.db.sql(self.query, filters)]
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.UndefinedColumn: column "order_details" does not exist
+LINE 50:             WHEN (order_details->'notes'->>'t1_amount')::NUM...
+                           ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 231, in run
+    frappe.log_error("Report Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-11 12:13:48,204 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 13:31:50,362 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 13:33:39,156 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 13:33:58,909 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 13:35:48,238 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 14:40:29,103 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{"from_date":"2025-06-03","to_date":"2025-06-04"}', 'ignore_prepared_report': 'false', 'are_default_filters': 'false', 'cmd': 'frappe.desk.query_report.run'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 228, in run
+    result = generate_report_result(report, filters, user, custom_columns, is_tree, parent_field)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 84, in generate_report_result
+    res = get_report_result(report, filters) or []
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 62, in get_report_result
+    res = report.execute_query_report(filters)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/report/report.py", line 155, in execute_query_report
+    result = [list(t) for t in frappe.db.sql(self.query, filters)]
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.UndefinedColumn: column "Date Created" does not exist
+LINE 26:         "Date Created">=from_date
+                 ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 231, in run
+    frappe.log_error("Report Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-11 14:44:30,724 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{"from_date":"2025-06-03","to_date":"2025-06-04"}', 'ignore_prepared_report': 'false', 'are_default_filters': 'false', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 14:45:57,466 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{"from_date":"2025-06-03","to_date":"2025-06-04"}', 'ignore_prepared_report': 'false', 'are_default_filters': 'false', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 14:47:48,390 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{"from_date":"2025-06-03","to_date":"2025-06-04"}', 'ignore_prepared_report': 'false', 'are_default_filters': 'false', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 14:52:14,296 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{"from_date":"2025-06-03","to_date":"2025-06-05"}', 'ignore_prepared_report': 'false', 'are_default_filters': 'false', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-11 14:52:19,211 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'join_total2', 'filters': '{"from_date":"2025-06-03","to_date":"2025-06-04"}', 'ignore_prepared_report': 'false', 'are_default_filters': 'false', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-16 18:32:55,691 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'txt': 'Mark as Failed', 'doctype': 'Workflow Action Master', 'ignore_user_permissions': '0', 'reference_doctype': 'Workflow Transition', 'page_length': '10', 'cmd': 'frappe.desk.search.search_link'}
+2025-06-17 11:52:41,160 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-ojtxoqrknd","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_02.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 11:55:30,802 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-jquoxmmyaq","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_02.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 11:57:14,017 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-lbpoxjxsux","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_02.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 12:11:57,233 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-mlkcmwcxwi","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_26.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 12:12:30,616 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-mlkcmwcxwi","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_26.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 12:25:15,786 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-xomwcdwujr","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_26.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 12:34:07,533 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-ketlveftlk","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_26.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-17 15:02:20,311 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-cajljwhgfa","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_26.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-18 16:02:25,930 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'report_name': 'date1', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 228, in run
+    result = generate_report_result(report, filters, user, custom_columns, is_tree, parent_field)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 84, in generate_report_result
+    res = get_report_result(report, filters) or []
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 62, in get_report_result
+    res = report.execute_query_report(filters)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/report/report.py", line 155, in execute_query_report
+    result = [list(t) for t in frappe.db.sql(self.query, filters)]
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.SyntaxError: syntax error at or near "SUM"
+LINE 4:     SUM("T1 Base Amount") AS "T1 Base Amount",
+            ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 231, in run
+    frappe.log_error("Report Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-24 14:39:15,267 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-hjcsietoui","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_27.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 209, in validate_against_database
+    query_result = frappe.db.sql(validation_query, (query_date,), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.UndefinedFunction: operator does not exist: text + integer
+LINE 15: ...              ((order_details->'notes'->>'t1_gst')+36)::NUME...
+                                                              ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 113, in process_file
+    validation_result = validate_against_database(jv_doc, doc.file_type)
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 376, in validate_against_database
+    frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/form/save.py", line 43, in savedocs
+    doc.save()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 484, in save
+    return self._save(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 506, in _save
+    return self.insert()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 432, in insert
+    self.run_method("after_insert")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1128, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1517, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1499, in runner
+    add_to_return_value(self, f(self, method, *args, **kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 163, in process_file
+    frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-24 14:44:39,374 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-veytmdeaig","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_27.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 209, in validate_against_database
+    query_result = frappe.db.sql(validation_query, (query_date,), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.SyntaxError: syntax error at or near "AS"
+LINE 15: ... ((order_details->'notes'->>'t1_gst')::NUMERIC+36 AS "T1 GST...
+                                                              ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 113, in process_file
+    validation_result = validate_against_database(jv_doc, doc.file_type)
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 376, in validate_against_database
+    frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/form/save.py", line 43, in savedocs
+    doc.save()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 484, in save
+    return self._save(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 506, in _save
+    return self.insert()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 432, in insert
+    self.run_method("after_insert")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1128, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1517, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1499, in runner
+    add_to_return_value(self, f(self, method, *args, **kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 163, in process_file
+    frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-24 15:40:28,612 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-onxsakpxbr","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_27.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-06-24 16:03:50,197 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'report_name': 'date1', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 228, in run
+    result = generate_report_result(report, filters, user, custom_columns, is_tree, parent_field)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 84, in generate_report_result
+    res = get_report_result(report, filters) or []
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 62, in get_report_result
+    res = report.execute_query_report(filters)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/core/doctype/report/report.py", line 155, in execute_query_report
+    result = [list(t) for t in frappe.db.sql(self.query, filters)]
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.SyntaxError: syntax error at or near "items"
+LINE 44: ...       jsonb_array_elements(contribution::jsonb->'items') AS...
+                                                              ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 693, in wrapper_fn
+    retval = fn(*args, **get_newargs(fn, kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/query_report.py", line 231, in run
+    frappe.log_error("Report Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-24 16:37:52,122 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-fvgssptsys","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","uploaded_file":"/private/files/JV_27.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 229, in validate_against_database
+    query_result = frappe.db.sql(validation_query, (query_date,), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.UndefinedColumn: column "Service Charges" does not exist
+LINE 5: ...              SUM("T1 Transaction Charges") + SUM("Service C...
+                                                             ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 113, in process_file
+    validation_result = validate_against_database(jv_doc, doc.file_type)
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 396, in validate_against_database
+    frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/form/save.py", line 43, in savedocs
+    doc.save()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 484, in save
+    return self._save(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 506, in _save
+    return self.insert()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 432, in insert
+    self.run_method("after_insert")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1128, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1517, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1499, in runner
+    add_to_return_value(self, f(self, method, *args, **kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 163, in process_file
+    frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+2025-06-25 11:33:36,715 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'report_name': 'date1', 'filters': '{}', 'ignore_prepared_report': 'false', 'are_default_filters': 'true', 'cmd': 'frappe.desk.query_report.run'}
+2025-06-25 12:33:41,197 ERROR frappe Could not take error snapshot: current transaction is aborted, commands ignored until end of transaction block
+
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-yqehzymflf","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","from_date":"2025-05-26","to_date":"2025-06-27","uploaded_file":"/private/files/JV_27.05.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 248, in validate_against_database
+    query_result = frappe.db.sql(validation_query, (query_from, query_to, query_from, query_to), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.SyntaxError: syntax error at or near "2025"
+LINE 32:                     AND (creation::DATE) < ('2025-06-27'::DA...
+                                                      ^
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 128, in process_file
+    validation_result = validate_against_database(jv_doc, doc.file_type)
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 420, in validate_against_database
+    frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/app.py", line 116, in application
+    response = frappe.api.handle(request)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/__init__.py", line 49, in handle
+    data = endpoint(**arguments)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/api/v1.py", line 36, in handle_rpc_call
+    return frappe.handler.handle()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 51, in handle
+    data = execute_cmd(cmd)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/handler.py", line 84, in execute_cmd
+    return frappe.call(method, **frappe.form_dict)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/__init__.py", line 1461, in call
+    return fn(*args, **newargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/typing_validations.py", line 32, in wrapper
+    return func(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/desk/form/save.py", line 43, in savedocs
+    doc.save()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 484, in save
+    return self._save(*args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 506, in _save
+    return self.insert()
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 432, in insert
+    self.run_method("after_insert")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1128, in run_method
+    out = Document.hook(fn)(self, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1517, in composer
+    return composed(self, method, *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 1499, in runner
+    add_to_return_value(self, f(self, method, *args, **kwargs))
+  File "/home/nikhilsrivatsa/demo/apps/nps_app/nps_app/nps_app/doctype/nps_importer/nps_importer.py", line 178, in process_file
+    frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 87, in log_error_snapshot
+    log_error(title=str(exception), defer_insert=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/utils/error.py", line 62, in log_error
+    error_log = frappe.get_doc(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/utils/__init__.py", line 217, in wrapper
+    return func(*args, **kw)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 106, in get_doc
+    return get_doc_from_dict(kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/document.py", line 140, in get_doc_from_dict
+    controller = get_controller(data["doctype"])
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 83, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/model/base_document.py", line 94, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 547, in get_value
+    result = self.get_values(
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 663, in get_values
+    out = query.run(as_dict=as_dict, debug=debug, update=update, run=run, pluck=pluck)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/query_builder/utils.py", line 85, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/postgres/database.py", line 233, in sql
+    return super().sql(modify_query(query), modify_values(values), *args, **kwargs)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 262, in sql
+    self.execute_query(query, values)
+  File "/home/nikhilsrivatsa/demo/apps/frappe/frappe/database/database.py", line 357, in execute_query
+    return self._cursor.execute(query, values)
+psycopg2.errors.InFailedSqlTransaction: current transaction is aborted, commands ignored until end of transaction block
+

@@ -1,0 +1,11 @@
+name,user_id,status,amount,service,order_id,request,response,remark
+CHRG-0001,User_001,new,1200.5,Modification,ORD001,"“{“”action””:””modify””}""","“{“”status””:””success””}""","“First inserted"""
+CHRG-0002,User_002,captured,980,Modification,ORD002,"“{“”action””:””update””}""","“{“”status””:””done””}""","“Captured successfully"""
+CHRG-0003,User_003,failed,1500,Modification,ORD003,"“{“”action””:””modify””}""","“{“”error””:””timeout””}""","“Retry later"""
+CHRG-0004,User_004,refund,300,Modification,ORD004,"“{“”refund””:true}""","“{“”status””:””processed””}""","“Refund issued"""
+CHRG-0005,User_005,processing,750.25,Modification,ORD005,"“{“”action””:””pending””}""","“{“”status””:””waiting””}""","“Processing"""
+CHRG-0006,User_006,cancelled,1100,Modification,ORD006,"“{“”cancel””:true}""","“{“”status””:””cancelled””}""","“Cancelled by user"""
+CHRG-0007,User_007,captured,2200.1,Modification,ORD007,"“{“”action””:””approve””}""","“{“”status””:””done””}""","“Approved"""
+CHRG-0008,User_008,new,1300.75,Modification,ORD008,"“{“”start””:true}""","“{“”status””:””initiated””}""","“New request"""
+CHRG-0009,User_009,failed,900,Modification,ORD009,"“{“”start””:1}""","“{“”status””:””failed””}""",“Error on processing”
+CHRG-0010,User_010,processing,600.3,Modification,ORD010,"“{“”step””:””verify””}""","“{“”status””:””in progress””}""","“Verification ongoing"""
