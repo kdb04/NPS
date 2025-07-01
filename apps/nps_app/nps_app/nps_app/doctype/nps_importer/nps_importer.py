@@ -1,7 +1,6 @@
 import frappe
 import csv
 import io
-from frappe.utils import getdate
 import frappe.utils
 
 def process_file(doc, method):
@@ -157,16 +156,32 @@ def process_file(doc, method):
                 })
                 
             else:
-                frappe.db.set_value("NPS JV Store", jv_doc.name, {
-                    "status": "Discrepancy",
-                    "discrepancy": f"Amount discrepancy:\n{validation_result['difference']}"
-                })
+                if doc.file_type == "Comparison JV":
+                    comp_doc = frappe.new_doc("NPS Transactions")
+                    comp_doc.discrepancy_count = validation_result.get('total_discrepancies', 0)
+
+                    remarks = []
+                    if validation_result.get('missing_nps_orders'):
+                        nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
+                        remarks.append(f"Missing NPS Orders: {', '.join(nps_order_ids)}")
+                    if validation_result.get('missing_agent_orders'):
+                        agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
+                        remarks.append(f"Missing Agent Orders: {', '.join(agent_order_ids)}")
+
+                    comp_doc.remarks = " | ".join(remarks) if remarks else "No discrepancies found"
+                    comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
+
+                    frappe.set_value("NPS Importer", doc.name, {
+                        "status": "Success",
+                        "remark": "Inserted successfully"
+                    })
+
+                else:
+                    frappe.db.set_value("NPS JV Store", jv_doc.name, {
+                        "status": "Discrepancy",
+                        "discrepancy": f"Amount Discrepancy:\n{validation_result['difference']}"
+                    })
                 
-                frappe.db.set_value("NPS Importer", doc.name, {
-                    "remark": "Record created successfully",
-                    "status": "Success"
-                })
-            
         else:
             frappe.db.set_value("NPS Importer", doc.name, {
                 "remark": "Record created successfully",
@@ -537,12 +552,12 @@ def validate_against_database(jv_doc, file_type):
                 frappe.db.sql(alter_table2_date_type)
 
                 copy_table1 = """
-                COPY "tabNPS Transaction" FROM "/tmp/transactions.csv" DELIMITER ',' CSV HEADER;
+                COPY "tabNPS Transaction" FROM '/tmp/transactions.csv' DELIMITER ',' CSV HEADER;
                 """
                 frappe.db.sql(copy_table1)
 
                 copy_table2 = """
-                COPY "tabNPS Agent Transaction" FROM "/tmp/transactions-2.csv" DELIMITER ',' CSV HEADER;
+                COPY "tabNPS Agent Transaction" FROM '/tmp/transactions-2.csv' DELIMITER ',' CSV HEADER;
                 """
                 frappe.db.sql(copy_table2)
 
@@ -575,36 +590,18 @@ def validate_against_database(jv_doc, file_type):
                 
                 comparison_query_2 = """
                 SELECT t.order_id
-                FROM "tabNPS Agent Transaction t
+                FROM "tabNPS Agent Transaction" t
                 LEFT JOIN tabnps_agent_contribution c
                 ON t.entity_id = (c.payment_aggregator_meta->>'reference_id')
                 WHERE t.entity_id LIKE 'pay_%'
                 AND t.order_id IS NOT NULL
                 AND t.order_receipt IS NOT NULL
-                AND (c.payment_aggregator_meta->>'reference_id');
+                AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
                 """
                 missing_agent_orders = frappe.db.sql(comparison_query_2, as_dict=True)
         
                 missing_nps_count = len(missing_nps_orders)
                 missing_agent_count = len(missing_agent_orders)
-        
-                # comparison_results = []
-        
-                # if missing_nps_count > 0:
-                #     nps_order_ids = [order.get('order_id', '') for order in missing_nps_orders[:10]] 
-                #     comparison_results.append(f"Missing NPS Orders ({missing_nps_count} total): {', '.join(nps_order_ids)}")
-                # if missing_nps_count > 10:
-                #     comparison_results.append(f"... and {missing_nps_count - 10} more NPS orders")
-                # else:
-                #     comparison_results.append("All NPS transactions matched with contributions")
-            
-                # if missing_agent_count > 0:
-                #     agent_order_ids = [order.get('order_id', '') for order in missing_agent_orders[:10]]  # Show first 10
-                #     comparison_results.append(f"Missing Agent Orders ({missing_agent_count} total): {', '.join(agent_order_ids)}")
-                # if missing_agent_count > 10:
-                #     comparison_results.append(f"... and {missing_agent_count - 10} more agent orders")
-                # else:
-                #     comparison_results.append("All Agent transactions matched with contributions")
 
                 combined_results = {
                     'missing_nps_orders': missing_nps_orders,
@@ -637,17 +634,21 @@ def validate_against_database(jv_doc, file_type):
                 else:
                     discrepancy_details.append("All agent records match.")
 
-                jv_doc.discrepancy = discrepancy_details
-
                 if total_discrepancies == 0:
                     return {
                         "is_valid": True,
-                        "difference": discrepancy_details
+                        "difference": discrepancy_details,
+                        "total_discrepancies": 0,
+                        "missing_nps_orders": [],
+                        "missing_agent_orders": []
                     }
                 else:
                     return {
                         "is_valid": False,
-                        "difference": discrepancy_details
+                        "difference": discrepancy_details,
+                        "total_discrepancies": total_discrepancies,
+                        "missing_nps_orders": missing_nps_orders,
+                        "missing_agent_orders": missing_agent_orders
                     }
             
             except Exception as comparison_error:
