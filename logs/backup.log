@@ -136,3 +136,49 @@ Backup Summary for demo.local at 2025-06-25 12:00:02.892647
 Config  : /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250625_120002-demo_local-site_config_backup.json 127.0B
 Database: /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250625_120002-demo_local-database.sql.gz 248.8KiB
 Backup for Site demo.local has been successfully completed
+set -o pipefail; /usr/bin/pg_dump postgresql://_8f6f9cca651ed14a:**********@127.0.0.1:5432/_8f6f9cca651ed14a | /usr/bin/gzip >> ./NPS.local/private/backups/20250626_120001-NPS_local-database.sql.gz
+
+Backup Summary for NPS.local at 2025-06-26 12:00:02.263384
+Config  : /home/nikhilsrivatsa/demo/sites/NPS.local/private/backups/20250626_120001-NPS_local-site_config_backup.json 160.0B
+Database: /home/nikhilsrivatsa/demo/sites/NPS.local/private/backups/20250626_120001-NPS_local-database.sql.gz 438.2KiB
+Backup for Site NPS.local has been successfully completed
+File ./demo.local/private/backups/20250625_120002-demo_local-site_config_backup.json is recent
+File ./demo.local/private/backups/20250625_120002-demo_local-database.sql.gz is recent
+set -o pipefail; /usr/bin/mariadb-dump --user=_f588a2d837e8ddd5 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _f588a2d837e8ddd5 | /usr/bin/gzip >> ./demo.local/private/backups/20250626_120002-demo_local-database.sql.gz
+
+Backup Summary for demo.local at 2025-06-26 12:00:02.528664
+Config  : /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250626_120002-demo_local-site_config_backup.json 127.0B
+Database: /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250626_120002-demo_local-database.sql.gz 249.1KiB
+Backup for Site demo.local has been successfully completed
+set -o pipefail; /usr/bin/pg_dump postgresql://_8f6f9cca651ed14a:**********@127.0.0.1:5432/_8f6f9cca651ed14a | /usr/bin/gzip >> ./NPS.local/private/backups/20250627_120001-NPS_local-database.sql.gz
+
+Backup Summary for NPS.local at 2025-06-27 12:00:02.059425
+Config  : /home/nikhilsrivatsa/demo/sites/NPS.local/private/backups/20250627_120001-NPS_local-site_config_backup.json 160.0B
+Database: /home/nikhilsrivatsa/demo/sites/NPS.local/private/backups/20250627_120001-NPS_local-database.sql.gz 442.1KiB
+Backup for Site NPS.local has been successfully completed
+File ./demo.local/private/backups/20250626_120002-demo_local-site_config_backup.json is recent
+File ./demo.local/private/backups/20250626_120002-demo_local-database.sql.gz is recent
+File ./demo.local/private/backups/20250625_120002-demo_local-site_config_backup.json is older than 24 hours
+File ./demo.local/private/backups/20250625_120002-demo_local-database.sql.gz is older than 24 hours
+set -o pipefail; /usr/bin/mariadb-dump --user=_f588a2d837e8ddd5 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _f588a2d837e8ddd5 | /usr/bin/gzip >> ./demo.local/private/backups/20250627_120002-demo_local-database.sql.gz
+
+Backup Summary for demo.local at 2025-06-27 12:00:02.314044
+Config  : /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250627_120002-demo_local-site_config_backup.json 127.0B
+Database: /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250627_120002-demo_local-database.sql.gz 249.1KiB
+Backup for Site demo.local has been successfully completed
+set -o pipefail; /usr/bin/pg_dump postgresql://_8f6f9cca651ed14a:**********@127.0.0.1:5432/_8f6f9cca651ed14a | /usr/bin/gzip >> ./NPS.local/private/backups/20250701_120002-NPS_local-database.sql.gz
+
+Backup Summary for NPS.local at 2025-07-01 12:00:02.632327
+Config  : /home/nikhilsrivatsa/demo/sites/NPS.local/private/backups/20250701_120002-NPS_local-site_config_backup.json 160.0B
+Database: /home/nikhilsrivatsa/demo/sites/NPS.local/private/backups/20250701_120002-NPS_local-database.sql.gz 440.1KiB
+Backup for Site NPS.local has been successfully completed
+File ./demo.local/private/backups/20250626_120002-demo_local-site_config_backup.json is older than 24 hours
+File ./demo.local/private/backups/20250627_120002-demo_local-database.sql.gz is older than 24 hours
+File ./demo.local/private/backups/20250627_120002-demo_local-site_config_backup.json is older than 24 hours
+File ./demo.local/private/backups/20250626_120002-demo_local-database.sql.gz is older than 24 hours
+set -o pipefail; /usr/bin/mariadb-dump --user=_f588a2d837e8ddd5 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _f588a2d837e8ddd5 | /usr/bin/gzip >> ./demo.local/private/backups/20250701_120002-demo_local-database.sql.gz
+
+Backup Summary for demo.local at 2025-07-01 12:00:02.912558
+Config  : /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250701_120002-demo_local-site_config_backup.json 127.0B
+Database: /home/nikhilsrivatsa/demo/sites/demo.local/private/backups/20250701_120002-demo_local-database.sql.gz 248.2KiB
+Backup for Site demo.local has been successfully completed
