@@ -52,34 +52,58 @@ def process_file(doc, method):
                 continue
                 
             try:
-                try:
-                    #date_val = row[3].strip()
-                    ledger_code = row[5].strip()
-                    amount_val = row[8].strip()
-                    user_val = row[10].strip()
+                #date_val = row[3].strip()
+                ledger_code = row[5].strip()
+                amount_val = row[8].strip()
+                user_val = row[10].strip()
             
-                except IndexError:
-                    continue
-
-                try:
-                    amount_float = float(amount_val.replace(',', '').replace(' ', ''))
-                except:
-                    amount_float = 0
-                
-                if ledger_code in ledger_mapping:
-                    field_name = ledger_mapping[ledger_code]
-
-                    if field_name not in ledger_count:
-                        ledger_count[field_name] = 0
-                        amounts[field_name] = amount_float
-                    else:
-                        amounts[field_name] = 0 #deals with duplicates
-                    
-                    ledger_count[field_name]+=1
-
-            except Exception as row_error:
-                frappe.log_error(f"Row processing error: {str(row_error)}", f"NPS Import Row {idx}")
+            except IndexError:
                 continue
+
+            try:
+                amount_float = float(amount_val.replace(',', '').replace(' ', ''))
+            except:
+                amount_float = 0
+                
+            if ledger_code in ledger_mapping:
+                field_name = ledger_mapping[ledger_code]
+
+                if field_name not in ledger_count:
+                    ledger_count[field_name] = 0
+                    amounts[field_name] = amount_float
+                else:
+                    amounts[field_name] = 0 #deals with duplicates
+                    
+                ledger_count[field_name]+=1
+
+        if not amounts and doc.file_type == "Comparison JV":
+            validation_result = validate_against_database(None, doc.file_type)
+
+            if validation_result["is_valid"]:
+                frappe.db.set_value("NPS Importer", doc.name, {
+                    "remark": "No discrepancies found.",
+                    "status": "Success"
+                })
+            else:
+                comp_doc = frappe.new_doc("NPS Transactions")
+                comp_doc.discrepancy_count = validation_result.get('total_discrepancies', 0)
+
+                remarks = []
+                if validation_result.get('missing_nps_orders'):
+                    nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
+                    remarks.append(f"Missing NPS Orders: {', '.join(nps_order_ids)}")
+                if validation_result.get('missing_agent_orders'):
+                    agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
+                    remarks.append(f"Missing Agent Orders: {', '.join(agent_order_ids)}")
+                
+                comp_doc.remark = " | ".join(remarks) if remarks else "No discrepancy found."
+                comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
+
+                frappe.db.set_value("NPS Importer", doc.name, {
+                    "status": "Success",
+                    "remark": "Discrepancy log saved."
+                })
+            return 
 
         if amounts:
             jv_doc = frappe.new_doc("NPS JV Store")
@@ -156,31 +180,10 @@ def process_file(doc, method):
                 })
                 
             else:
-                if doc.file_type == "Comparison JV":
-                    comp_doc = frappe.new_doc("NPS Transactions")
-                    comp_doc.discrepancy_count = validation_result.get('total_discrepancies', 0)
-
-                    remarks = []
-                    if validation_result.get('missing_nps_orders'):
-                        nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
-                        remarks.append(f"Missing NPS Orders: {', '.join(nps_order_ids)}")
-                    if validation_result.get('missing_agent_orders'):
-                        agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
-                        remarks.append(f"Missing Agent Orders: {', '.join(agent_order_ids)}")
-
-                    comp_doc.remarks = " | ".join(remarks) if remarks else "No discrepancies found"
-                    comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
-
-                    frappe.set_value("NPS Importer", doc.name, {
-                        "status": "Success",
-                        "remark": "Inserted successfully"
-                    })
-
-                else:
-                    frappe.db.set_value("NPS JV Store", jv_doc.name, {
-                        "status": "Discrepancy",
-                        "discrepancy": f"Amount Discrepancy:\n{validation_result['difference']}"
-                    })
+                frappe.db.set_value("NPS JV Store", jv_doc.name, {
+                    "status": "Discrepancy",
+                    "discrepancy": f"Amount Discrepancy:\n{validation_result['difference']}"
+                })
                 
         else:
             frappe.db.set_value("NPS Importer", doc.name, {

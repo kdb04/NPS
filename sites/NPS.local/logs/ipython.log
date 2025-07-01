@@ -412,3 +412,5 @@ CREATE TEMP TABLE "tabNPS Transaction" (
                 AND c.order_id IS NULL;
                 """)
 2025-07-01 15:11:01,083 INFO ipython === session end ===
+2025-07-01 15:23:09,118 INFO ipython === bench console session ===
+2025-07-01 15:23:09,118 INFO ipython === session end ===
