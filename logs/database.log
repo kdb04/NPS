@@ -1,1139 +1,4 @@
-2025-06-05 15:30:54,817 WARNING database DDL Query made to DB:
-create table "tabDashboard Chart Field" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"y_field" varchar(140),
-"color" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:54,841 WARNING database DDL Query made to DB:
-create table "tabConsole Log" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"script" text,
-"type" varchar(140),
-"committed" smallint NOT NULL DEFAULT 0,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:54,873 WARNING database DDL Query made to DB:
-create table "tabKanban Board" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"kanban_board_name" varchar(140) UNIQUE,
-"reference_doctype" varchar(140),
-"field_name" varchar(140),
-"private" smallint NOT NULL DEFAULT 0,
-"show_labels" smallint NOT NULL DEFAULT 0,
-"filters" text,
-"fields" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,021 WARNING database DDL Query made to DB:
-create table "tabNote Seen By" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"user" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:55,076 WARNING database DDL Query made to DB:
-create table "tabNotification Log" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"subject" text,
-"for_user" varchar(140),
-"type" varchar(140),
-"email_content" text,
-"document_type" varchar(140),
-"read" smallint NOT NULL DEFAULT 0,
-"document_name" varchar(140),
-"attached_file" text,
-"from_user" varchar(140),
-"link" text,
-"email_header" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text,
-"_seen" text
-			)
-2025-06-05 15:30:55,080 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "for_user" ON "tabNotification Log"("for_user");CREATE INDEX IF NOT EXISTS "document_name" ON "tabNotification Log"("document_name");
-2025-06-05 15:30:55,106 WARNING database DDL Query made to DB:
-create table "tabList View Settings" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"disable_count" smallint NOT NULL DEFAULT 0,
-"disable_comment_count" smallint NOT NULL DEFAULT 0,
-"disable_sidebar_stats" smallint NOT NULL DEFAULT 0,
-"disable_auto_refresh" smallint NOT NULL DEFAULT 0,
-"allow_edit" smallint NOT NULL DEFAULT 0,
-"disable_automatic_recency_filters" smallint NOT NULL DEFAULT 0,
-"total_fields" varchar(140),
-"fields" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,131 WARNING database DDL Query made to DB:
-create table "tabRoute History" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"route" varchar(140),
-"user" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,195 WARNING database DDL Query made to DB:
-create table "tabOAuth Scope" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"scope" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:55,280 WARNING database DDL Query made to DB:
-create table "tabOAuth Client Role" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"role" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:55,303 WARNING database DDL Query made to DB:
-create table "tabQuery Parameters" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"key" varchar(140),
-"value" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:55,329 WARNING database DDL Query made to DB:
-create table "tabWebhook Data" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"fieldname" varchar(140),
-"key" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:55,469 WARNING database DDL Query made to DB:
-create table "tabWebhook Request Log" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"webhook" varchar(140),
-"reference_doctype" varchar(140),
-"reference_document" varchar(140),
-"headers" text,
-"data" text,
-"user" varchar(140),
-"url" text,
-"response" text,
-"error" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,471 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "webhook" ON "tabWebhook Request Log"("webhook");
-2025-06-05 15:30:55,547 WARNING database DDL Query made to DB:
-create table "tabOAuth Bearer Token" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"client" varchar(140),
-"user" varchar(140) NOT NULL DEFAULT '',
-"scopes" text,
-"access_token" varchar(140) UNIQUE,
-"refresh_token" varchar(140),
-"expiration_time" timestamp,
-"expires_in" int NOT NULL DEFAULT 0,
-"status" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,550 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "user" ON "tabOAuth Bearer Token"("user");CREATE INDEX IF NOT EXISTS "expiration_time" ON "tabOAuth Bearer Token"("expiration_time");
-2025-06-05 15:30:55,701 WARNING database DDL Query made to DB:
-create table "tabWebhook" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"webhook_doctype" varchar(140),
-"webhook_docevent" varchar(140),
-"enabled" smallint NOT NULL DEFAULT 1,
-"condition" text,
-"request_url" text,
-"is_dynamic_url" smallint NOT NULL DEFAULT 0,
-"timeout" int NOT NULL DEFAULT 5,
-"background_jobs_queue" varchar(140),
-"request_method" varchar(140) DEFAULT 'POST',
-"request_structure" varchar(140),
-"enable_security" smallint NOT NULL DEFAULT 0,
-"webhook_secret" text,
-"webhook_json" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,812 WARNING database DDL Query made to DB:
-create table "tabToken Cache" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"user" varchar(140),
-"connected_app" varchar(140),
-"provider_name" varchar(140),
-"access_token" text,
-"refresh_token" text,
-"expires_in" int NOT NULL DEFAULT 0,
-"state" varchar(140),
-"success_uri" varchar(140),
-"token_type" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,882 WARNING database DDL Query made to DB:
-create table "tabOAuth Client" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"client_id" varchar(140),
-"app_name" varchar(140),
-"user" varchar(140),
-"client_secret" varchar(140),
-"skip_authorization" smallint NOT NULL DEFAULT 0,
-"scopes" text DEFAULT 'all openid',
-"redirect_uris" text,
-"default_redirect_uri" varchar(140),
-"grant_type" varchar(140),
-"response_type" varchar(140) DEFAULT 'Code',
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:55,928 WARNING database DDL Query made to DB:
-create table "tabSocial Login Key" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"enable_social_login" smallint NOT NULL DEFAULT 0,
-"social_login_provider" varchar(140) DEFAULT 'Custom',
-"client_id" varchar(140),
-"provider_name" varchar(140),
-"client_secret" text,
-"icon" varchar(140),
-"base_url" varchar(140),
-"sign_ups" varchar(140),
-"authorize_url" varchar(140),
-"access_token_url" varchar(140),
-"redirect_url" varchar(140),
-"api_endpoint" varchar(140),
-"custom_base_url" smallint NOT NULL DEFAULT 0,
-"api_endpoint_args" text,
-"auth_url_data" text,
-"user_id_property" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,058 WARNING database DDL Query made to DB:
-create table "tabIntegration Request" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"request_id" varchar(140),
-"integration_request_service" varchar(140),
-"is_remote_request" smallint NOT NULL DEFAULT 0,
-"request_description" varchar(140),
-"status" varchar(140) DEFAULT 'Queued',
-"url" text,
-"request_headers" text,
-"data" text,
-"output" text,
-"error" text,
-"reference_doctype" varchar(140),
-"reference_docname" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,123 WARNING database DDL Query made to DB:
-create table "tabOAuth Authorization Code" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"client" varchar(140),
-"user" varchar(140),
-"scopes" text,
-"authorization_code" varchar(140) UNIQUE,
-"expiration_time" timestamp,
-"redirect_uri_bound_to_authorization_code" varchar(140),
-"validity" varchar(140),
-"nonce" varchar(140),
-"code_challenge" varchar(140),
-"code_challenge_method" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,152 WARNING database DDL Query made to DB:
-create table "tabWebhook Header" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"key" text,
-"value" text,
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:56,180 WARNING database DDL Query made to DB:
-create table "tabLDAP Group Mapping" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"ldap_group" varchar(140),
-"erpnext_role" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:56,290 WARNING database DDL Query made to DB:
-create table "tabSlack Webhook URL" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"webhook_name" varchar(140) UNIQUE,
-"webhook_url" varchar(140),
-"show_document_link" smallint NOT NULL DEFAULT 1,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,346 WARNING database DDL Query made to DB:
-create table "tabGoogle Contacts" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"enable" smallint NOT NULL DEFAULT 0,
-"email_id" varchar(140),
-"last_sync_on" timestamp,
-"authorization_code" text,
-"refresh_token" text,
-"next_sync_token" text,
-"pull_from_google_contacts" smallint NOT NULL DEFAULT 0,
-"push_to_google_contacts" smallint NOT NULL DEFAULT 0,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,435 WARNING database DDL Query made to DB:
-create table "tabGoogle Calendar" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"enable" smallint NOT NULL DEFAULT 1,
-"calendar_name" varchar(140) UNIQUE,
-"user" varchar(140),
-"pull_from_google_calendar" smallint NOT NULL DEFAULT 1,
-"sync_as_public" smallint NOT NULL DEFAULT 0,
-"push_to_google_calendar" smallint NOT NULL DEFAULT 1,
-"google_calendar_id" varchar(140),
-"refresh_token" text,
-"authorization_code" text,
-"next_sync_token" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,499 WARNING database DDL Query made to DB:
-create table "tabConnected App" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"provider_name" varchar(140),
-"openid_configuration" varchar(140),
-"client_id" varchar(140),
-"redirect_uri" varchar(140),
-"client_secret" text,
-"authorization_uri" text,
-"token_uri" varchar(140),
-"revocation_uri" varchar(140),
-"userinfo_uri" varchar(140),
-"introspection_uri" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,658 WARNING database DDL Query made to DB:
-create table "tabPrint Heading" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"print_heading" varchar(140) UNIQUE,
-"description" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,750 WARNING database DDL Query made to DB:
-create table "tabNetwork Printer Settings" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"server_ip" varchar(140) DEFAULT 'localhost',
-"port" int NOT NULL DEFAULT 631,
-"printer_name" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,818 WARNING database DDL Query made to DB:
-create table "tabLetter Head" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"letter_head_name" varchar(140) UNIQUE,
-"source" varchar(140),
-"footer_source" varchar(140) DEFAULT 'HTML',
-"disabled" smallint NOT NULL DEFAULT 0,
-"is_default" smallint NOT NULL DEFAULT 0,
-"image" text,
-"image_height" decimal(21,9) NOT NULL DEFAULT 0.0,
-"image_width" decimal(21,9) NOT NULL DEFAULT 0.0,
-"align" varchar(140) DEFAULT 'Left',
-"content" text,
-"footer" text,
-"footer_image" text,
-"footer_image_height" decimal(21,9) NOT NULL DEFAULT 0.0,
-"footer_image_width" decimal(21,9) NOT NULL DEFAULT 0.0,
-"footer_align" varchar(140),
-"header_script" text,
-"footer_script" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,821 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "is_default" ON "tabLetter Head"("is_default");
-2025-06-05 15:30:56,848 WARNING database DDL Query made to DB:
-create table "tabPrint Format Field Template" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"document_type" varchar(140),
-"field" varchar(140),
-"template_file" varchar(140),
-"module" varchar(140),
-"standard" smallint NOT NULL DEFAULT 0,
-"template" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:56,945 WARNING database DDL Query made to DB:
-create table "tabGender" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"gender" varchar(140) UNIQUE,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,044 WARNING database DDL Query made to DB:
-create table "tabAddress" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"address_title" varchar(140),
-"address_type" varchar(140),
-"address_line1" varchar(240),
-"address_line2" varchar(240),
-"city" varchar(140),
-"county" varchar(140),
-"state" varchar(140),
-"country" varchar(140),
-"pincode" varchar(140),
-"email_id" varchar(140),
-"phone" varchar(140),
-"fax" varchar(140),
-"is_primary_address" smallint NOT NULL DEFAULT 0,
-"is_shipping_address" smallint NOT NULL DEFAULT 0,
-"disabled" smallint NOT NULL DEFAULT 0,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,050 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "city" ON "tabAddress"("city");CREATE INDEX IF NOT EXISTS "country" ON "tabAddress"("country");CREATE INDEX IF NOT EXISTS "pincode" ON "tabAddress"("pincode");
-2025-06-05 15:30:57,187 WARNING database DDL Query made to DB:
-create table "tabContact" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"first_name" varchar(140),
-"middle_name" varchar(140),
-"last_name" varchar(140),
-"full_name" varchar(140),
-"email_id" varchar(140),
-"user" varchar(140),
-"address" varchar(140),
-"sync_with_google_contacts" smallint NOT NULL DEFAULT 0,
-"status" varchar(140) DEFAULT 'Passive',
-"salutation" varchar(140),
-"designation" varchar(140),
-"gender" varchar(140),
-"phone" varchar(140),
-"mobile_no" varchar(140),
-"company_name" varchar(140),
-"image" text,
-"google_contacts" varchar(140),
-"google_contacts_id" varchar(140),
-"pulled_from_google_contacts" smallint NOT NULL DEFAULT 0,
-"is_primary_contact" smallint NOT NULL DEFAULT 0,
-"department" varchar(140),
-"unsubscribed" smallint NOT NULL DEFAULT 0,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,190 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "email_id" ON "tabContact"("email_id");
-2025-06-05 15:30:57,247 WARNING database DDL Query made to DB:
-create table "tabAddress Template" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"country" varchar(140) UNIQUE,
-"is_default" smallint NOT NULL DEFAULT 0,
-"template" text,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,275 WARNING database DDL Query made to DB:
-create table "tabSalutation" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"salutation" varchar(140) UNIQUE,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,300 WARNING database DDL Query made to DB:
-create table "tabContact Phone" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"phone" varchar(140),
-"is_primary_phone" smallint NOT NULL DEFAULT 0,
-"is_primary_mobile_no" smallint NOT NULL DEFAULT 0,
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:57,323 WARNING database DDL Query made to DB:
-create table "tabContact Email" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"email_id" varchar(140),
-"is_primary" smallint NOT NULL DEFAULT 0,
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:57,363 WARNING database DDL Query made to DB:
-create table "tabAssignment Rule User" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"user" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:57,689 WARNING database DDL Query made to DB:
-create table "tabAssignment Rule" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"document_type" varchar(140),
-"due_date_based_on" varchar(140),
-"priority" int NOT NULL DEFAULT 0,
-"disabled" smallint NOT NULL DEFAULT 0,
-"description" text DEFAULT 'Automatic Assignment',
-"assign_condition" text,
-"unassign_condition" text,
-"close_condition" text,
-"rule" varchar(140),
-"field" varchar(140),
-"last_user" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,742 WARNING database DDL Query made to DB:
-create table "tabReminder" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"user" varchar(140),
-"remind_at" timestamp,
-"description" text,
-"reminder_doctype" varchar(140),
-"reminder_docname" varchar(140),
-"notified" smallint NOT NULL DEFAULT 0,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,745 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "user" ON "tabReminder"("user");CREATE INDEX IF NOT EXISTS "remind_at" ON "tabReminder"("remind_at");
-2025-06-05 15:30:57,837 WARNING database DDL Query made to DB:
-create table "tabAuto Repeat" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"reference_doctype" varchar(140),
-"reference_document" varchar(140),
-"submit_on_creation" smallint NOT NULL DEFAULT 0,
-"start_date" date,
-"end_date" date,
-"disabled" smallint NOT NULL DEFAULT 0,
-"frequency" varchar(140),
-"repeat_on_day" int NOT NULL DEFAULT 0,
-"repeat_on_last_day" smallint NOT NULL DEFAULT 0,
-"next_schedule_date" date,
-"notify_by_email" smallint NOT NULL DEFAULT 0,
-"recipients" text,
-"template" varchar(140),
-"subject" varchar(140),
-"message" text DEFAULT 'Please find attached {{ doc.doctype }} #{{ doc.name }}',
-"print_format" varchar(140),
-"status" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:57,840 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "next_schedule_date" ON "tabAuto Repeat"("next_schedule_date");
-2025-06-05 15:30:57,907 WARNING database DDL Query made to DB:
-create table "tabAuto Repeat Day" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"day" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:30:57,961 WARNING database DDL Query made to DB:
-create table "tabMilestone Tracker" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"document_type" varchar(140) UNIQUE,
-"track_field" varchar(140),
-"disabled" smallint NOT NULL DEFAULT 0,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:58,001 WARNING database DDL Query made to DB:
-create table "tabMilestone" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"reference_type" varchar(140),
-"reference_name" varchar(140),
-"track_field" varchar(140),
-"value" varchar(140),
-"milestone_tracker" varchar(140),
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:30:58,003 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "reference_type" ON "tabMilestone"("reference_type");
-2025-06-05 15:30:58,010 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "reference_type_reference_name_index" ON "public"."tabMilestone" ("reference_type", "reference_name")
-2025-06-05 15:30:58,025 WARNING database DDL Query made to DB:
-create table "tabAssignment Rule Day" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"day" varchar(140),
-parent varchar(140),
-parentfield varchar(140),
-parenttype varchar(140)
-			)
-2025-06-05 15:57:10,682 WARNING database DDL Query made to DB:
-create table "tabnps_contribution" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"user_id" varchar(140),
-"status" varchar(140),
-"order_details" json,
-"order_response" json,
-"amount" decimal(21,9) NOT NULL DEFAULT 0.0,
-"order_id" varchar(140),
-"order_type" varchar(140),
-"nps_status" varchar(140),
-"nps_response" json,
-"capture_at" timestamp,
-"send_to_cra_at" timestamp,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-05 15:57:10,760 WARNING database DDL Query made to DB:
-create table "tabnps_agent_contribution" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"cra_transaction_id" varchar(30),
-"reference_id" varchar(140),
-"pran" varchar(40),
-"full_name" varchar(255),
-"email" varchar(255),
-"mobile" varchar(14),
-"pan" varchar(12),
-"state" varchar(140),
-"place_of_supply" text,
-"gstin" varchar(17),
-"pop_agent" varchar(140),
-"payment_aggregator" varchar(140),
-"contribution_type" varchar(140),
-"contribution_timestamp" timestamp,
-"contribution" json,
-"payment_aggregator_meta" json,
-"corporate" json,
-"metadata" json,
-"is_email_sent" smallint NOT NULL DEFAULT 0,
-"email_sent_at" timestamp,
-"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-11 12:35:12,465 WARNING database DDL Query made to DB:
-create table "tabnew_doctype" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-11 12:38:41,476 WARNING database DDL Query made to DB:
-alter table "tabDocType" add column if not exists migration_hash varchar(140)
-2025-06-11 12:38:42,455 WARNING database DDL Query made to DB:
-ALTER TABLE "tabnps_contribution" ALTER COLUMN "amount" TYPE decimal(21,9)
-2025-06-11 12:38:42,456 WARNING database DDL Query made to DB:
-ALTER TABLE "tabnps_contribution" ALTER COLUMN "amount" DROP NOT NULL,ALTER COLUMN "amount" SET DEFAULT 0
-2025-06-11 12:38:42,678 WARNING database DDL Query made to DB:
-ALTER TABLE "tabnps_agent_contribution" ALTER COLUMN "is_email_sent" DROP NOT NULL,ALTER COLUMN "is_email_sent" SET DEFAULT '0'
-2025-06-11 12:38:42,679 WARNING database DDL Query made to DB:
-DROP INDEX IF EXISTS "unique_contribution" ;
-2025-06-11 14:31:46,119 WARNING database DDL Query made to DB:
-alter table "tabDocType" add column if not exists migration_hash varchar(140)
-2025-06-11 14:31:46,733 WARNING database DDL Query made to DB:
-DROP INDEX IF EXISTS "unique_contribution" ;
-2025-06-11 14:31:46,806 WARNING database DDL Query made to DB:
-ALTER TABLE "tabnps_contribution" ALTER COLUMN "amount" TYPE decimal(21,9)
-2025-06-11 14:31:47,382 WARNING database DDL Query made to DB:
-ALTER TABLE "tabnps_contribution" ALTER COLUMN "amount" TYPE decimal(21,9)
-2025-06-11 14:31:47,607 WARNING database DDL Query made to DB:
-DROP INDEX IF EXISTS "unique_contribution" ;
-2025-06-11 15:45:15,688 WARNING database DDL Query made to DB:
-create table "tabuploader1" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-11 16:19:21,129 WARNING database DDL Query made to DB:
-ALTER TABLE "tabuploader1" ADD COLUMN "file_name" varchar(140), ADD COLUMN "file" text, ADD COLUMN "file_path" varchar(140), ADD COLUMN "status" varchar(140) DEFAULT 'Pending'
-2025-06-11 16:27:54,108 WARNING database DDL Query made to DB:
-ALTER TABLE "tabuploader1" ADD COLUMN "remarks" text
-2025-06-11 16:35:55,205 WARNING database DDL Query made to DB:
-ALTER TABLE "tabuploader1" RENAME TO "tabUpload_files"
-2025-06-11 16:43:37,015 WARNING database DDL Query made to DB:
-ALTER TABLE "tabUpload_files" RENAME TO "tabUpload Files"
-2025-06-16 17:16:34,146 WARNING database DDL Query made to DB:
-ALTER TABLE "tabUpload Files" RENAME TO "tabNPS Importer"
-2025-06-16 17:49:39,522 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Importer" ADD COLUMN "file_type" varchar(140), ADD COLUMN "uploaded_file" text, ADD COLUMN "date_for" date, ADD COLUMN "remark" text
-2025-06-16 19:02:40,055 WARNING database DDL Query made to DB:
-create table "tabNPS JV Store" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-16 19:42:49,525 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ADD COLUMN "for_date" date, ADD COLUMN "ledger_code" varchar(140), ADD COLUMN "ledger_name" varchar(140), ADD COLUMN "debit" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "credit" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "amount" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "user_id" varchar(140), ADD COLUMN "order_id" varchar(140), ADD COLUMN "service" varchar(140), ADD COLUMN "request" json, ADD COLUMN "response" json, ADD COLUMN "status" varchar(140), ADD COLUMN "remark" text, ADD COLUMN "import_ref" varchar(140)
-2025-06-16 20:22:11,573 WARNING database DDL Query made to DB:
-create table "tabNPS Charge" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-16 20:57:44,507 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Charge" ADD COLUMN "user_id" varchar(140), ADD COLUMN "status" varchar(140) DEFAULT 'new', ADD COLUMN "amount" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "service" varchar(140), ADD COLUMN "order_id" varchar(140), ADD COLUMN "request" json, ADD COLUMN "response" json, ADD COLUMN "remark" text
-2025-06-16 20:57:44,543 WARNING database DDL Query made to DB:
-CREATE INDEX IF NOT EXISTS "user_id" ON "tabNPS Charge"("user_id");
-2025-06-18 12:04:41,094 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "debit" TYPE decimal(21,9) , ALTER COLUMN "credit" TYPE decimal(21,9) , ALTER COLUMN "amount" TYPE decimal(21,9)
-2025-06-18 12:04:41,096 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "debit" DROP NOT NULL,ALTER COLUMN "debit" SET DEFAULT 0,ALTER COLUMN "credit" DROP NOT NULL,ALTER COLUMN "credit" SET DEFAULT 0,ALTER COLUMN "amount" DROP NOT NULL,ALTER COLUMN "amount" SET DEFAULT 0
-2025-06-18 12:16:43,739 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ADD COLUMN "total_amount" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "registration_fee" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "comission" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "central_gst" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "state_gst" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "integrated_gst" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "service_charges" decimal(21,9) NOT NULL DEFAULT 0.0, ALTER COLUMN "status" SET DEFAULT 'Valid'
-2025-06-18 12:41:17,915 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ADD COLUMN "order_value" decimal(21,9) NOT NULL DEFAULT 0.0, ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-18 12:41:17,916 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "total_amount" DROP NOT NULL,ALTER COLUMN "total_amount" SET DEFAULT '0.00',ALTER COLUMN "registration_fee" DROP NOT NULL,ALTER COLUMN "registration_fee" SET DEFAULT '0.00',ALTER COLUMN "comission" DROP NOT NULL,ALTER COLUMN "comission" SET DEFAULT '0.00',ALTER COLUMN "central_gst" DROP NOT NULL,ALTER COLUMN "central_gst" SET DEFAULT '0.00',ALTER COLUMN "state_gst" DROP NOT NULL,ALTER COLUMN "state_gst" SET DEFAULT '0.00',ALTER COLUMN "integrated_gst" DROP NOT NULL,ALTER COLUMN "integrated_gst" SET DEFAULT '0.00',ALTER COLUMN "service_charges" DROP NOT NULL,ALTER COLUMN "service_charges" SET DEFAULT '0.00'
-2025-06-18 14:21:54,102 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-18 14:21:54,103 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "order_value" DROP NOT NULL,ALTER COLUMN "order_value" SET DEFAULT '0.00'
-2025-06-18 14:27:54,717 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-19 13:24:59,033 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-19 15:03:44,139 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-24 10:13:24,759 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Charge" ADD COLUMN "creation1" date, ALTER COLUMN "amount" TYPE decimal(21,9)
-2025-06-24 10:13:24,761 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Charge" ALTER COLUMN "amount" DROP NOT NULL,ALTER COLUMN "amount" SET DEFAULT 0
-2025-06-25 11:35:08,937 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Importer" ADD COLUMN "date_to" varchar(140)
-2025-06-25 11:55:45,771 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ADD COLUMN "to_date" varchar(140), ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-25 11:56:25,539 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Importer" ADD COLUMN "for_date" date, ADD COLUMN "to_date" date
-2025-06-25 11:56:35,885 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "to_date" TYPE date USING to_date::timestamp without time zone, ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-25 12:00:45,775 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Importer" ADD COLUMN "from_date" date
-2025-06-25 12:01:04,188 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ADD COLUMN "from_date" date, ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-25 14:19:33,560 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ADD COLUMN "discrepancy" text, ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-25 14:24:03,298 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS JV Store" ALTER COLUMN "total_amount" TYPE decimal(21,9) , ALTER COLUMN "order_value" TYPE decimal(21,9) , ALTER COLUMN "registration_fee" TYPE decimal(21,9) , ALTER COLUMN "comission" TYPE decimal(21,9) , ALTER COLUMN "central_gst" TYPE decimal(21,9) , ALTER COLUMN "state_gst" TYPE decimal(21,9) , ALTER COLUMN "integrated_gst" TYPE decimal(21,9) , ALTER COLUMN "service_charges" TYPE decimal(21,9)
-2025-06-26 13:01:45,031 WARNING database DDL Query made to DB:
-create table "tabNPS Transactions" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-06-26 13:39:02,556 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transactions" ADD COLUMN "entity_id" varchar(140) NOT NULL DEFAULT '' UNIQUE, ADD COLUMN "type" varchar(140) NOT NULL DEFAULT '', ADD COLUMN "debit" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "credit" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "amount" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "currency" varchar(140) DEFAULT 'INR', ADD COLUMN "fee" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "tax" decimal(21,9) NOT NULL DEFAULT 0.0, ADD COLUMN "on_hold" int NOT NULL DEFAULT 0, ADD COLUMN "settled" varchar(140) DEFAULT '1', ADD COLUMN "created_at" timestamp, ADD COLUMN "settled_at" date, ADD COLUMN "settlement_id" varchar(140), ADD COLUMN "description" varchar(140), ADD COLUMN "notes" json, ADD COLUMN "payment_id" varchar(140), ADD COLUMN "arn" varchar(140), ADD COLUMN "settlement_utr" varchar(140), ADD COLUMN "order_id" varchar(140) UNIQUE, ADD COLUMN "order_receipt" varchar(140) UNIQUE, ADD COLUMN "method" varchar(140), ADD COLUMN "upi_flow" varchar(140), ADD COLUMN "card_network" varchar(140), ADD COLUMN "card_issuer" varchar(140), ADD COLUMN "card_type" varchar(140), ADD COLUMN "dispute_id" varchar(140), ADD COLUMN "additional_utr" varchar(140)
-2025-06-26 13:39:02,562 WARNING database DDL Query made to DB:
-CREATE UNIQUE INDEX IF NOT EXISTS "unique_entity_id" ON "tabNPS Transactions"("entity_id");CREATE UNIQUE INDEX IF NOT EXISTS "unique_order_id" ON "tabNPS Transactions"("order_id");CREATE UNIQUE INDEX IF NOT EXISTS "unique_order_receipt" ON "tabNPS Transactions"("order_receipt");
-2025-07-01 13:43:57,150 WARNING database DDL Query made to DB:
-create table "tabNPS Transactions" (
-			name varchar(140) primary key,
-			creation timestamp(6),
-			modified timestamp(6),
-			modified_by varchar(140),
-			owner varchar(140),
-			docstatus smallint not null default '0',
-			idx bigint not null default '0',
-			"_user_tags" text,
-"_comments" text,
-"_assign" text,
-"_liked_by" text
-			)
-2025-07-01 13:44:32,601 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transactions" ADD COLUMN "section_break_zzqc" int NOT NULL DEFAULT 0
-2025-07-01 13:47:41,219 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transactions" ADD COLUMN "discrepancy_count" int NOT NULL DEFAULT 0, ADD COLUMN "remarks" text
-2025-07-01 14:48:26,655 WARNING database DDL Query made to DB:
+2025-07-02 14:12:57,307 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1163,223 +28,7 @@ CREATE TEMP TABLE "tabNPS Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-01 14:54:51,475 WARNING database DDL Query made to DB:
-CREATE TEMP TABLE "tabNPS Transaction" (
-    entity_id varchar(50),
-    type varchar(30),
-    debit float,
-    credit float,
-    amount float,
-    currency varchar(10),
-    fee float,
-    tax float,
-    on_hold int,
-    settled int,
-    created_at timestamp,
-    settled_at date,
-    settlement_id varchar(50),
-    description varchar(100),
-    notes json,
-    payment_id varchar(50),
-    arn varchar(50),
-    settlement_utr varchar(50),
-    order_id varchar(50),
-    order_receipt varchar(50),
-    method varchar(30),
-    upi_flow varchar(50),
-    card_network varchar(50),
-    card_issuer varchar(50),
-    card_type varchar(50),
-    dispute_id varchar(50),
-    additional_utr varchar(50)
-);
-2025-07-01 14:55:39,688 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-2025-07-01 14:55:57,040 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-01 14:56:16,336 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-2025-07-01 14:58:52,876 WARNING database DDL Query made to DB:
-CREATE TEMP TABLE "tabNPS Transaction" (
-    entity_id varchar(50),
-    type varchar(30),
-    debit float,
-    credit float,
-    amount float,
-    currency varchar(10),
-    fee float,
-    tax float,
-    on_hold int,
-    settled int,
-    created_at timestamp,
-    settled_at date,
-    settlement_id varchar(50),
-    description varchar(100),
-    notes json,
-    payment_id varchar(50),
-    arn varchar(50),
-    settlement_utr varchar(50),
-    order_id varchar(50),
-    order_receipt varchar(50),
-    method varchar(30),
-    upi_flow varchar(50),
-    card_network varchar(50),
-    card_issuer varchar(50),
-    card_type varchar(50),
-    dispute_id varchar(50),
-    additional_utr varchar(50)
-);
-2025-07-01 14:59:23,499 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-2025-07-01 14:59:36,142 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-01 14:59:45,934 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-2025-07-01 15:03:51,276 WARNING database DDL Query made to DB:
-CREATE TEMP TABLE "tabNPS Transaction"(
-                entity_id varchar(50), 
-                type varchar(30), 
-                debit float, 
-                credit float, 
-                amount float, 
-                currency varchar(10), 
-                fee float, 
-                tax float, 
-                on_hold int, 
-                settled int, 
-                created_at timestamp, 
-                settled_at date, 
-                settlement_id varchar(50), 
-                description varchar(100), 
-                notes json, 
-                payment_id varchar(50), 
-                arn varchar(50), 
-                settlement_utr varchar(50), 
-                order_id varchar(50), 
-                order_receipt varchar(50), 
-                method varchar(30), 
-                upi_flow varchar(50), 
-                card_network varchar(50), 
-                card_issuer varchar(50), 
-                card_type varchar(50), 
-                dispute_id varchar(50), 
-                additional_utr varchar(50)
-                );
-2025-07-01 15:04:09,049 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-2025-07-01 15:04:21,338 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-01 15:04:35,085 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-2025-07-01 15:08:24,927 WARNING database DDL Query made to DB:
-CREATE TEMP TABLE "tabNPS Transaction"(
-                entity_id varchar(50), 
-                type varchar(30), 
-                debit float, 
-                credit float, 
-                amount float, 
-                currency varchar(10), 
-                fee float, 
-                tax float, 
-                on_hold int, 
-                settled int, 
-                created_at timestamp, 
-                settled_at date, 
-                settlement_id varchar(50), 
-                description varchar(100), 
-                notes json, 
-                payment_id varchar(50), 
-                arn varchar(50), 
-                settlement_utr varchar(50), 
-                order_id varchar(50), 
-                order_receipt varchar(50), 
-                method varchar(30), 
-                upi_flow varchar(50), 
-                card_network varchar(50), 
-                card_issuer varchar(50), 
-                card_type varchar(50), 
-                dispute_id varchar(50), 
-                additional_utr varchar(50)
-                );
-2025-07-01 15:08:34,765 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-2025-07-01 15:08:44,470 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-01 15:08:52,062 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-2025-07-01 15:09:49,280 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-01 15:20:17,799 WARNING database DDL Query made to DB:
+2025-07-02 14:12:57,310 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1409,7 +58,21 @@ CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-01 15:20:32,871 WARNING database DDL Query made to DB:
+2025-07-02 14:12:57,311 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 14:12:57,312 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1422,18 +85,23 @@ ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN on_hold SET NOT NULL, 
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL;
-2025-07-01 15:20:56,704 WARNING database DDL Query made to DB:
+2025-07-02 14:12:57,313 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 14:12:57,313 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
-2025-07-01 15:21:13,132 WARNING database DDL Query made to DB:
+2025-07-02 14:12:57,315 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:12:57,317 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TEXT,
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-01 15:21:37,980 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Agent Transaction"
-                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 11:12:26,721 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,374 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1463,117 +131,7 @@ CREATE TEMP TABLE "tabNPS Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 11:12:44,286 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-2025-07-02 11:12:58,332 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-02 11:13:11,454 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 11:14:24,828 WARNING database DDL Query made to DB:
-CREATE TEMP TABLE "tabNPS Transaction"(
-                entity_id varchar(50), 
-                type varchar(30), 
-                debit float, 
-                credit float, 
-                amount float, 
-                currency varchar(10), 
-                fee float, 
-                tax float, 
-                on_hold int, 
-                settled int, 
-                created_at timestamp, 
-                settled_at date, 
-                settlement_id varchar(50), 
-                description varchar(100), 
-                notes json, 
-                payment_id varchar(50), 
-                arn varchar(50), 
-                settlement_utr varchar(50), 
-                order_id varchar(50), 
-                order_receipt varchar(50), 
-                method varchar(30), 
-                upi_flow varchar(50), 
-                card_network varchar(50), 
-                card_issuer varchar(50), 
-                card_type varchar(50), 
-                dispute_id varchar(50), 
-                additional_utr varchar(50)
-                );
-2025-07-02 11:14:39,166 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-2025-07-02 11:14:51,440 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-02 11:15:01,651 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 11:15:24,880 WARNING database DDL Query made to DB:
-ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 12:45:12,379 WARNING database DDL Query made to DB:
-CREATE TEMP TABLE "tabNPS Transaction"(
-                entity_id varchar(50), 
-                type varchar(30), 
-                debit float, 
-                credit float, 
-                amount float, 
-                currency varchar(10), 
-                fee float, 
-                tax float, 
-                on_hold int, 
-                settled int, 
-                created_at timestamp, 
-                settled_at date, 
-                settlement_id varchar(50), 
-                description varchar(100), 
-                notes json, 
-                payment_id varchar(50), 
-                arn varchar(50), 
-                settlement_utr varchar(50), 
-                order_id varchar(50), 
-                order_receipt varchar(50), 
-                method varchar(30), 
-                upi_flow varchar(50), 
-                card_network varchar(50), 
-                card_issuer varchar(50), 
-                card_type varchar(50), 
-                dispute_id varchar(50), 
-                additional_utr varchar(50)
-                );
-2025-07-02 12:45:12,382 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,375 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1603,7 +161,7 @@ CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 12:45:12,385 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,376 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1617,7 +175,7 @@ ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL, 
                 ALTER COLUMN settled_at SET NOT NULL;
-2025-07-02 12:45:12,388 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,376 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1630,35 +188,35 @@ ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN on_hold SET NOT NULL, 
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL;
-2025-07-02 12:45:12,392 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,377 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
                 ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
                 ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-02 12:45:12,395 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,377 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
-2025-07-02 12:45:12,399 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,378 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TEXT, 
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 12:45:12,403 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,379 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TEXT,
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 12:45:12,429 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,387 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 12:45:12,433 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,387 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 12:45:12,445 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,389 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Transaction"
-2025-07-02 12:45:12,446 WARNING database DDL Query made to DB:
+2025-07-02 14:13:57,389 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Agent Transaction"
-2025-07-02 12:50:06,690 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,594 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1688,7 +246,7 @@ CREATE TEMP TABLE "tabNPS Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 12:50:06,694 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,595 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1718,7 +276,7 @@ CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 12:50:06,697 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,596 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1732,7 +290,7 @@ ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL, 
                 ALTER COLUMN settled_at SET NOT NULL;
-2025-07-02 12:50:06,700 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,597 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1745,35 +303,241 @@ ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN on_hold SET NOT NULL, 
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL;
-2025-07-02 12:50:06,704 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,597 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
                 ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
                 ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-02 12:50:06,707 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,598 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
-2025-07-02 12:50:06,711 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,600 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TEXT, 
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 12:50:06,716 WARNING database DDL Query made to DB:
+2025-07-02 14:18:40,601 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TEXT,
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 12:50:06,742 WARNING database DDL Query made to DB:
+2025-07-02 14:19:10,431 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:19:10,431 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:19:10,432 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 14:19:10,432 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 14:19:10,432 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 14:19:10,433 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 14:19:10,434 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:19:10,434 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:48:31,082 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:48:31,083 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:48:31,083 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 14:48:31,084 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 14:48:31,085 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 14:48:31,085 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 14:48:31,086 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:48:31,087 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:48:31,096 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 12:50:06,746 WARNING database DDL Query made to DB:
+2025-07-02 14:48:31,098 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 12:50:06,756 WARNING database DDL Query made to DB:
+2025-07-02 14:48:31,100 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Transaction"
-2025-07-02 12:50:06,758 WARNING database DDL Query made to DB:
+2025-07-02 14:48:31,100 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Agent Transaction"
-2025-07-02 13:27:45,944 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,802 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1803,7 +567,7 @@ CREATE TEMP TABLE "tabNPS Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 13:27:45,946 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,804 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1833,7 +597,7 @@ CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 13:27:45,948 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,804 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1847,7 +611,7 @@ ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL, 
                 ALTER COLUMN settled_at SET NOT NULL;
-2025-07-02 13:27:45,950 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,805 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1860,35 +624,241 @@ ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN on_hold SET NOT NULL, 
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL;
-2025-07-02 13:27:45,951 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,806 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
                 ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
                 ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-02 13:27:45,953 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,807 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
-2025-07-02 13:27:45,957 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,808 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TEXT, 
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 13:27:45,959 WARNING database DDL Query made to DB:
+2025-07-02 14:50:29,810 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TEXT,
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 13:27:45,977 WARNING database DDL Query made to DB:
+2025-07-02 14:52:13,974 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:52:13,975 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:52:13,976 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 14:52:13,977 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 14:52:13,977 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 14:52:13,978 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 14:52:13,980 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:52:13,981 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:53:38,986 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:53:38,987 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 14:53:38,988 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 14:53:38,989 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 14:53:38,990 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 14:53:38,990 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 14:53:38,992 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:53:38,993 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 14:53:39,002 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 13:27:45,980 WARNING database DDL Query made to DB:
+2025-07-02 14:53:39,004 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 13:27:45,985 WARNING database DDL Query made to DB:
+2025-07-02 14:53:39,008 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Transaction"
-2025-07-02 13:27:45,986 WARNING database DDL Query made to DB:
+2025-07-02 14:53:39,008 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Agent Transaction"
-2025-07-02 13:40:19,394 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,614 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1918,7 +888,7 @@ CREATE TEMP TABLE "tabNPS Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 13:40:19,396 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,616 WARNING database DDL Query made to DB:
 CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 entity_id varchar(50), 
                 type varchar(30), 
@@ -1948,7 +918,7 @@ CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 dispute_id varchar(50), 
                 additional_utr varchar(50)
                 );
-2025-07-02 13:40:19,398 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,617 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1962,7 +932,7 @@ ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL, 
                 ALTER COLUMN settled_at SET NOT NULL;
-2025-07-02 13:40:19,400 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,617 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
                 ALTER COLUMN type SET NOT NULL, 
@@ -1975,31 +945,31 @@ ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN on_hold SET NOT NULL, 
                 ALTER COLUMN settled SET NOT NULL, 
                 ALTER COLUMN created_at SET NOT NULL;
-2025-07-02 13:40:19,402 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,618 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction" 
                 ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
                 ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
                 ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-2025-07-02 13:40:19,404 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,619 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
-2025-07-02 13:40:19,406 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,620 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TEXT, 
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 13:40:19,409 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,621 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TEXT,
                 ALTER COLUMN settled_at TYPE TEXT
-2025-07-02 13:40:19,436 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,627 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 13:40:19,440 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,628 WARNING database DDL Query made to DB:
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-2025-07-02 13:40:19,450 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,630 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Transaction"
-2025-07-02 13:40:19,450 WARNING database DDL Query made to DB:
+2025-07-02 14:55:23,631 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS "tabNPS Agent Transaction"

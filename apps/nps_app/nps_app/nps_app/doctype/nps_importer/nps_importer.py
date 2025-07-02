@@ -78,8 +78,7 @@ def process_file(doc, method):
                 ledger_count[field_name]+=1
 
         if not amounts and doc.file_type == "Comparison JV":
-            frappe.log_error("Entered Comparison JV")
-            validation_result = validate_against_database(None, doc.file_type)
+            validation_result = validate_against_database(None, doc.file_type) #None as this jv entry does not go to jv store table
 
             if validation_result["is_valid"]:
                 comp_doc = frappe.new_doc("NPS Transactions")
@@ -134,7 +133,7 @@ def process_file(doc, method):
                     elif isinstance(full_diff, str):
                         remarks.extend(full_diff)
 
-                final_remark = "\n".join(remarks) if remarks else "Discrepancies found but no details"
+                final_remark = validation_result.get('difference', 'Discrepancy found but no details')
             
                 comp_doc.remarks = final_remark
                 comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
@@ -143,7 +142,6 @@ def process_file(doc, method):
                     "status": "Success",
                     "remark": "Discrepancy log saved."
                 })
-            frappe.log_error(f"Comparison JV completed. NPS Transactions document created:{comp_doc.name}")
             return 
 
         if amounts:
@@ -478,13 +476,9 @@ def validate_against_database(jv_doc, file_type):
                 }            
 
         elif file_type == "Comparison JV":
-            frappe.log_error("Entered Comparison JV block")
             try:
                 transaction_file_path = '/tmp/transactions.csv'
                 agent_transaction_file_path = '/tmp/transactions-2.csv'
-
-                frappe.log_error(f"transactions.csv exists: {os.path.exists(transaction_file_path)}")
-                frappe.log_error(f"transactions-2.csv exists: {os.path.exists(agent_transaction_file_path)}")
 
                 create_temp_table1 = """
                 CREATE TEMP TABLE "tabNPS Transaction"(
@@ -517,7 +511,6 @@ def validate_against_database(jv_doc, file_type):
                 additional_utr varchar(50)
                 );"""
                 frappe.db.sql(create_temp_table1)
-                frappe.log_error("Created NPS Transactions Table")
 
                 create_temp_table2 = """
                 CREATE TEMP TABLE "tabNPS Agent Transaction"(
@@ -550,7 +543,6 @@ def validate_against_database(jv_doc, file_type):
                 additional_utr varchar(50)
                 );"""
                 frappe.db.sql(create_temp_table2)
-                frappe.log_error("Created Agent Transactions Table")
 
                 alter_table1_notnull = """
                 ALTER TABLE "tabNPS Transaction" 
@@ -568,7 +560,6 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN settled_at SET NOT NULL;
                 """
                 frappe.db.sql(alter_table1_notnull)
-                frappe.log_error("Altering table1 columns - NOT NULL property")
 
                 alter_table2_notnull = """
                 ALTER TABLE "tabNPS Agent Transaction" 
@@ -585,7 +576,6 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN created_at SET NOT NULL;
                 """
                 frappe.db.sql(alter_table2_notnull)
-                frappe.log_error("Altering table2 columns - NOT NULL property")
 
                 alter_table1_contraints = """
                 ALTER TABLE "tabNPS Transaction" 
@@ -594,14 +584,12 @@ def validate_against_database(jv_doc, file_type):
                 ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
                 """
                 frappe.db.sql(alter_table1_contraints)
-                frappe.log_error("Altering table1 constraints - UNIQUE")
 
                 alter_table2_constraints = """
                 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
                 """
                 frappe.db.sql(alter_table2_constraints)
-                frappe.log_error("Altering table 2 constraints - UNIQUE")
 
                 # to fix date format of the form dd/mm/yy in order to copy from csv(change to text field)
                 alter_table1_date_type = """ 
@@ -610,7 +598,6 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN settled_at TYPE TEXT
                 """
                 frappe.db.sql(alter_table1_date_type)
-                frappe.log_error("Altering table1 date format to text to copy")
 
                 alter_table2_date_type = """
                 ALTER TABLE "tabNPS Agent Transaction"
@@ -618,27 +605,25 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN settled_at TYPE TEXT
                 """
                 frappe.db.sql(alter_table2_date_type)
-                frappe.log_error("Altering table2 date format to text to copy")
 
                 copy_table1 = f"""
                 COPY "tabNPS Transaction" FROM '{transaction_file_path}' DELIMITER ',' CSV HEADER;
                 """
                 frappe.db.sql(copy_table1)
-                frappe.log_error("Copying contents to table1")
 
-                count_query1 = 'SELECT COUNT(*) as count FROM "tabNPS Transaction"'
-                count1 = frappe.db.sql(count_query1, as_dict=True)
-                frappe.log_error(f"Rows inserted into tabNPS Transaction: {count1[0]['count']}")
+                #test query
+                # count_query1 = 'SELECT COUNT(*) as count FROM "tabNPS Transaction"'
+                # count1 = frappe.db.sql(count_query1, as_dict=True)
+                # frappe.log_error(f"Rows inserted into tabNPS Transaction: {count1[0]['count']}")
 
                 copy_table2 = f"""
                 COPY "tabNPS Agent Transaction" FROM '{agent_transaction_file_path}' DELIMITER ',' CSV HEADER;
                 """
                 frappe.db.sql(copy_table2)
-                frappe.log_error("Copying contents to table2")
 
-                count_query2 = 'SELECT COUNT(*) as count FROM "tabNPS Agent Transaction"'
-                count2 = frappe.db.sql(count_query2, as_dict=True)
-                frappe.log_error(f"Rows inserted into tabNPS Agent Transaction: {count2[0]['count']}")
+                # count_query2 = 'SELECT COUNT(*) as count FROM "tabNPS Agent Transaction"'
+                # count2 = frappe.db.sql(count_query2, as_dict=True)
+                # frappe.log_error(f"Rows inserted into tabNPS Agent Transaction: {count2[0]['count']}")
 
                 #convert date column back to date type after copying
                 convert_table1_date = """
@@ -647,7 +632,6 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
                 """
                 frappe.db.sql(convert_table1_date)
-                frappe.log_error("Converting date format back to date in table1")
 
                 convert_table2_date = """
                 ALTER TABLE "tabNPS Agent Transaction"
@@ -655,7 +639,6 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
                 """
                 frappe.db.sql(convert_table2_date)
-                frappe.log_error("Converting date format back to date in table2")
 
                 comparison_query_1 = """
                 SELECT t.order_id 
@@ -668,7 +651,6 @@ def validate_against_database(jv_doc, file_type):
                 AND c.order_id IS NULL;
                 """
                 missing_nps_orders = frappe.db.sql(comparison_query_1, as_dict=True)
-                frappe.log_error("Comparison query on table1")
 
                 comparison_query_2 = """
                 SELECT t.order_id
@@ -681,59 +663,38 @@ def validate_against_database(jv_doc, file_type):
                 AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
                 """
                 missing_agent_orders = frappe.db.sql(comparison_query_2, as_dict=True)
-                frappe.log_error("Comparison query on table2")
 
                 missing_nps_count = len(missing_nps_orders)
                 missing_agent_count = len(missing_agent_orders)
-
-                combined_results = {
-                    'missing_nps_orders': missing_nps_orders,
-                    'missing_agent_orders': missing_agent_orders,
-                    'nps_count': missing_nps_count,
-                    'agent_count': missing_agent_count
-                }
         
                 frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Transaction"')
                 frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Agent Transaction"')
         
                 total_discrepancies = missing_nps_count + missing_agent_count
 
-                discrepancy_details = []
-                discrepancy_details.append(f"Total discrepancies: {total_discrepancies}\n")
-                discrepancy_details.append(f"Missing NPS Orders Count: {missing_nps_count}\n")
-                discrepancy_details.append(f"Missing NPS Orders: {missing_nps_orders}\n")
-                discrepancy_details.append(f"Missing Agent Orders Count: {missing_agent_count}\n")
-                discrepancy_details.append(f"Missing Agent Orders: {missing_agent_orders}\n")
+                remarks = []
+                remarks.append(f"Total Discrepancies found: {total_discrepancies}")
 
-                if missing_nps_count>0:
-                    nps_order_ids = [order.get('order_id', '') for order in combined_results['missing_nps_orders']]
-                    discrepancy_details.append(f"NPS Orders not found in contributions: {', '.join(nps_order_ids)}")
-                else:
-                    discrepancy_details.append("All NPS records match.")
+                if missing_nps_count:
+                    nps_order_ids = [row['order_id'] for row in missing_nps_orders]
+                    remarks.append(f"Missing NPS Orders: ({missing_nps_count})")
+                    remarks.append(", ".join(nps_order_ids))
+                    remarks.append("")
 
-                if missing_agent_count>0:
-                    agent_order_ids = [order.get('order_id', '') for order in combined_results['missing_agent_orders']]
-                    discrepancy_details.append(f"Agent Orders not found in contributions: {', '.join(agent_order_ids)}")
-                else:
-                    discrepancy_details.append("All agent records match.")
+                if missing_agent_count:
+                    agent_order_ids = [row['order_id'] for row in missing_agent_orders]
+                    remarks.append(f"Missing Agent Orders: ({missing_agent_count})")
+                    remarks.append(", ".join(agent_order_ids))
+                    remarks.append("")
 
-                if total_discrepancies == 0:
-                    return {
-                        "is_valid": True,
-                        "difference": discrepancy_details,
-                        "total_discrepancies": 0,
-                        "missing_nps_orders": [],
-                        "missing_agent_orders": []
-                    }
-                else:
-                    return {
-                        "is_valid": False,
-                        "difference": discrepancy_details,
-                        "total_discrepancies": total_discrepancies,
-                        "missing_nps_orders": missing_nps_orders,
-                        "missing_agent_orders": missing_agent_orders
-                    }
-            
+                return{
+                    "is_valid": total_discrepancies == 0,
+                    "difference": "\n".join(remarks),
+                    "total_discrepancies": total_discrepancies,
+                    "missing_nps_orders": missing_nps_orders,
+                    "missing_agent_orders": missing_agent_orders
+                }
+
             except Exception as comparison_error:
                 frappe.log_error(f"Comparison JV error: {str(comparison_error)}", "Comparison JV Validation Error")
                 return {
