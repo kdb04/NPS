@@ -184,6 +184,11 @@ def process_file(doc, method):
                     "status": "Discrepancy",
                     "discrepancy": f"Amount Discrepancy:\n{validation_result['difference']}"
                 })
+
+                frappe.db.set_value("NPS Importer", doc.name, {
+                    "remark": "Record created successfully",
+                    "status": "Success"
+                })
                 
         else:
             frappe.db.set_value("NPS Importer", doc.name, {
