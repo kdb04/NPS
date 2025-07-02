@@ -156,3 +156,12 @@ Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-impo
 2025-07-02 14:52:14,027 ERROR frappe New Exception collected in error log
 Site: NPS.local
 Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-rvyeetcurn","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Comparison JV","status":"Pending","uploaded_file":"/private/files/transactions.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-07-02 15:42:13,510 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-ydntvmtopl","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Comparison JV","status":"Pending","uploaded_file":"/private/files/transactions-2.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-07-02 15:52:58,537 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-mqrbqrxsjg","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Comparison JV","status":"Pending","uploaded_file":"/private/files/transactions.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-07-02 15:55:33,792 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-gxdbvmbxxc","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Comparison JV","status":"Pending","uploaded_file":"/private/files/transactions.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}

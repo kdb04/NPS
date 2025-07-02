@@ -108,30 +108,30 @@ def process_file(doc, method):
                 # if isinstance(full_diff, list):
                 #     all_remarks += " | " + " | ".join(full_diff)
 
-                remarks = []
-                total_discrepancies = validation_result.get('total_discrepancies', 0)
+                # remarks = []
+                # total_discrepancies = validation_result.get('total_discrepancies', 0)
 
-                remarks.append(f"Total Discrepancies Found: {total_discrepancies}")
+                # remarks.append(f"Total Discrepancies Found: {total_discrepancies}")
 
-                if validation_result.get('missing_nps_orders'):
-                    nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
-                    remarks.append(f"Missing NPS Orders: ({len(nps_order_ids)}):")
-                    remarks.append(', '.join(nps_order_ids))
-                    remarks.append("")
+                # if validation_result.get('missing_nps_orders'):
+                #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
+                #     remarks.append(f"Missing NPS Orders: ({len(nps_order_ids)}):")
+                #     remarks.append(', '.join(nps_order_ids))
+                #     remarks.append("")
 
-                if validation_result.get('missing_agent_orders'):
-                    agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
-                    remarks.append(f"Missing Agent Orders: ({len(agent_order_ids)}):")
-                    remarks.append(', '.join(agent_order_ids))
-                    remarks.append("")
+                # if validation_result.get('missing_agent_orders'):
+                #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
+                #     remarks.append(f"Missing Agent Orders: ({len(agent_order_ids)}):")
+                #     remarks.append(', '.join(agent_order_ids))
+                #     remarks.append("")
 
-                full_diff = validation_result.get('difference', [])
-                if full_diff:
-                    remarks.append("Discrepancies Found:")
-                    if isinstance(full_diff, list):
-                        remarks.extend(full_diff)
-                    elif isinstance(full_diff, str):
-                        remarks.extend(full_diff)
+                # full_diff = validation_result.get('difference', [])
+                # if full_diff:
+                #     remarks.append("Discrepancies Found:")
+                #     if isinstance(full_diff, list):
+                #         remarks.extend(full_diff)
+                #     elif isinstance(full_diff, str):
+                #         remarks.extend(full_diff)
 
                 final_remark = validation_result.get('difference', 'Discrepancy found but no details')
             
@@ -478,7 +478,7 @@ def validate_against_database(jv_doc, file_type):
         elif file_type == "Comparison JV":
             try:
                 transaction_file_path = '/tmp/transactions.csv'
-                agent_transaction_file_path = '/tmp/transactions-2.csv'
+                agent_transaction_file_path = '/tmp/transactions_agent.csv'
 
                 create_temp_table1 = """
                 CREATE TEMP TABLE "tabNPS Transaction"(
@@ -512,6 +512,83 @@ def validate_against_database(jv_doc, file_type):
                 );"""
                 frappe.db.sql(create_temp_table1)
 
+                alter_table1_notnull = """
+                ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+                """
+                frappe.db.sql(alter_table1_notnull)
+
+                alter_table1_contraints = """
+                ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+                """
+                frappe.db.sql(alter_table1_contraints)
+
+                # to fix date format of the form dd/mm/yy in order to copy from csv(change to text field)
+                alter_table1_date_type = """ 
+                ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+                """
+                frappe.db.sql(alter_table1_date_type)
+
+                copy_table1 = f"""
+                COPY "tabNPS Transaction" FROM '{transaction_file_path}' DELIMITER ',' CSV HEADER;
+                """
+                frappe.db.sql(copy_table1)
+
+                #test query
+                # count_query1 = 'SELECT COUNT(*) as count FROM "tabNPS Transaction"'
+                # count1 = frappe.db.sql(count_query1, as_dict=True)
+                # frappe.log_error(f"Rows inserted into tabNPS Transaction: {count1[0]['count']}")
+
+                #convert date column back to date type after copying
+                convert_table1_date = """
+                ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+                """
+                frappe.db.sql(convert_table1_date)
+
+                comparison_query_1 = """
+                SELECT t.order_id 
+                FROM "tabNPS Transaction" t
+                LEFT JOIN tabnps_contribution c
+                ON t.order_id = c.order_id 
+                WHERE t.order_id IS NOT NULL
+                AND t.settled_at IS NOT NULL
+                AND t.description IS NOT NULL
+                AND c.order_id IS NULL;
+                """
+                missing_nps_orders = frappe.db.sql(comparison_query_1, as_dict=True)
+                missing_nps_count = len(missing_nps_orders)
+
+                transaction_remarks = []
+                transaction_remarks.append(f"NPS Discrepancies found: {missing_nps_count}")
+
+                if missing_nps_count:
+                    nps_order_ids = [row['order_id'] for row in missing_nps_orders]
+                    transaction_remarks.append("Missing NPS Order IDs:")
+                    transaction_remarks.append(", ".join(nps_order_ids))
+                else:
+                    transaction_remarks.append("No missing NPS Orders")
+                transaction_remarks.append("")
+
+                frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Transaction"')
+
                 create_temp_table2 = """
                 CREATE TEMP TABLE "tabNPS Agent Transaction"(
                 entity_id varchar(50), 
@@ -544,23 +621,6 @@ def validate_against_database(jv_doc, file_type):
                 );"""
                 frappe.db.sql(create_temp_table2)
 
-                alter_table1_notnull = """
-                ALTER TABLE "tabNPS Transaction" 
-                ALTER COLUMN entity_id SET NOT NULL, 
-                ALTER COLUMN type SET NOT NULL, 
-                ALTER COLUMN debit SET NOT NULL, 
-                ALTER COLUMN credit SET NOT NULL, 
-                ALTER COLUMN amount SET NOT NULL, 
-                ALTER COLUMN currency SET NOT NULL, 
-                ALTER COLUMN fee SET NOT NULL, 
-                ALTER COLUMN tax SET NOT NULL, 
-                ALTER COLUMN on_hold SET NOT NULL, 
-                ALTER COLUMN settled SET NOT NULL, 
-                ALTER COLUMN created_at SET NOT NULL, 
-                ALTER COLUMN settled_at SET NOT NULL;
-                """
-                frappe.db.sql(alter_table1_notnull)
-
                 alter_table2_notnull = """
                 ALTER TABLE "tabNPS Agent Transaction" 
                 ALTER COLUMN entity_id SET NOT NULL, 
@@ -577,27 +637,11 @@ def validate_against_database(jv_doc, file_type):
                 """
                 frappe.db.sql(alter_table2_notnull)
 
-                alter_table1_contraints = """
-                ALTER TABLE "tabNPS Transaction" 
-                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
-                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
-                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
-                """
-                frappe.db.sql(alter_table1_contraints)
-
                 alter_table2_constraints = """
                 ALTER TABLE "tabNPS Agent Transaction" 
                 ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
                 """
                 frappe.db.sql(alter_table2_constraints)
-
-                # to fix date format of the form dd/mm/yy in order to copy from csv(change to text field)
-                alter_table1_date_type = """ 
-                ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TEXT, 
-                ALTER COLUMN settled_at TYPE TEXT
-                """
-                frappe.db.sql(alter_table1_date_type)
 
                 alter_table2_date_type = """
                 ALTER TABLE "tabNPS Agent Transaction"
@@ -605,16 +649,6 @@ def validate_against_database(jv_doc, file_type):
                 ALTER COLUMN settled_at TYPE TEXT
                 """
                 frappe.db.sql(alter_table2_date_type)
-
-                copy_table1 = f"""
-                COPY "tabNPS Transaction" FROM '{transaction_file_path}' DELIMITER ',' CSV HEADER;
-                """
-                frappe.db.sql(copy_table1)
-
-                #test query
-                # count_query1 = 'SELECT COUNT(*) as count FROM "tabNPS Transaction"'
-                # count1 = frappe.db.sql(count_query1, as_dict=True)
-                # frappe.log_error(f"Rows inserted into tabNPS Transaction: {count1[0]['count']}")
 
                 copy_table2 = f"""
                 COPY "tabNPS Agent Transaction" FROM '{agent_transaction_file_path}' DELIMITER ',' CSV HEADER;
@@ -625,32 +659,12 @@ def validate_against_database(jv_doc, file_type):
                 # count2 = frappe.db.sql(count_query2, as_dict=True)
                 # frappe.log_error(f"Rows inserted into tabNPS Agent Transaction: {count2[0]['count']}")
 
-                #convert date column back to date type after copying
-                convert_table1_date = """
-                ALTER TABLE "tabNPS Transaction"
-                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-                """
-                frappe.db.sql(convert_table1_date)
-
                 convert_table2_date = """
                 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
                 """
                 frappe.db.sql(convert_table2_date)
-
-                comparison_query_1 = """
-                SELECT t.order_id 
-                FROM "tabNPS Transaction" t
-                LEFT JOIN tabnps_contribution c
-                ON t.order_id = c.order_id 
-                WHERE t.order_id IS NOT NULL
-                AND t.settled_at IS NOT NULL
-                AND t.description IS NOT NULL
-                AND c.order_id IS NULL;
-                """
-                missing_nps_orders = frappe.db.sql(comparison_query_1, as_dict=True)
 
                 comparison_query_2 = """
                 SELECT t.order_id
@@ -663,33 +677,30 @@ def validate_against_database(jv_doc, file_type):
                 AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
                 """
                 missing_agent_orders = frappe.db.sql(comparison_query_2, as_dict=True)
-
-                missing_nps_count = len(missing_nps_orders)
                 missing_agent_count = len(missing_agent_orders)
-        
-                frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Transaction"')
+
+                agent_remarks = []
+                agent_remarks.append(f"Discrepancies found: {missing_agent_count}")
+                if missing_agent_count:
+                    agent_order_ids = [row['order_id'] for row in missing_agent_orders]
+                    agent_remarks.append("Missing Agent Order IDs:")
+                    agent_remarks.append(", ".join(agent_order_ids))
+                else:
+                    agent_remarks.append("No discrepancies found.")
+                agent_remarks.append("")
+
                 frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Agent Transaction"')
         
                 total_discrepancies = missing_nps_count + missing_agent_count
 
-                remarks = []
-                remarks.append(f"Total Discrepancies found: {total_discrepancies}")
-
-                if missing_nps_count:
-                    nps_order_ids = [row['order_id'] for row in missing_nps_orders]
-                    remarks.append(f"Missing NPS Orders: ({missing_nps_count})")
-                    remarks.append(", ".join(nps_order_ids))
-                    remarks.append("")
-
-                if missing_agent_count:
-                    agent_order_ids = [row['order_id'] for row in missing_agent_orders]
-                    remarks.append(f"Missing Agent Orders: ({missing_agent_count})")
-                    remarks.append(", ".join(agent_order_ids))
-                    remarks.append("")
+                combined_remarks = []
+                combined_remarks.extend(transaction_remarks)
+                combined_remarks.extend(agent_remarks)
+                combined_remarks.append(f"Total Discrepancies: {total_discrepancies}")
 
                 return{
                     "is_valid": total_discrepancies == 0,
-                    "difference": "\n".join(remarks),
+                    "difference": "\n".join(combined_remarks),
                     "total_discrepancies": total_discrepancies,
                     "missing_nps_orders": missing_nps_orders,
                     "missing_agent_orders": missing_agent_orders
