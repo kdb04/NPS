@@ -1012,3 +1012,47 @@
 2025-07-02 09:51:50,200 INFO /home/nikhilsrivatsa/.local/bin/bench worker
 2025-07-02 09:51:50,221 INFO /home/nikhilsrivatsa/.local/bin/bench watch
 2025-07-02 09:51:50,239 INFO /home/nikhilsrivatsa/.local/bin/bench schedule
+2025-07-02 10:22:25,655 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 10:22:29,195 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 10:22:29,477 INFO A newer version of bench is available: 5.25.1 → 5.25.8
+2025-07-02 11:10:56,710 INFO /home/nikhilsrivatsa/.local/bin/bench start
+2025-07-02 11:10:56,849 INFO /home/nikhilsrivatsa/.local/bin/bench serve --port 8000
+2025-07-02 11:10:56,851 INFO /home/nikhilsrivatsa/.local/bin/bench worker
+2025-07-02 11:10:56,870 INFO /home/nikhilsrivatsa/.local/bin/bench schedule
+2025-07-02 11:10:56,884 INFO /home/nikhilsrivatsa/.local/bin/bench watch
+2025-07-02 11:12:07,693 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local console
+2025-07-02 11:14:08,531 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local console
+2025-07-02 11:29:23,650 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 11:29:28,222 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 11:29:28,683 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 11:34:40,791 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 11:34:44,312 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 11:34:44,488 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 11:41:14,236 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 11:41:15,622 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 11:41:15,838 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 11:58:26,011 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 11:58:27,310 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 11:58:27,482 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 12:00:01,115 INFO /home/nikhilsrivatsa/.local/bin/bench --verbose --site all backup
+2025-07-02 12:00:13,297 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 12:00:14,717 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 12:00:15,043 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 12:07:09,575 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 12:07:11,045 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 12:07:11,259 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 12:17:48,517 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 12:17:50,002 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 12:17:50,196 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 12:28:30,824 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 12:28:32,349 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 12:28:32,664 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 12:44:44,039 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 12:44:46,125 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 12:44:48,793 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 12:49:44,234 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 12:49:45,640 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 12:49:46,193 INFO A newer version of bench is available: 5.25.1 → 5.25.9
+2025-07-02 13:27:23,513 INFO /home/nikhilsrivatsa/.local/bin/bench --site NPS.local clear-cache
+2025-07-02 13:27:25,882 INFO /home/nikhilsrivatsa/.local/bin/bench restart
+2025-07-02 13:27:26,302 INFO A newer version of bench is available: 5.25.1 → 5.25.9

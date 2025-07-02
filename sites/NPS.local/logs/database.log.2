@@ -1,0 +1,2883 @@
+2025-06-05 15:30:43,162 WARNING database DDL Query made to DB:
+DROP DATABASE IF EXISTS "_8f6f9cca651ed14a"
+2025-06-05 15:30:43,177 WARNING database DDL Query made to DB:
+CREATE USER "_8f6f9cca651ed14a" WITH PASSWORD 'l76ebpzvVs1D5H89'
+2025-06-05 15:30:43,393 WARNING database DDL Query made to DB:
+CREATE DATABASE "_8f6f9cca651ed14a"
+2025-06-05 15:30:43,584 WARNING database DDL Query made to DB:
+create table if not exists "__Auth" (
+				"doctype" VARCHAR(140) NOT NULL,
+				"name" VARCHAR(255) NOT NULL,
+				"fieldname" VARCHAR(140) NOT NULL,
+				"password" TEXT NOT NULL,
+				"encrypted" INT NOT NULL DEFAULT 0,
+				PRIMARY KEY ("doctype", "name", "fieldname")
+			)
+2025-06-05 15:30:43,593 WARNING database DDL Query made to DB:
+create table "__global_search"(
+				doctype varchar(100),
+				name varchar(140),
+				title varchar(140),
+				content text,
+				route varchar(140),
+				published int not null default 0,
+				unique (doctype, name))
+2025-06-05 15:30:43,598 WARNING database DDL Query made to DB:
+create table if not exists "__UserSettings" (
+			"user" VARCHAR(180) NOT NULL,
+			"doctype" VARCHAR(180) NOT NULL,
+			"data" TEXT,
+			UNIQUE ("user", "doctype")
+			)
+2025-06-05 15:30:43,861 WARNING database DDL Query made to DB:
+create table "tabDocType State" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"color" varchar(140) DEFAULT 'Blue',
+"custom" smallint NOT NULL DEFAULT 0,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:43,955 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocField" ADD COLUMN "non_negative" smallint NOT NULL DEFAULT 0, ADD COLUMN "is_virtual" smallint NOT NULL DEFAULT 0, ADD COLUMN "not_nullable" smallint NOT NULL DEFAULT 0, ADD COLUMN "sort_options" smallint NOT NULL DEFAULT 0, ADD COLUMN "link_filters" json, ADD COLUMN "fetch_from" text, ADD COLUMN "show_on_timeline" smallint NOT NULL DEFAULT 0, ADD COLUMN "sticky" smallint NOT NULL DEFAULT 0, ADD COLUMN "make_attachment_public" smallint NOT NULL DEFAULT 0, ADD COLUMN "documentation_url" varchar(140), ADD COLUMN "placeholder" varchar(140), ALTER COLUMN "label" TYPE varchar(140) , ALTER COLUMN "fieldtype" TYPE varchar(140) , ALTER COLUMN "fieldname" TYPE varchar(140) , ALTER COLUMN "precision" TYPE varchar(140) , ALTER COLUMN "length" TYPE int , ALTER COLUMN "permlevel" TYPE int , ALTER COLUMN "print_width" TYPE varchar(10) , ALTER COLUMN "width" TYPE varchar(10) , ALTER COLUMN "columns" TYPE int , ALTER COLUMN "oldfieldname" TYPE varchar(140) , ALTER COLUMN "oldfieldtype" TYPE varchar(140) , ALTER COLUMN "fieldtype" SET DEFAULT 'Data'
+2025-06-05 15:30:44,003 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocPerm" ADD COLUMN "if_owner" smallint NOT NULL DEFAULT 0, ADD COLUMN "select" smallint NOT NULL DEFAULT 0, ALTER COLUMN "role" TYPE varchar(140) , ALTER COLUMN "permlevel" TYPE int
+2025-06-05 15:30:44,005 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocPerm" ALTER COLUMN "read" DROP NOT NULL,ALTER COLUMN "read" SET DEFAULT '1',ALTER COLUMN "write" DROP NOT NULL,ALTER COLUMN "write" SET DEFAULT '1',ALTER COLUMN "create" DROP NOT NULL,ALTER COLUMN "create" SET DEFAULT '1',ALTER COLUMN "delete" DROP NOT NULL,ALTER COLUMN "delete" SET DEFAULT '1',ALTER COLUMN "submit" DROP NOT NULL,ALTER COLUMN "submit" SET DEFAULT '0',ALTER COLUMN "cancel" DROP NOT NULL,ALTER COLUMN "cancel" SET DEFAULT '0',ALTER COLUMN "amend" DROP NOT NULL,ALTER COLUMN "amend" SET DEFAULT '0',ALTER COLUMN "report" DROP NOT NULL,ALTER COLUMN "report" SET DEFAULT '1',ALTER COLUMN "export" DROP NOT NULL,ALTER COLUMN "export" SET DEFAULT '1',ALTER COLUMN "import" DROP NOT NULL,ALTER COLUMN "import" SET DEFAULT '0',ALTER COLUMN "share" DROP NOT NULL,ALTER COLUMN "share" SET DEFAULT '1',ALTER COLUMN "print" DROP NOT NULL,ALTER COLUMN "print" SET DEFAULT '1',ALTER COLUMN "email" DROP NOT NULL,ALTER COLUMN "email" SET DEFAULT '1'
+2025-06-05 15:30:44,035 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocType Action" ADD COLUMN "hidden" smallint NOT NULL DEFAULT 0, ADD COLUMN "custom" smallint NOT NULL DEFAULT 0, ALTER COLUMN "action" TYPE text , ALTER COLUMN "group" TYPE varchar(140)
+2025-06-05 15:30:44,035 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocType Action" ALTER COLUMN "label" DROP NOT NULL,ALTER COLUMN "label" SET DEFAULT '',ALTER COLUMN "action_type" DROP NOT NULL,ALTER COLUMN "action_type" SET DEFAULT '',ALTER COLUMN "action" DROP NOT NULL,ALTER COLUMN "action" SET DEFAULT ''
+2025-06-05 15:30:44,093 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocType Link" ADD COLUMN "parent_doctype" varchar(140), ADD COLUMN "table_fieldname" varchar(140), ADD COLUMN "hidden" smallint NOT NULL DEFAULT 0, ADD COLUMN "is_child_table" smallint NOT NULL DEFAULT 0, ADD COLUMN "custom" smallint NOT NULL DEFAULT 0
+2025-06-05 15:30:44,094 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocType Link" ALTER COLUMN "link_doctype" DROP NOT NULL,ALTER COLUMN "link_doctype" SET DEFAULT '',ALTER COLUMN "link_fieldname" DROP NOT NULL,ALTER COLUMN "link_fieldname" SET DEFAULT ''
+2025-06-05 15:30:44,168 WARNING database DDL Query made to DB:
+create table "tabForm Tour Step" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"ui_tour" smallint NOT NULL DEFAULT 0,
+"is_table_field" smallint NOT NULL DEFAULT 0,
+"title" varchar(140),
+"parent_fieldname" varchar(140),
+"fieldname" varchar(140),
+"element_selector" varchar(140),
+"parent_element_selector" varchar(140),
+"description" text,
+"ondemand_description" text,
+"position" varchar(140) DEFAULT 'Bottom',
+"hide_buttons" smallint NOT NULL DEFAULT 0,
+"popover_element" smallint NOT NULL DEFAULT 0,
+"modal_trigger" smallint NOT NULL DEFAULT 0,
+"offset_x" int NOT NULL DEFAULT 0,
+"offset_y" int NOT NULL DEFAULT 0,
+"next_on_click" smallint NOT NULL DEFAULT 0,
+"label" varchar(140),
+"fieldtype" varchar(140) DEFAULT '0',
+"has_next_condition" smallint NOT NULL DEFAULT 0,
+"next_step_condition" text,
+"next_form_tour" varchar(140),
+"child_doctype" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,202 WARNING database DDL Query made to DB:
+create table "tabForm Tour" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140) UNIQUE,
+"view_name" varchar(140),
+"workspace_name" varchar(140),
+"list_name" varchar(140) DEFAULT 'List',
+"report_name" varchar(140),
+"dashboard_name" varchar(140),
+"new_document_form" smallint NOT NULL DEFAULT 0,
+"page_name" varchar(140),
+"reference_doctype" varchar(140),
+"module" varchar(140),
+"ui_tour" smallint NOT NULL DEFAULT 0,
+"track_steps" smallint NOT NULL DEFAULT 0,
+"is_standard" smallint NOT NULL DEFAULT 0,
+"save_on_complete" smallint NOT NULL DEFAULT 0,
+"first_document" smallint NOT NULL DEFAULT 0,
+"include_name_field" smallint NOT NULL DEFAULT 0,
+"page_route" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,290 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocType" ADD COLUMN "protect_attached_files" smallint NOT NULL DEFAULT 0, ADD COLUMN "is_calendar_and_gantt" smallint NOT NULL DEFAULT 0, ADD COLUMN "quick_entry" smallint NOT NULL DEFAULT 0, ADD COLUMN "grid_page_length" int NOT NULL DEFAULT 50, ADD COLUMN "rows_threshold_for_grid_search" int NOT NULL DEFAULT 0, ADD COLUMN "track_views" smallint NOT NULL DEFAULT 0, ADD COLUMN "queue_in_background" smallint NOT NULL DEFAULT 0, ADD COLUMN "nsm_parent_field" varchar(140), ADD COLUMN "documentation" varchar(140), ADD COLUMN "allow_events_in_timeline" smallint NOT NULL DEFAULT 0, ADD COLUMN "allow_auto_repeat" smallint NOT NULL DEFAULT 0, ADD COLUMN "make_attachments_public" smallint NOT NULL DEFAULT 0, ADD COLUMN "default_view" varchar(140), ADD COLUMN "force_re_route_to_default_view" smallint NOT NULL DEFAULT 0, ADD COLUMN "show_preview_popup" smallint NOT NULL DEFAULT 0, ADD COLUMN "default_email_template" varchar(140), ADD COLUMN "sender_name_field" varchar(140), ADD COLUMN "index_web_pages_for_search" smallint NOT NULL DEFAULT 1, ADD COLUMN "row_format" varchar(140) DEFAULT 'Dynamic', ADD COLUMN "_comments" text, ADD COLUMN "_assign" text, ADD COLUMN "_liked_by" text, ALTER COLUMN "restrict_to_domain" TYPE varchar(140) , ALTER COLUMN "autoname" TYPE varchar(140) , ALTER COLUMN "title_field" TYPE varchar(140) , ALTER COLUMN "module" TYPE varchar(140) , ALTER COLUMN "image_field" TYPE varchar(140) , ALTER COLUMN "timeline_field" TYPE varchar(140) , ALTER COLUMN "max_attachments" TYPE int , ALTER COLUMN "search_fields" TYPE varchar(140) , ALTER COLUMN "default_print_format" TYPE varchar(140) , ALTER COLUMN "sort_field" TYPE varchar(140) , ALTER COLUMN "sort_order" TYPE varchar(140) , ALTER COLUMN "document_type" TYPE varchar(140) , ALTER COLUMN "icon" TYPE varchar(140) , ALTER COLUMN "color" TYPE varchar(140) , ALTER COLUMN "sender_field" TYPE varchar(140) , ALTER COLUMN "subject_field" TYPE varchar(140) , ALTER COLUMN "route" TYPE varchar(140) , ALTER COLUMN "is_published_field" TYPE varchar(140) , ALTER COLUMN "website_search_field" TYPE varchar(140) , ALTER COLUMN "engine" TYPE varchar(140) , ALTER COLUMN "migration_hash" TYPE varchar(140) , ALTER COLUMN "_user_tags" TYPE text , ALTER COLUMN "allow_rename" SET DEFAULT 1, ALTER COLUMN "sort_field" SET DEFAULT 'creation', ALTER COLUMN "sort_order" SET DEFAULT 'DESC'
+2025-06-05 15:30:44,295 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDocType" ALTER COLUMN "read_only" DROP NOT NULL,ALTER COLUMN "read_only" SET DEFAULT '0',ALTER COLUMN "in_create" DROP NOT NULL,ALTER COLUMN "in_create" SET DEFAULT '0',ALTER COLUMN "allow_rename" DROP NOT NULL,ALTER COLUMN "allow_rename" SET DEFAULT '1',ALTER COLUMN "is_submittable" DROP NOT NULL,ALTER COLUMN "is_submittable" SET DEFAULT '0',ALTER COLUMN "istable" DROP NOT NULL,ALTER COLUMN "istable" SET DEFAULT '0',ALTER COLUMN "issingle" DROP NOT NULL,ALTER COLUMN "issingle" SET DEFAULT '0',ALTER COLUMN "is_tree" DROP NOT NULL,ALTER COLUMN "is_tree" SET DEFAULT '0',ALTER COLUMN "editable_grid" DROP NOT NULL,ALTER COLUMN "editable_grid" SET DEFAULT '1',ALTER COLUMN "track_changes" DROP NOT NULL,ALTER COLUMN "track_changes" SET DEFAULT '0',ALTER COLUMN "track_seen" DROP NOT NULL,ALTER COLUMN "track_seen" SET DEFAULT '0',ALTER COLUMN "custom" DROP NOT NULL,ALTER COLUMN "custom" SET DEFAULT '0',ALTER COLUMN "beta" DROP NOT NULL,ALTER COLUMN "beta" SET DEFAULT '0',ALTER COLUMN "is_virtual" DROP NOT NULL,ALTER COLUMN "is_virtual" SET DEFAULT '0',ALTER COLUMN "max_attachments" DROP NOT NULL,ALTER COLUMN "max_attachments" SET DEFAULT 0,ALTER COLUMN "hide_toolbar" DROP NOT NULL,ALTER COLUMN "hide_toolbar" SET DEFAULT '0',ALTER COLUMN "allow_copy" DROP NOT NULL,ALTER COLUMN "allow_copy" SET DEFAULT '0',ALTER COLUMN "allow_import" DROP NOT NULL,ALTER COLUMN "allow_import" SET DEFAULT '0',ALTER COLUMN "show_title_field_in_link" DROP NOT NULL,ALTER COLUMN "show_title_field_in_link" SET DEFAULT '0',ALTER COLUMN "translated_doctype" DROP NOT NULL,ALTER COLUMN "translated_doctype" SET DEFAULT '0',ALTER COLUMN "show_name_in_global_search" DROP NOT NULL,ALTER COLUMN "show_name_in_global_search" SET DEFAULT '0',ALTER COLUMN "email_append_to" DROP NOT NULL,ALTER COLUMN "email_append_to" SET DEFAULT '0',ALTER COLUMN "has_web_view" DROP NOT NULL,ALTER COLUMN "has_web_view" SET DEFAULT '0',ALTER COLUMN "allow_guest_to_view" DROP NOT NULL,ALTER COLUMN "allow_guest_to_view" SET DEFAULT '0'
+2025-06-05 15:30:44,298 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "module" ON "tabDocType"("module");
+2025-06-05 15:30:44,399 WARNING database DDL Query made to DB:
+create table "tabRole" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"role_name" varchar(140) UNIQUE,
+"home_page" varchar(140),
+"restrict_to_domain" varchar(140),
+"disabled" smallint NOT NULL DEFAULT 0,
+"is_custom" smallint NOT NULL DEFAULT 0,
+"desk_access" smallint NOT NULL DEFAULT 1,
+"two_factor_auth" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,439 WARNING database DDL Query made to DB:
+create table "tabHas Role" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"role" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,494 WARNING database DDL Query made to DB:
+create table "tabCustom Field" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"is_system_generated" smallint NOT NULL DEFAULT 0,
+"dt" varchar(140),
+"module" varchar(140),
+"label" varchar(140),
+"placeholder" varchar(140),
+"fieldname" varchar(140),
+"insert_after" varchar(140),
+"length" int NOT NULL DEFAULT 0,
+"link_filters" json,
+"fieldtype" varchar(140) DEFAULT 'Data',
+"precision" varchar(140),
+"hide_seconds" smallint NOT NULL DEFAULT 0,
+"hide_days" smallint NOT NULL DEFAULT 0,
+"options" text,
+"sort_options" smallint NOT NULL DEFAULT 0,
+"fetch_from" text,
+"fetch_if_empty" smallint NOT NULL DEFAULT 0,
+"collapsible" smallint NOT NULL DEFAULT 0,
+"collapsible_depends_on" text,
+"default" text,
+"depends_on" text,
+"mandatory_depends_on" text,
+"read_only_depends_on" text,
+"non_negative" smallint NOT NULL DEFAULT 0,
+"reqd" smallint NOT NULL DEFAULT 0,
+"unique" smallint NOT NULL DEFAULT 0,
+"is_virtual" smallint NOT NULL DEFAULT 0,
+"read_only" smallint NOT NULL DEFAULT 0,
+"ignore_user_permissions" smallint NOT NULL DEFAULT 0,
+"hidden" smallint NOT NULL DEFAULT 0,
+"print_hide" smallint NOT NULL DEFAULT 0,
+"print_hide_if_no_value" smallint NOT NULL DEFAULT 0,
+"print_width" varchar(140),
+"no_copy" smallint NOT NULL DEFAULT 0,
+"allow_on_submit" smallint NOT NULL DEFAULT 0,
+"in_list_view" smallint NOT NULL DEFAULT 0,
+"in_standard_filter" smallint NOT NULL DEFAULT 0,
+"in_global_search" smallint NOT NULL DEFAULT 0,
+"in_preview" smallint NOT NULL DEFAULT 0,
+"bold" smallint NOT NULL DEFAULT 0,
+"report_hide" smallint NOT NULL DEFAULT 0,
+"search_index" smallint NOT NULL DEFAULT 0,
+"allow_in_quick_entry" smallint NOT NULL DEFAULT 0,
+"ignore_xss_filter" smallint NOT NULL DEFAULT 0,
+"translatable" smallint NOT NULL DEFAULT 0,
+"hide_border" smallint NOT NULL DEFAULT 0,
+"show_dashboard" smallint NOT NULL DEFAULT 0,
+"description" text,
+"permlevel" int NOT NULL DEFAULT 0,
+"width" varchar(140),
+"columns" int NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,496 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "dt" ON "tabCustom Field"("dt");
+2025-06-05 15:30:44,522 WARNING database DDL Query made to DB:
+create table "tabProperty Setter" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"is_system_generated" smallint NOT NULL DEFAULT 0,
+"doctype_or_field" varchar(140),
+"doc_type" varchar(140),
+"field_name" varchar(140),
+"row_name" varchar(140),
+"module" varchar(140),
+"property" varchar(140),
+"property_type" varchar(140),
+"value" text,
+"default_value" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,528 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "doc_type" ON "tabProperty Setter"("doc_type");CREATE INDEX IF NOT EXISTS "field_name" ON "tabProperty Setter"("field_name");CREATE INDEX IF NOT EXISTS "property" ON "tabProperty Setter"("property");
+2025-06-05 15:30:44,636 WARNING database DDL Query made to DB:
+create table "tabWeb Form" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"route" varchar(140) UNIQUE,
+"published" smallint NOT NULL DEFAULT 0,
+"doc_type" varchar(140),
+"module" varchar(140),
+"is_standard" smallint NOT NULL DEFAULT 0,
+"introduction_text" text,
+"anonymous" smallint NOT NULL DEFAULT 0,
+"login_required" smallint NOT NULL DEFAULT 0,
+"apply_document_permissions" smallint NOT NULL DEFAULT 0,
+"allow_edit" smallint NOT NULL DEFAULT 0,
+"allow_multiple" smallint NOT NULL DEFAULT 0,
+"allow_delete" smallint NOT NULL DEFAULT 0,
+"allow_incomplete" smallint NOT NULL DEFAULT 0,
+"allow_comments" smallint NOT NULL DEFAULT 0,
+"allow_print" smallint NOT NULL DEFAULT 0,
+"print_format" varchar(140),
+"max_attachment_size" int NOT NULL DEFAULT 0,
+"show_attachments" smallint NOT NULL DEFAULT 0,
+"hide_navbar" smallint NOT NULL DEFAULT 0,
+"hide_footer" smallint NOT NULL DEFAULT 0,
+"allowed_embedding_domains" text,
+"condition_json" json,
+"show_list" smallint NOT NULL DEFAULT 0,
+"list_title" varchar(140),
+"show_sidebar" smallint NOT NULL DEFAULT 0,
+"website_sidebar" varchar(140),
+"button_label" varchar(140) DEFAULT 'Save',
+"banner_image" text,
+"breadcrumbs" text,
+"success_title" varchar(140),
+"success_url" varchar(140),
+"success_message" text,
+"meta_title" varchar(140),
+"meta_description" text,
+"meta_image" text,
+"client_script" text,
+"custom_css" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,659 WARNING database DDL Query made to DB:
+create table "tabWeb Template" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"type" varchar(140) DEFAULT 'Section',
+"standard" smallint NOT NULL DEFAULT 0,
+"module" varchar(140),
+"template" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,684 WARNING database DDL Query made to DB:
+create table "tabWeb Form Field" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"fieldname" varchar(140),
+"fieldtype" varchar(140),
+"label" varchar(140),
+"allow_read_on_all_link_options" smallint NOT NULL DEFAULT 0,
+"reqd" smallint NOT NULL DEFAULT 0,
+"read_only" smallint NOT NULL DEFAULT 0,
+"show_in_filter" smallint NOT NULL DEFAULT 0,
+"hidden" smallint NOT NULL DEFAULT 0,
+"options" text,
+"max_length" int NOT NULL DEFAULT 0,
+"max_value" int NOT NULL DEFAULT 0,
+"precision" varchar(140),
+"depends_on" text,
+"mandatory_depends_on" text,
+"read_only_depends_on" text,
+"description" text,
+"default" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,714 WARNING database DDL Query made to DB:
+create table "tabPortal Menu Item" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"enabled" smallint NOT NULL DEFAULT 0,
+"route" varchar(140),
+"reference_doctype" varchar(140),
+"role" varchar(140),
+"target" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,744 WARNING database DDL Query made to DB:
+create table "tabNumber Card" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"is_standard" smallint NOT NULL DEFAULT 0,
+"module" varchar(140),
+"label" varchar(140),
+"type" varchar(140),
+"report_name" varchar(140),
+"method" varchar(140),
+"function" varchar(140),
+"aggregate_function_based_on" varchar(140),
+"document_type" varchar(140),
+"parent_document_type" varchar(140),
+"report_field" varchar(140),
+"report_function" varchar(140),
+"is_public" smallint NOT NULL DEFAULT 0,
+"currency" varchar(140),
+"show_full_number" smallint NOT NULL DEFAULT 0,
+"filters_config" text,
+"show_percentage_stats" smallint NOT NULL DEFAULT 1,
+"stats_time_interval" varchar(140) DEFAULT 'Daily',
+"filters_json" text,
+"dynamic_filters_json" text,
+"color" varchar(140),
+"background_color" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,796 WARNING database DDL Query made to DB:
+create table "tabDashboard Chart" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"is_standard" smallint NOT NULL DEFAULT 0,
+"module" varchar(140),
+"chart_name" varchar(140) UNIQUE,
+"chart_type" varchar(140),
+"report_name" varchar(140),
+"use_report_chart" smallint NOT NULL DEFAULT 0,
+"x_field" varchar(140),
+"source" varchar(140),
+"document_type" varchar(140),
+"parent_document_type" varchar(140),
+"based_on" varchar(140),
+"value_based_on" varchar(140),
+"group_by_type" varchar(140) DEFAULT 'Count',
+"group_by_based_on" varchar(140),
+"aggregate_function_based_on" varchar(140),
+"number_of_groups" int NOT NULL DEFAULT 0,
+"is_public" smallint NOT NULL DEFAULT 0,
+"heatmap_year" varchar(140),
+"timespan" varchar(140),
+"from_date" date,
+"to_date" date,
+"time_interval" varchar(140),
+"timeseries" smallint NOT NULL DEFAULT 0,
+"type" varchar(140) DEFAULT 'Line',
+"currency" varchar(140),
+"filters_json" text,
+"dynamic_filters_json" text,
+"custom_options" text,
+"color" varchar(140),
+"last_synced_on" timestamp,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,821 WARNING database DDL Query made to DB:
+create table "tabDashboard" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"dashboard_name" varchar(140) UNIQUE,
+"is_default" smallint NOT NULL DEFAULT 0,
+"is_standard" smallint NOT NULL DEFAULT 0,
+"module" varchar(140),
+"chart_options" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,844 WARNING database DDL Query made to DB:
+create table "tabOnboarding Permission" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"role" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,894 WARNING database DDL Query made to DB:
+create table "tabOnboarding Step" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"is_complete" smallint NOT NULL DEFAULT 0,
+"is_skipped" smallint NOT NULL DEFAULT 0,
+"description" text,
+"intro_video_url" varchar(140),
+"action" varchar(140),
+"action_label" varchar(140),
+"reference_document" varchar(140),
+"show_full_form" smallint NOT NULL DEFAULT 0,
+"show_form_tour" smallint NOT NULL DEFAULT 0,
+"form_tour" varchar(140),
+"is_single" smallint NOT NULL DEFAULT 0,
+"reference_report" varchar(140),
+"report_reference_doctype" varchar(140),
+"report_type" varchar(140),
+"report_description" varchar(140),
+"path" varchar(140),
+"callback_title" varchar(140),
+"callback_message" text,
+"validate_action" smallint NOT NULL DEFAULT 1,
+"field" varchar(140),
+"value_to_validate" varchar(140),
+"video_url" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,917 WARNING database DDL Query made to DB:
+create table "tabOnboarding Step Map" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"step" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,940 WARNING database DDL Query made to DB:
+create table "tabModule Onboarding" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"subtitle" varchar(140),
+"module" varchar(140),
+"success_message" varchar(140),
+"documentation_url" varchar(140),
+"is_complete" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:44,966 WARNING database DDL Query made to DB:
+create table "tabWorkspace Link" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"type" varchar(140) DEFAULT 'Link',
+"label" varchar(140),
+"icon" varchar(140),
+"description" text,
+"hidden" smallint NOT NULL DEFAULT 0,
+"link_type" varchar(140),
+"link_to" varchar(140),
+"report_ref_doctype" varchar(140),
+"dependencies" varchar(140),
+"only_for" varchar(140),
+"onboard" smallint NOT NULL DEFAULT 0,
+"is_query_report" smallint NOT NULL DEFAULT 0,
+"link_count" int NOT NULL DEFAULT 0,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:44,990 WARNING database DDL Query made to DB:
+create table "tabWorkspace Chart" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"chart_name" varchar(140),
+"label" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:45,014 WARNING database DDL Query made to DB:
+create table "tabWorkspace Shortcut" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"type" varchar(140),
+"link_to" varchar(140),
+"url" varchar(140),
+"doc_view" varchar(140),
+"kanban_board" varchar(140),
+"label" varchar(140),
+"icon" varchar(140),
+"restrict_to_domain" varchar(140),
+"report_ref_doctype" varchar(140),
+"stats_filter" text,
+"color" varchar(140),
+"format" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:45,036 WARNING database DDL Query made to DB:
+create table "tabWorkspace Quick List" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"document_type" varchar(140),
+"label" varchar(140),
+"quick_list_filter" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:45,062 WARNING database DDL Query made to DB:
+create table "tabWorkspace Number Card" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"number_card_name" varchar(140),
+"label" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:45,080 WARNING database DDL Query made to DB:
+create table "tabWorkspace Custom Block" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"custom_block_name" varchar(140),
+"label" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:45,132 WARNING database DDL Query made to DB:
+create table "tabWorkspace" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"label" varchar(140) UNIQUE,
+"title" varchar(140),
+"sequence_id" decimal(21,9) NOT NULL DEFAULT 0.0,
+"for_user" varchar(140),
+"parent_page" varchar(140),
+"module" varchar(140),
+"app" varchar(140),
+"type" varchar(140) DEFAULT 'Workspace',
+"link_type" varchar(140),
+"link_to" varchar(140),
+"external_link" varchar(140),
+"icon" varchar(140),
+"indicator_color" varchar(140),
+"restrict_to_domain" varchar(140),
+"hide_custom" smallint NOT NULL DEFAULT 0,
+"public" smallint NOT NULL DEFAULT 0,
+"is_hidden" smallint NOT NULL DEFAULT 0,
+"content" text DEFAULT '[]',
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,137 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "restrict_to_domain" ON "tabWorkspace"("restrict_to_domain");CREATE INDEX IF NOT EXISTS "public" ON "tabWorkspace"("public");
+2025-06-05 15:30:45,167 WARNING database DDL Query made to DB:
+create table "tabPage" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"system_page" smallint NOT NULL DEFAULT 0,
+"page_name" varchar(140) UNIQUE,
+"title" varchar(140),
+"icon" varchar(140),
+"module" varchar(140),
+"restrict_to_domain" varchar(140),
+"standard" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,169 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "standard" ON "tabPage"("standard");
+2025-06-05 15:30:45,204 WARNING database DDL Query made to DB:
+create table "tabReport" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"report_name" varchar(140) UNIQUE,
+"ref_doctype" varchar(140),
+"reference_report" varchar(140),
+"is_standard" varchar(140),
+"module" varchar(140),
+"report_type" varchar(140),
+"letter_head" varchar(140),
+"add_total_row" smallint NOT NULL DEFAULT 0,
+"disabled" smallint NOT NULL DEFAULT 0,
+"prepared_report" smallint NOT NULL DEFAULT 0,
+"add_translate_data" smallint NOT NULL DEFAULT 0,
+"timeout" int NOT NULL DEFAULT 0,
+"query" text,
+"report_script" text,
+"javascript" text,
+"json" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,252 WARNING database DDL Query made to DB:
+create table "tabDashboard Chart Source" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"source_name" varchar(140) UNIQUE,
+"module" varchar(140),
+"timeseries" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,333 WARNING database DDL Query made to DB:
+create table "tabPrint Format" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"doc_type" varchar(140),
+"module" varchar(140),
+"default_print_language" varchar(140),
+"standard" varchar(140) DEFAULT 'No',
+"custom_format" smallint NOT NULL DEFAULT 0,
+"disabled" smallint NOT NULL DEFAULT 0,
+"pdf_generator" varchar(140) DEFAULT 'wkhtmltopdf',
+"print_format_type" varchar(140) DEFAULT 'Jinja',
+"raw_printing" smallint NOT NULL DEFAULT 0,
+"html" text,
+"raw_commands" text,
+"margin_top" decimal(21,9) NOT NULL DEFAULT 15.0,
+"margin_bottom" decimal(21,9) NOT NULL DEFAULT 15.0,
+"margin_left" decimal(21,9) NOT NULL DEFAULT 15.0,
+"margin_right" decimal(21,9) NOT NULL DEFAULT 15.0,
+"align_labels_right" smallint NOT NULL DEFAULT 0,
+"show_section_headings" smallint NOT NULL DEFAULT 0,
+"line_breaks" smallint NOT NULL DEFAULT 0,
+"absolute_value" smallint NOT NULL DEFAULT 0,
+"font_size" int NOT NULL DEFAULT 14,
+"font" varchar(140),
+"page_number" varchar(140) DEFAULT 'Hide',
+"css" text,
+"format_data" text,
+"print_format_builder" smallint NOT NULL DEFAULT 0,
+"print_format_builder_beta" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,334 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "standard" ON "tabPrint Format"("standard");
+2025-06-05 15:30:45,390 WARNING database DDL Query made to DB:
+create table "tabWeb Page" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"route" varchar(140) UNIQUE,
+"dynamic_route" smallint NOT NULL DEFAULT 0,
+"published" smallint NOT NULL DEFAULT 1,
+"module" varchar(140),
+"content_type" varchar(140) DEFAULT 'Page Builder',
+"slideshow" varchar(140),
+"dynamic_template" smallint NOT NULL DEFAULT 0,
+"main_section" text,
+"main_section_md" text,
+"main_section_html" text,
+"context_script" text,
+"javascript" text,
+"insert_style" smallint NOT NULL DEFAULT 0,
+"text_align" varchar(140),
+"css" text,
+"full_width" smallint NOT NULL DEFAULT 1,
+"show_title" smallint NOT NULL DEFAULT 0,
+"start_date" timestamp,
+"end_date" timestamp,
+"meta_title" varchar(140),
+"meta_description" text,
+"meta_image" text,
+"show_sidebar" smallint NOT NULL DEFAULT 0,
+"website_sidebar" varchar(140),
+"enable_comments" smallint NOT NULL DEFAULT 0,
+"header" text,
+"breadcrumbs" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,422 WARNING database DDL Query made to DB:
+create table "tabWebsite Theme" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"theme" varchar(140) UNIQUE,
+"module" varchar(140) DEFAULT 'Website',
+"custom" smallint NOT NULL DEFAULT 1,
+"google_font" varchar(140),
+"font_size" varchar(140),
+"font_properties" varchar(140) DEFAULT 'wght@300;400;500;600;700;800',
+"button_rounded_corners" smallint NOT NULL DEFAULT 1,
+"button_shadows" smallint NOT NULL DEFAULT 0,
+"button_gradients" smallint NOT NULL DEFAULT 0,
+"primary_color" varchar(140),
+"text_color" varchar(140),
+"light_color" varchar(140),
+"dark_color" varchar(140),
+"background_color" varchar(140),
+"custom_overrides" text,
+"custom_scss" text,
+"theme_scss" text,
+"theme_url" varchar(140),
+"js" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,483 WARNING database DDL Query made to DB:
+create table "tabNotification" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"enabled" smallint NOT NULL DEFAULT 1,
+"is_standard" smallint NOT NULL DEFAULT 0,
+"module" varchar(140),
+"channel" varchar(140) DEFAULT 'Email',
+"slack_webhook_url" varchar(140),
+"subject" varchar(140),
+"event" varchar(140),
+"document_type" varchar(140),
+"method" varchar(140),
+"date_changed" varchar(140),
+"datetime_changed" varchar(140),
+"days_in_advance" int NOT NULL DEFAULT 0,
+"minutes_offset" int NOT NULL DEFAULT 0,
+"datetime_last_run" timestamp,
+"value_changed" varchar(140),
+"sender" varchar(140),
+"send_system_notification" smallint NOT NULL DEFAULT 0,
+"sender_email" varchar(140),
+"condition" text,
+"set_property_after_alert" varchar(140),
+"property_value" varchar(140),
+"send_to_all_assignees" smallint NOT NULL DEFAULT 0,
+"message_type" varchar(140) DEFAULT 'Markdown',
+"message" text DEFAULT 'Add your message here',
+"attach_print" smallint NOT NULL DEFAULT 0,
+"print_format" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,487 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "event" ON "tabNotification"("event");CREATE INDEX IF NOT EXISTS "document_type" ON "tabNotification"("document_type");
+2025-06-05 15:30:45,520 WARNING database DDL Query made to DB:
+create table "tabPrint Style" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"print_style_name" varchar(140) UNIQUE,
+"disabled" smallint NOT NULL DEFAULT 0,
+"standard" smallint NOT NULL DEFAULT 0,
+"css" text,
+"preview" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,565 WARNING database DDL Query made to DB:
+create table "tabClient Script" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"dt" varchar(140),
+"view" varchar(140) DEFAULT 'Form',
+"module" varchar(140),
+"enabled" smallint NOT NULL DEFAULT 0,
+"script" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,617 WARNING database DDL Query made to DB:
+create table "tabServer Script" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"script_type" varchar(140),
+"reference_doctype" varchar(140),
+"event_frequency" varchar(140),
+"cron_format" varchar(140),
+"doctype_event" varchar(140),
+"api_method" varchar(140),
+"allow_guest" smallint NOT NULL DEFAULT 0,
+"module" varchar(140),
+"disabled" smallint NOT NULL DEFAULT 0,
+"script" text,
+"enable_rate_limit" smallint NOT NULL DEFAULT 0,
+"rate_limit_count" int NOT NULL DEFAULT 5,
+"rate_limit_seconds" int NOT NULL DEFAULT 86400,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,620 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_doctype" ON "tabServer Script"("reference_doctype");CREATE INDEX IF NOT EXISTS "module" ON "tabServer Script"("module");
+2025-06-05 15:30:45,707 WARNING database DDL Query made to DB:
+create table "tabPackage Release" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"package" varchar(140),
+"publish" smallint NOT NULL DEFAULT 0,
+"path" text,
+"major" int NOT NULL DEFAULT 0,
+"minor" int NOT NULL DEFAULT 0,
+"patch" int NOT NULL DEFAULT 0,
+"release_notes" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,751 WARNING database DDL Query made to DB:
+create table "tabError Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"seen" smallint NOT NULL DEFAULT 0,
+"reference_doctype" varchar(140),
+"reference_name" varchar(140),
+"method" varchar(140),
+"error" text,
+"trace_id" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,754 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_name" ON "tabError Log"("reference_name");
+2025-06-05 15:30:45,801 WARNING database DDL Query made to DB:
+create table "tabDocument Share Key" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"reference_doctype" varchar(140),
+"reference_docname" varchar(140),
+"key" varchar(140),
+"expires_on" date,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:45,805 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_doctype" ON "tabDocument Share Key"("reference_doctype");CREATE INDEX IF NOT EXISTS "reference_docname" ON "tabDocument Share Key"("reference_docname");
+2025-06-05 15:30:45,973 WARNING database DDL Query made to DB:
+create table "tabCommunication" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"subject" text,
+"communication_medium" varchar(140),
+"sender" varchar(255),
+"recipients" text,
+"cc" text,
+"bcc" text,
+"phone_no" varchar(140),
+"delivery_status" varchar(140),
+"content" text,
+"text_content" text,
+"communication_type" varchar(140) DEFAULT 'Communication',
+"status" varchar(140),
+"sent_or_received" varchar(140),
+"communication_date" timestamp,
+"read_receipt" smallint NOT NULL DEFAULT 0,
+"send_after" timestamp,
+"sender_full_name" varchar(140),
+"read_by_recipient" smallint NOT NULL DEFAULT 0,
+"read_by_recipient_on" timestamp,
+"reference_doctype" varchar(140),
+"reference_name" varchar(140),
+"reference_owner" varchar(140),
+"email_account" varchar(140),
+"in_reply_to" varchar(140),
+"user" varchar(140),
+"email_template" varchar(140),
+"unread_notification_sent" smallint NOT NULL DEFAULT 0,
+"seen" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"message_id" text,
+"uid" int NOT NULL DEFAULT 0,
+"imap_folder" varchar(140),
+"email_status" varchar(140),
+"has_attachment" smallint NOT NULL DEFAULT 0,
+"_comments" text,
+"_assign" text,
+"_liked_by" text,
+"_seen" text
+			)
+2025-06-05 15:30:45,976 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_owner" ON "tabCommunication"("reference_owner");
+2025-06-05 15:30:46,056 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_doctype_reference_name_index" ON "public"."tabCommunication" ("reference_doctype", "reference_name")
+2025-06-05 15:30:46,061 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "status_communication_type_index" ON "public"."tabCommunication" ("status", "communication_type")
+2025-06-05 15:30:46,065 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "message_id_index" ON "public"."tabCommunication" ("message_id")
+2025-06-05 15:30:46,126 WARNING database DDL Query made to DB:
+create table "tabSMS Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"sender_name" varchar(140),
+"sent_on" date,
+"message" text,
+"no_of_requested_sms" int NOT NULL DEFAULT 0,
+"requested_numbers" text,
+"no_of_sent_sms" int NOT NULL DEFAULT 0,
+"sent_to" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,172 WARNING database DDL Query made to DB:
+create table "tabCommunication Link" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"link_doctype" varchar(140),
+"link_name" varchar(140),
+"link_title" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,181 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "link_doctype_link_name_index" ON "public"."tabCommunication Link" ("link_doctype", "link_name")
+2025-06-05 15:30:46,245 WARNING database DDL Query made to DB:
+create table "tabInstalled Application" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"app_name" varchar(140),
+"app_version" varchar(140),
+"git_branch" varchar(140),
+"has_setup_wizard" smallint NOT NULL DEFAULT 0,
+"is_setup_complete" smallint NOT NULL DEFAULT 0,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,287 WARNING database DDL Query made to DB:
+create table "tabScheduler Event" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"scheduled_against" varchar(140),
+"method" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,330 WARNING database DDL Query made to DB:
+create table "tabUser Social Login" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"provider" varchar(140),
+"username" varchar(140),
+"userid" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,369 WARNING database DDL Query made to DB:
+create table "tabModule Profile" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"module_profile_name" varchar(140) UNIQUE,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,418 WARNING database DDL Query made to DB:
+create table "tabAccess Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"export_from" varchar(140),
+"user" varchar(140),
+"reference_document" varchar(140),
+"timestamp" timestamp,
+"file_type" varchar(140),
+"method" varchar(140),
+"report_name" varchar(140),
+"filters" text,
+"page" text,
+"columns" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text,
+"_seen" text
+			)
+2025-06-05 15:30:46,478 WARNING database DDL Query made to DB:
+create table "tabUser Document Type" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"document_type" varchar(140),
+"is_custom" smallint NOT NULL DEFAULT 0,
+"read" smallint NOT NULL DEFAULT 1,
+"write" smallint NOT NULL DEFAULT 0,
+"create" smallint NOT NULL DEFAULT 0,
+"submit" smallint NOT NULL DEFAULT 0,
+"cancel" smallint NOT NULL DEFAULT 0,
+"amend" smallint NOT NULL DEFAULT 0,
+"delete" smallint NOT NULL DEFAULT 0,
+"email" smallint NOT NULL DEFAULT 1,
+"share" smallint NOT NULL DEFAULT 1,
+"print" smallint NOT NULL DEFAULT 1,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,510 WARNING database DDL Query made to DB:
+create table "tabUser Role Profile" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"role_profile" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,606 WARNING database DDL Query made to DB:
+create table "tabTransaction Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"row_index" varchar(140),
+"reference_doctype" varchar(140),
+"document_name" varchar(140),
+"timestamp" timestamp,
+"checksum_version" varchar(140),
+"previous_hash" text,
+"transaction_hash" text,
+"chaining_hash" text,
+"data" text,
+"amended_from" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,657 WARNING database DDL Query made to DB:
+create table "tabDeleted Document" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"deleted_name" varchar(140),
+"deleted_doctype" varchar(140),
+"restored" smallint NOT NULL DEFAULT 0,
+"new_name" varchar(140),
+"data" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,698 WARNING database DDL Query made to DB:
+create table "tabUser Type" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"is_standard" smallint NOT NULL DEFAULT 0,
+"role" varchar(140),
+"apply_user_permission_on" varchar(140),
+"user_id_field" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,717 WARNING database DDL Query made to DB:
+create table "tabUser Type Module" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"module" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,787 WARNING database DDL Query made to DB:
+create table "tabPackage Import" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"attach_package" text,
+"activate" smallint NOT NULL DEFAULT 0,
+"force" smallint NOT NULL DEFAULT 0,
+"log" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,852 WARNING database DDL Query made to DB:
+create table "tabUser Group Member" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"user" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:46,944 WARNING database DDL Query made to DB:
+create table "tabScheduled Job Type" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"stopped" smallint NOT NULL DEFAULT 0,
+"method" varchar(140),
+"server_script" varchar(140),
+"scheduler_event" varchar(140),
+"frequency" varchar(140),
+"cron_format" varchar(140) NOT NULL DEFAULT '',
+"create_log" smallint NOT NULL DEFAULT 0,
+"last_execution" timestamp,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:46,946 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "server_script" ON "tabScheduled Job Type"("server_script");
+2025-06-05 15:30:46,956 WARNING database DDL Query made to DB:
+ALTER TABLE "public"."tabScheduled Job Type"
+					ADD CONSTRAINT "unique_scheduled_job" UNIQUE ("frequency", "cron_format", "method")
+2025-06-05 15:30:47,122 WARNING database DDL Query made to DB:
+create table "tabUser" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"enabled" smallint NOT NULL DEFAULT 1,
+"email" varchar(140),
+"first_name" varchar(140),
+"middle_name" varchar(140),
+"last_name" varchar(140),
+"full_name" varchar(140),
+"username" varchar(140) UNIQUE,
+"language" varchar(140),
+"time_zone" varchar(140),
+"send_welcome_email" smallint NOT NULL DEFAULT 1,
+"unsubscribed" smallint NOT NULL DEFAULT 0,
+"user_image" text,
+"role_profile_name" varchar(140),
+"module_profile" varchar(140),
+"home_settings" text,
+"gender" varchar(140),
+"birth_date" date,
+"interest" text,
+"phone" varchar(140),
+"location" varchar(140),
+"bio" text,
+"mobile_no" varchar(140) UNIQUE,
+"mute_sounds" smallint NOT NULL DEFAULT 0,
+"desk_theme" varchar(140),
+"code_editor_type" varchar(140) DEFAULT 'vscode',
+"banner_image" text,
+"search_bar" smallint NOT NULL DEFAULT 1,
+"notifications" smallint NOT NULL DEFAULT 1,
+"list_sidebar" smallint NOT NULL DEFAULT 1,
+"bulk_actions" smallint NOT NULL DEFAULT 1,
+"view_switcher" smallint NOT NULL DEFAULT 1,
+"form_sidebar" smallint NOT NULL DEFAULT 1,
+"timeline" smallint NOT NULL DEFAULT 1,
+"dashboard" smallint NOT NULL DEFAULT 1,
+"new_password" text,
+"logout_all_sessions" smallint NOT NULL DEFAULT 1,
+"reset_password_key" varchar(140),
+"last_reset_password_key_generated_on" timestamp,
+"last_password_reset_date" date,
+"redirect_url" text,
+"document_follow_notify" smallint NOT NULL DEFAULT 0,
+"document_follow_frequency" varchar(140) DEFAULT 'Daily',
+"follow_created_documents" smallint NOT NULL DEFAULT 0,
+"follow_commented_documents" smallint NOT NULL DEFAULT 0,
+"follow_liked_documents" smallint NOT NULL DEFAULT 0,
+"follow_assigned_documents" smallint NOT NULL DEFAULT 0,
+"follow_shared_documents" smallint NOT NULL DEFAULT 0,
+"email_signature" text,
+"thread_notify" smallint NOT NULL DEFAULT 1,
+"send_me_a_copy" smallint NOT NULL DEFAULT 0,
+"allowed_in_mentions" smallint NOT NULL DEFAULT 1,
+"default_workspace" varchar(140),
+"default_app" varchar(140),
+"simultaneous_sessions" int NOT NULL DEFAULT 2,
+"restrict_ip" text,
+"last_ip" varchar(140),
+"login_after" int NOT NULL DEFAULT 0,
+"user_type" varchar(140) DEFAULT 'System User',
+"last_active" timestamp,
+"login_before" int NOT NULL DEFAULT 0,
+"bypass_restrict_ip_check_if_2fa_enabled" smallint NOT NULL DEFAULT 0,
+"last_login" varchar(140),
+"last_known_versions" text,
+"api_key" varchar(140) UNIQUE,
+"api_secret" text,
+"onboarding_status" text DEFAULT '{}',
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,124 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "last_active" ON "tabUser"("last_active");
+2025-06-05 15:30:47,208 WARNING database DDL Query made to DB:
+create table "tabTranslation" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"contributed" smallint NOT NULL DEFAULT 0,
+"language" varchar(140),
+"source_text" text,
+"context" varchar(140),
+"translated_text" text,
+"contribution_status" varchar(140),
+"contribution_docname" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,211 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "language" ON "tabTranslation"("language");
+2025-06-05 15:30:47,281 WARNING database DDL Query made to DB:
+create table "tabCustom Role" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"page" varchar(140),
+"report" varchar(140),
+"ref_doctype" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,311 WARNING database DDL Query made to DB:
+create table "tabDocShare" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"user" varchar(140),
+"share_doctype" varchar(140),
+"share_name" varchar(140),
+"read" smallint NOT NULL DEFAULT 0,
+"write" smallint NOT NULL DEFAULT 0,
+"share" smallint NOT NULL DEFAULT 0,
+"submit" smallint NOT NULL DEFAULT 0,
+"everyone" smallint NOT NULL DEFAULT 0,
+"notify_by_email" smallint NOT NULL DEFAULT 1,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,318 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "user" ON "tabDocShare"("user");CREATE INDEX IF NOT EXISTS "share_doctype" ON "tabDocShare"("share_doctype");CREATE INDEX IF NOT EXISTS "share_name" ON "tabDocShare"("share_name");CREATE INDEX IF NOT EXISTS "everyone" ON "tabDocShare"("everyone");
+2025-06-05 15:30:47,326 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "user_share_doctype_index" ON "public"."tabDocShare" ("user", "share_doctype")
+2025-06-05 15:30:47,329 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "share_doctype_share_name_index" ON "public"."tabDocShare" ("share_doctype", "share_name")
+2025-06-05 15:30:47,355 WARNING database DDL Query made to DB:
+create table "tabSuccess Action" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"ref_doctype" varchar(140) UNIQUE,
+"first_success_message" varchar(140) DEFAULT 'Congratulations on first creations',
+"message" varchar(140) DEFAULT 'Successfully created',
+"next_actions" varchar(140),
+"action_timeout" int NOT NULL DEFAULT 7,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,415 WARNING database DDL Query made to DB:
+create table "tabPackage" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"package_name" varchar(140),
+"readme" text,
+"license_type" varchar(140),
+"license" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,454 WARNING database DDL Query made to DB:
+create table "tabReport Filter" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"label" varchar(140),
+"fieldtype" varchar(140),
+"fieldname" varchar(140),
+"mandatory" smallint NOT NULL DEFAULT 0,
+"wildcard_filter" smallint NOT NULL DEFAULT 0,
+"options" text,
+"default" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:47,560 WARNING database DDL Query made to DB:
+create table "tabPermission Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"changed_by" varchar(140),
+"status" varchar(140),
+"for_doctype" varchar(140),
+"for_document" varchar(140),
+"reference_type" varchar(140),
+"reference" varchar(140),
+"changes" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,642 WARNING database DDL Query made to DB:
+create table "tabDocument Naming Rule Condition" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"field" varchar(140),
+"condition" varchar(140),
+"value" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:47,684 WARNING database DDL Query made to DB:
+ALTER TABLE "tabDefaultValue" ALTER COLUMN "defkey" TYPE varchar(140)
+2025-06-05 15:30:47,685 WARNING database DDL Query made to DB:
+DROP INDEX IF EXISTS "defkey" ;
+2025-06-05 15:30:47,694 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "defaultvalue_parent_defkey_index" ON "public"."tabDefaultValue" ("parent", "defkey")
+2025-06-05 15:30:47,698 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "defaultvalue_parent_parenttype_index" ON "public"."tabDefaultValue" ("parent", "parenttype")
+2025-06-05 15:30:47,737 WARNING database DDL Query made to DB:
+create table "tabBlock Module" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"module" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:47,788 WARNING database DDL Query made to DB:
+create table "tabDynamic Link" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"link_doctype" varchar(140),
+"link_name" varchar(140),
+"link_title" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:47,795 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "link_doctype_link_name_index" ON "public"."tabDynamic Link" ("link_doctype", "link_name")
+2025-06-05 15:30:47,833 WARNING database DDL Query made to DB:
+create table "tabSubmission Queue" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"status" varchar(140),
+"job_id" varchar(140),
+"ended_at" timestamp,
+"ref_doctype" varchar(140),
+"ref_docname" varchar(140),
+"exception" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,835 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "ref_docname" ON "tabSubmission Queue"("ref_docname");
+2025-06-05 15:30:47,874 WARNING database DDL Query made to DB:
+create table "tabVersion" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"ref_doctype" varchar(140),
+"docname" varchar(140),
+"data" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,889 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "ref_doctype_docname_index" ON "public"."tabVersion" ("ref_doctype", "docname")
+2025-06-05 15:30:47,936 WARNING database DDL Query made to DB:
+create table "tabComment" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"comment_type" varchar(140) DEFAULT 'Comment',
+"comment_email" varchar(140),
+"subject" text,
+"comment_by" varchar(140),
+"published" smallint NOT NULL DEFAULT 0,
+"seen" smallint NOT NULL DEFAULT 0,
+"reference_doctype" varchar(140),
+"reference_name" varchar(140),
+"reference_owner" varchar(140),
+"content" text,
+"ip_address" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:47,944 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_doctype_reference_name_index" ON "public"."tabComment" ("reference_doctype", "reference_name")
+2025-06-05 15:30:47,969 WARNING database DDL Query made to DB:
+create table "tabUser Group" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,041 WARNING database DDL Query made to DB:
+create table "tabModule Def" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"module_name" varchar(140) UNIQUE,
+"app_name" varchar(140),
+"restrict_to_domain" varchar(140),
+"package" varchar(140),
+"custom" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,153 WARNING database DDL Query made to DB:
+create table "tabLanguage" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"enabled" smallint NOT NULL DEFAULT 1,
+"language_code" varchar(140) UNIQUE,
+"language_name" varchar(140),
+"flag" varchar(140),
+"based_on" varchar(140),
+"date_format" varchar(140),
+"time_format" varchar(140),
+"number_format" varchar(140),
+"first_day_of_the_week" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,221 WARNING database DDL Query made to DB:
+create table "tabScheduled Job Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"status" varchar(140),
+"scheduled_job_type" varchar(140),
+"details" text,
+"debug_log" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,290 WARNING database DDL Query made to DB:
+create table "tabDocument Naming Rule" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"document_type" varchar(140),
+"disabled" smallint NOT NULL DEFAULT 0,
+"priority" int NOT NULL DEFAULT 0,
+"prefix" varchar(140),
+"counter" int NOT NULL DEFAULT 0,
+"prefix_digits" int NOT NULL DEFAULT 5,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,433 WARNING database DDL Query made to DB:
+create table "tabUser Email" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"email_account" varchar(140),
+"email_id" varchar(140),
+"awaiting_password" smallint NOT NULL DEFAULT 0,
+"used_oauth" smallint NOT NULL DEFAULT 0,
+"enable_outgoing" smallint NOT NULL DEFAULT 0,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:48,526 WARNING database DDL Query made to DB:
+create table "tabActivity Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"subject" text,
+"content" text,
+"communication_date" timestamp,
+"ip_address" varchar(140),
+"operation" varchar(140),
+"status" varchar(140),
+"reference_doctype" varchar(140),
+"reference_name" varchar(140),
+"reference_owner" varchar(140),
+"timeline_doctype" varchar(140),
+"timeline_name" varchar(140),
+"link_doctype" varchar(140),
+"link_name" varchar(140),
+"user" varchar(140),
+"full_name" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text,
+"_seen" text
+			)
+2025-06-05 15:30:48,534 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_doctype_reference_name_index" ON "public"."tabActivity Log" ("reference_doctype", "reference_name")
+2025-06-05 15:30:48,537 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "timeline_doctype_timeline_name_index" ON "public"."tabActivity Log" ("timeline_doctype", "timeline_name")
+2025-06-05 15:30:48,691 WARNING database DDL Query made to DB:
+create table "tabLogs To Clear" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"ref_doctype" varchar(140),
+"days" int NOT NULL DEFAULT 30,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:48,770 WARNING database DDL Query made to DB:
+create table "tabPatch Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"patch" text,
+"skipped" smallint NOT NULL DEFAULT 0,
+"traceback" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,841 WARNING database DDL Query made to DB:
+create table "tabCustom DocPerm" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"parent" varchar(140),
+"role" varchar(140),
+"if_owner" smallint NOT NULL DEFAULT 0,
+"permlevel" int NOT NULL DEFAULT 0,
+"select" smallint NOT NULL DEFAULT 0,
+"read" smallint NOT NULL DEFAULT 1,
+"write" smallint NOT NULL DEFAULT 0,
+"create" smallint NOT NULL DEFAULT 0,
+"delete" smallint NOT NULL DEFAULT 0,
+"submit" smallint NOT NULL DEFAULT 0,
+"cancel" smallint NOT NULL DEFAULT 0,
+"amend" smallint NOT NULL DEFAULT 0,
+"report" smallint NOT NULL DEFAULT 0,
+"export" smallint NOT NULL DEFAULT 1,
+"import" smallint NOT NULL DEFAULT 0,
+"share" smallint NOT NULL DEFAULT 0,
+"print" smallint NOT NULL DEFAULT 0,
+"email" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,844 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "parent" ON "tabCustom DocPerm"("parent");
+2025-06-05 15:30:48,886 WARNING database DDL Query made to DB:
+create table "tabSMS Parameter" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"parameter" varchar(140),
+"value" varchar(255),
+"header" smallint NOT NULL DEFAULT 0,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:48,933 WARNING database DDL Query made to DB:
+create table "tabHas Domain" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"domain" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:48,972 WARNING database DDL Query made to DB:
+create table "tabPrepared Report" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"status" varchar(140) DEFAULT 'Queued',
+"report_name" varchar(140),
+"job_id" varchar(140),
+"report_end_time" timestamp,
+"peak_memory_usage" int NOT NULL DEFAULT 0,
+"error_message" text,
+"filters" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:48,977 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "status" ON "tabPrepared Report"("status");CREATE INDEX IF NOT EXISTS "report_name" ON "tabPrepared Report"("report_name");
+2025-06-05 15:30:49,108 WARNING database DDL Query made to DB:
+create table "tabData Import Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"data_import" varchar(140),
+"row_indexes" text,
+"success" smallint NOT NULL DEFAULT 0,
+"docname" varchar(140),
+"messages" text,
+"exception" text,
+"log_index" int NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,157 WARNING database DDL Query made to DB:
+create table "tabData Import" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"reference_doctype" varchar(140),
+"import_type" varchar(140),
+"import_file" text,
+"payload_count" int NOT NULL DEFAULT 0,
+"google_sheets_url" varchar(140),
+"use_csv_sniffer" smallint NOT NULL DEFAULT 0,
+"custom_delimiters" smallint NOT NULL DEFAULT 0,
+"delimiter_options" varchar(140) DEFAULT ',;\t|',
+"status" varchar(140) DEFAULT 'Pending',
+"submit_after_import" smallint NOT NULL DEFAULT 0,
+"mute_emails" smallint NOT NULL DEFAULT 1,
+"template_options" text,
+"template_warnings" text,
+"show_failed_logs" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,180 WARNING database DDL Query made to DB:
+create table "tabSession Default" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"ref_doctype" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,204 WARNING database DDL Query made to DB:
+create table "tabNavbar Item" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"item_label" varchar(140),
+"item_type" varchar(140),
+"route" varchar(140),
+"action" varchar(140),
+"hidden" smallint NOT NULL DEFAULT 0,
+"is_standard" smallint NOT NULL DEFAULT 0,
+"condition" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,230 WARNING database DDL Query made to DB:
+create table "tabAmended Document Naming Settings" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"document_type" varchar(140) UNIQUE,
+"action" varchar(140) DEFAULT 'Amend Counter',
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,286 WARNING database DDL Query made to DB:
+ALTER TABLE "tabFile" ADD COLUMN "is_private" smallint NOT NULL DEFAULT 0, ADD COLUMN "file_type" varchar(140), ADD COLUMN "is_home_folder" smallint NOT NULL DEFAULT 0, ADD COLUMN "is_attachments_folder" smallint NOT NULL DEFAULT 0, ADD COLUMN "thumbnail_url" text, ADD COLUMN "folder" varchar(255), ADD COLUMN "is_folder" smallint NOT NULL DEFAULT 0, ADD COLUMN "attached_to_field" varchar(140), ADD COLUMN "old_parent" varchar(140), ADD COLUMN "content_hash" varchar(140), ADD COLUMN "uploaded_to_dropbox" smallint NOT NULL DEFAULT 0, ADD COLUMN "uploaded_to_google_drive" smallint NOT NULL DEFAULT 0, ADD COLUMN "_user_tags" text, ADD COLUMN "_comments" text, ADD COLUMN "_assign" text, ADD COLUMN "_liked_by" text, ALTER COLUMN "file_name" TYPE varchar(140) , ALTER COLUMN "file_url" TYPE text , ALTER COLUMN "attached_to_doctype" TYPE varchar(140) , ALTER COLUMN "attached_to_name" TYPE varchar(140)
+2025-06-05 15:30:49,286 WARNING database DDL Query made to DB:
+ALTER TABLE "tabFile" ALTER COLUMN "file_size" DROP NOT NULL,ALTER COLUMN "file_size" SET DEFAULT 0
+2025-06-05 15:30:49,287 WARNING database DDL Query made to DB:
+DROP INDEX IF EXISTS "attached_to_doctype" ;DROP INDEX IF EXISTS "attached_to_name" ;
+2025-06-05 15:30:49,295 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "attached_to_doctype_attached_to_name_index" ON "public"."tabFile" ("attached_to_doctype", "attached_to_name")
+2025-06-05 15:30:49,298 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "file_url_index" ON "public"."tabFile" ("file_url")
+2025-06-05 15:30:49,314 WARNING database DDL Query made to DB:
+create table "tabView Log" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"viewed_by" varchar(140),
+"reference_doctype" varchar(140),
+"reference_name" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,314 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "reference_name" ON "tabView Log"("reference_name");
+2025-06-05 15:30:49,340 WARNING database DDL Query made to DB:
+create table "tabUser Permission" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"user" varchar(140),
+"allow" varchar(140),
+"for_value" varchar(140),
+"is_default" smallint NOT NULL DEFAULT 0,
+"apply_to_all_doctypes" smallint NOT NULL DEFAULT 1,
+"applicable_for" varchar(140),
+"hide_descendants" smallint NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,340 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "user" ON "tabUser Permission"("user");
+2025-06-05 15:30:49,381 WARNING database DDL Query made to DB:
+create table "tabRole Profile" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"role_profile" varchar(140) UNIQUE,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,416 WARNING database DDL Query made to DB:
+create table "tabDomain" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"domain" varchar(140) UNIQUE,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,446 WARNING database DDL Query made to DB:
+create table "tabUser Select Document Type" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"document_type" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,496 WARNING database DDL Query made to DB:
+create table "tabLog Setting User" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"user" varchar(140) UNIQUE,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,555 WARNING database DDL Query made to DB:
+create table "tabReport Column" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"fieldname" varchar(140),
+"label" varchar(140),
+"fieldtype" varchar(140),
+"options" varchar(140),
+"width" int NOT NULL DEFAULT 0,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,680 WARNING database DDL Query made to DB:
+create table "tabAbout Us Team Member" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"full_name" varchar(140),
+"image_link" text,
+"bio" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:49,787 WARNING database DDL Query made to DB:
+create table "tabUTM Campaign" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"slug" varchar(140) UNIQUE,
+"campaign_description" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,815 WARNING database DDL Query made to DB:
+create table "tabDiscussion Reply" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"topic" varchar(140),
+"reply" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,864 WARNING database DDL Query made to DB:
+create table "tabPersonal Data Deletion Request" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"email" varchar(140),
+"status" varchar(140) DEFAULT 'Pending Verification',
+"anonymization_matrix" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,911 WARNING database DDL Query made to DB:
+create table "tabColor" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"color" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:49,964 WARNING database DDL Query made to DB:
+create table "tabTop Bar Item" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"label" varchar(140),
+"url" varchar(140),
+"open_in_new_tab" smallint NOT NULL DEFAULT 0,
+"right" smallint NOT NULL DEFAULT 1,
+"parent_label" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,003 WARNING database DDL Query made to DB:
+create table "tabDiscussion Topic" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"reference_doctype" varchar(140),
+"reference_docname" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,063 WARNING database DDL Query made to DB:
+create table "tabWeb Page View" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"path" varchar(140),
+"referrer" varchar(140),
+"browser" varchar(140),
+"browser_version" varchar(140),
+"is_unique" varchar(140),
+"time_zone" varchar(140),
+"user_agent" varchar(140),
+"source" varchar(140),
+"campaign" varchar(140),
+"medium" varchar(140),
+"visitor_id" varchar(140),
+"content" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,068 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "path" ON "tabWeb Page View"("path");CREATE INDEX IF NOT EXISTS "visitor_id" ON "tabWeb Page View"("visitor_id");
+2025-06-05 15:30:50,117 WARNING database DDL Query made to DB:
+create table "tabUTM Source" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"slug" varchar(140) UNIQUE,
+"description" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,187 WARNING database DDL Query made to DB:
+create table "tabPersonal Data Download Request" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"user" varchar(140),
+"user_name" varchar(140),
+"amended_from" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,225 WARNING database DDL Query made to DB:
+create table "tabUTM Medium" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"slug" varchar(140) UNIQUE,
+"description" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,254 WARNING database DDL Query made to DB:
+create sequence if not exists web_form_list_column_id_seq
+2025-06-05 15:30:50,260 WARNING database DDL Query made to DB:
+create table "tabWeb Form List Column" (
+			name bigint primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"fieldname" varchar(140),
+"fieldtype" varchar(140),
+"label" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,304 WARNING database DDL Query made to DB:
+create table "tabHelp Category" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"category_name" varchar(140),
+"category_description" text,
+"published" smallint NOT NULL DEFAULT 0,
+"help_articles" int NOT NULL DEFAULT 0,
+"route" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,347 WARNING database DDL Query made to DB:
+create table "tabWebsite Slideshow" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"slideshow_name" varchar(140) UNIQUE,
+"header" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,378 WARNING database DDL Query made to DB:
+create table "tabWebsite Route Meta" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,483 WARNING database DDL Query made to DB:
+create table "tabWebsite Route Redirect" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"source" text,
+"target" text,
+"redirect_http_status" varchar(140) DEFAULT '301',
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,561 WARNING database DDL Query made to DB:
+create table "tabHelp Article" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"category" varchar(140),
+"published" smallint NOT NULL DEFAULT 0,
+"author" varchar(140) DEFAULT 'user_fullname',
+"level" varchar(140),
+"content" text,
+"likes" int NOT NULL DEFAULT 0,
+"route" varchar(140),
+"helpful" int NOT NULL DEFAULT 0,
+"not_helpful" int NOT NULL DEFAULT 0,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,640 WARNING database DDL Query made to DB:
+create table "tabWeb Template Field" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"label" varchar(140),
+"fieldname" varchar(140),
+"fieldtype" varchar(140) DEFAULT 'Data',
+"reqd" smallint NOT NULL DEFAULT 0,
+"options" text,
+"default" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,711 WARNING database DDL Query made to DB:
+create table "tabCompany History" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"year" varchar(140),
+"highlight" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,794 WARNING database DDL Query made to DB:
+create table "tabWeb Page Block" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"web_template" varchar(140),
+"web_template_values" text,
+"css_class" text,
+"section_id" varchar(140),
+"add_container" smallint NOT NULL DEFAULT 1,
+"add_top_padding" smallint NOT NULL DEFAULT 1,
+"add_bottom_padding" smallint NOT NULL DEFAULT 1,
+"add_border_at_top" smallint NOT NULL DEFAULT 0,
+"add_border_at_bottom" smallint NOT NULL DEFAULT 0,
+"add_shade" smallint NOT NULL DEFAULT 0,
+"hide_block" smallint NOT NULL DEFAULT 0,
+"add_background_image" smallint NOT NULL DEFAULT 0,
+"background_image" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,850 WARNING database DDL Query made to DB:
+create table "tabPersonal Data Deletion Step" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"document_type" varchar(140),
+"status" varchar(140),
+"partial" smallint NOT NULL DEFAULT 0,
+"fields" text,
+"filtered_by" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:50,929 WARNING database DDL Query made to DB:
+create table "tabBlog Post" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"blog_category" varchar(140),
+"blogger" varchar(140),
+"route" varchar(140) UNIQUE,
+"read_time" int NOT NULL DEFAULT 0,
+"published_on" date,
+"published" smallint NOT NULL DEFAULT 0,
+"featured" smallint NOT NULL DEFAULT 0,
+"hide_cta" smallint NOT NULL DEFAULT 0,
+"enable_email_notification" smallint NOT NULL DEFAULT 1,
+"disable_comments" smallint NOT NULL DEFAULT 0,
+"disable_likes" smallint NOT NULL DEFAULT 0,
+"blog_intro" text,
+"content_type" varchar(140) DEFAULT 'Markdown',
+"content" text,
+"content_md" text,
+"content_html" text,
+"email_sent" smallint NOT NULL DEFAULT 0,
+"meta_title" varchar(60),
+"meta_description" text,
+"meta_image" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:50,980 WARNING database DDL Query made to DB:
+create table "tabWebsite Meta Tag" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"key" varchar(140),
+"value" text,
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:51,081 WARNING database DDL Query made to DB:
+create table "tabWebsite Sidebar Item" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140),
+"route" varchar(140),
+"group" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:51,114 WARNING database DDL Query made to DB:
+create table "tabSocial Link Settings" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"social_link_type" varchar(140),
+"color" varchar(140),
+"background_color" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:51,147 WARNING database DDL Query made to DB:
+create table "tabWebsite Sidebar" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"title" varchar(140) UNIQUE,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:51,196 WARNING database DDL Query made to DB:
+create table "tabWebsite Theme Ignore App" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"app" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:51,239 WARNING database DDL Query made to DB:
+create table "tabWebsite Slideshow Item" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"image" text,
+"heading" varchar(140),
+"description" text,
+"url" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:51,350 WARNING database DDL Query made to DB:
+create table "tabBlog Category" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"published" smallint NOT NULL DEFAULT 1,
+"title" varchar(140),
+"route" varchar(140) UNIQUE,
+"preview_image" text,
+"description" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:51,396 WARNING database DDL Query made to DB:
+create table "tabBlogger" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"disabled" smallint NOT NULL DEFAULT 0,
+"short_name" varchar(140) UNIQUE,
+"full_name" varchar(140),
+"user" varchar(140),
+"bio" text,
+"avatar" text,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:51,789 WARNING database DDL Query made to DB:
+create table "tabWorkflow Document State" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"state" varchar(140),
+"doc_status" varchar(140) DEFAULT '0',
+"update_field" varchar(140),
+"update_value" varchar(140),
+"is_optional_state" smallint NOT NULL DEFAULT 0,
+"avoid_status_override" smallint NOT NULL DEFAULT 0,
+"next_action_email_template" varchar(140),
+"allow_edit" varchar(140),
+"send_email" smallint NOT NULL DEFAULT 1,
+"message" text,
+"workflow_builder_id" varchar(140),
+parent varchar(140),
+parentfield varchar(140),
+parenttype varchar(140)
+			)
+2025-06-05 15:30:51,865 WARNING database DDL Query made to DB:
+create table "tabWorkflow" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"workflow_name" varchar(140) UNIQUE,
+"document_type" varchar(140),
+"is_active" smallint NOT NULL DEFAULT 0,
+"override_status" smallint NOT NULL DEFAULT 0,
+"send_email_alert" smallint NOT NULL DEFAULT 0,
+"workflow_state_field" varchar(140) DEFAULT 'workflow_state',
+"workflow_data" json,
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:51,994 WARNING database DDL Query made to DB:
+create table "tabWorkflow Action" (
+			name varchar(140) primary key,
+			creation timestamp(6),
+			modified timestamp(6),
+			modified_by varchar(140),
+			owner varchar(140),
+			docstatus smallint not null default '0',
+			idx bigint not null default '0',
+			"status" varchar(140),
+"reference_name" varchar(140),
+"reference_doctype" varchar(140),
+"workflow_state" varchar(140),
+"completed_by_role" varchar(140),
+"completed_by" varchar(140),
+"user" varchar(140),
+"_user_tags" text,
+"_comments" text,
+"_assign" text,
+"_liked_by" text
+			)
+2025-06-05 15:30:51,994 WARNING database DDL Query made to DB:
+CREATE INDEX IF NOT EXISTS "user" ON "tabWorkflow Action"("user");

@@ -1433,3 +1433,458 @@ ALTER TABLE "tabNPS Agent Transaction"
 ALTER TABLE "tabNPS Agent Transaction"
                 ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
                 ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 11:12:26,721 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 11:12:44,286 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 11:12:58,332 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 11:13:11,454 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 11:14:24,828 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 11:14:39,166 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 11:14:51,440 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 11:15:01,651 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 11:15:24,880 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 12:45:12,379 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 12:45:12,382 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 12:45:12,385 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 12:45:12,388 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 12:45:12,392 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 12:45:12,395 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 12:45:12,399 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 12:45:12,403 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 12:45:12,429 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 12:45:12,433 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 12:45:12,445 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS "tabNPS Transaction"
+2025-07-02 12:45:12,446 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS "tabNPS Agent Transaction"
+2025-07-02 12:50:06,690 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 12:50:06,694 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 12:50:06,697 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 12:50:06,700 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 12:50:06,704 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 12:50:06,707 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 12:50:06,711 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 12:50:06,716 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 12:50:06,742 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 12:50:06,746 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 12:50:06,756 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS "tabNPS Transaction"
+2025-07-02 12:50:06,758 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS "tabNPS Agent Transaction"
+2025-07-02 13:27:45,944 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 13:27:45,946 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tabNPS Agent Transaction"(
+                entity_id varchar(50), 
+                type varchar(30), 
+                debit float, 
+                credit float, 
+                amount float, 
+                currency varchar(10), 
+                fee float, 
+                tax float, 
+                on_hold int, 
+                settled int, 
+                created_at timestamp, 
+                settled_at date, 
+                settlement_id varchar(50), 
+                description varchar(100), 
+                notes json, 
+                payment_id varchar(50), 
+                arn varchar(50), 
+                settlement_utr varchar(50), 
+                order_id varchar(50), 
+                order_receipt varchar(50), 
+                method varchar(30), 
+                upi_flow varchar(50), 
+                card_network varchar(50), 
+                card_issuer varchar(50), 
+                card_type varchar(50), 
+                dispute_id varchar(50), 
+                additional_utr varchar(50)
+                );
+2025-07-02 13:27:45,948 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL, 
+                ALTER COLUMN settled_at SET NOT NULL;
+2025-07-02 13:27:45,950 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ALTER COLUMN entity_id SET NOT NULL, 
+                ALTER COLUMN type SET NOT NULL, 
+                ALTER COLUMN debit SET NOT NULL, 
+                ALTER COLUMN credit SET NOT NULL, 
+                ALTER COLUMN amount SET NOT NULL, 
+                ALTER COLUMN currency SET NOT NULL, 
+                ALTER COLUMN fee SET NOT NULL, 
+                ALTER COLUMN tax SET NOT NULL, 
+                ALTER COLUMN on_hold SET NOT NULL, 
+                ALTER COLUMN settled SET NOT NULL, 
+                ALTER COLUMN created_at SET NOT NULL;
+2025-07-02 13:27:45,951 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction" 
+                ADD CONSTRAINT entity_id_unique UNIQUE(entity_id), 
+                ADD CONSTRAINT order_id_unique UNIQUE(order_id), 
+                ADD CONSTRAINT order_receipt_unique UNIQUE(order_receipt);
+2025-07-02 13:27:45,953 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction" 
+                ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
+2025-07-02 13:27:45,957 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TEXT, 
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 13:27:45,959 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TEXT,
+                ALTER COLUMN settled_at TYPE TEXT
+2025-07-02 13:27:45,977 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 13:27:45,980 WARNING database DDL Query made to DB:
+ALTER TABLE "tabNPS Agent Transaction"
+                ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+                ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-02 13:27:45,985 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS "tabNPS Transaction"
+2025-07-02 13:27:45,986 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS "tabNPS Agent Transaction"
