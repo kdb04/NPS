@@ -84,7 +84,7 @@ def process_file(doc, method):
             if validation_result["is_valid"]:
                 comp_doc = frappe.new_doc("NPS Transactions")
                 comp_doc.discrepancy_count = 0
-                comp_doc.remark = "No discrepancies found."
+                comp_doc.remarks = "No discrepancies found."
                 comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
                 frappe.db.set_value("NPS Importer", doc.name, {
@@ -136,7 +136,7 @@ def process_file(doc, method):
 
                 final_remark = "\n".join(remarks) if remarks else "Discrepancies found but no details"
             
-                comp_doc.remark = final_remark
+                comp_doc.remarks = final_remark
                 comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
                 frappe.db.set_value("NPS Importer", doc.name, {
