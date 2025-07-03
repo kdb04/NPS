@@ -1,12 +1,13 @@
-import frappe
-import csv
 import io
+import os
+import csv
+import frappe
 import frappe.utils
 
 def process_file(doc, method):
     if doc.status != "Pending" or not doc.uploaded_file:
         return
-
+    frappe.db.begin()
     frappe.db.set_value("NPS Importer", doc.name, "status", "Processing") #set status to processing
     
     try:
@@ -77,11 +78,15 @@ def process_file(doc, method):
                 ledger_count[field_name]+=1
 
         if not amounts and doc.file_type == "Comparison JV":
-            file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
-            file_name = file_doc.file_name.lower() if hasattr(file_doc, 'file_name') and file_doc.file_name else ""
-            file_content = file_doc.get_content()
+            # filepath = "{}/{}".format(frappe.get_site_path(), doc.uploaded_file)
+            # print("------------------------------------------------")
+            # print(filepath)
 
-            validation_result = validate_against_database(None, doc.file_type, file_name, file_content) #None as this jv entry does not go to jv store table
+            # file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
+            # file_name = file_doc.file_name.lower() if hasattr(file_doc, 'file_name') and file_doc.file_name else ""
+            # file_content = file_doc.get_content()
+
+            validation_result = validate_against_database(doc.file_type, doc=doc) #None as this jv entry does not go to jv store table
 
             if validation_result["is_valid"]:
                 comp_doc = frappe.new_doc("NPS Transactions")
@@ -90,7 +95,7 @@ def process_file(doc, method):
                 comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
                 frappe.db.set_value("NPS Importer", doc.name, {
-                    "remark": f"Comparison completed successfully. Report:{comp_doc.na}",
+                    "remark": f"Comparison completed successfully.",
                     "status": "Success"
                 })
 
@@ -98,43 +103,43 @@ def process_file(doc, method):
                 comp_doc = frappe.new_doc("NPS Transactions")
                 comp_doc.discrepancy_count = validation_result.get('total_discrepancies', 0)
                 
-                # remarks = []
-                # if validation_result.get('missing_nps_orders'):
-                #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
-                #     remarks.append(f"Missing NPS Orders: {', '.join(nps_order_ids)}")
-                # if validation_result.get('missing_agent_orders'):
-                #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
-                #     remarks.append(f"Missing Agent Orders: {', '.join(agent_order_ids)}")
+            #     # remarks = []
+            #     # if validation_result.get('missing_nps_orders'):
+            #     #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
+            #     #     remarks.append(f"Missing NPS Orders: {', '.join(nps_order_ids)}")
+            #     # if validation_result.get('missing_agent_orders'):
+            #     #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
+            #     #     remarks.append(f"Missing Agent Orders: {', '.join(agent_order_ids)}")
                 
-                # all_remarks = " | ".join(remarks) if remarks else "No discrepancy found."
-                # full_diff = validation_result.get('difference', [])
-                # if isinstance(full_diff, list):
-                #     all_remarks += " | " + " | ".join(full_diff)
+            #     # all_remarks = " | ".join(remarks) if remarks else "No discrepancy found."
+            #     # full_diff = validation_result.get('difference', [])
+            #     # if isinstance(full_diff, list):
+            #     #     all_remarks += " | " + " | ".join(full_diff)
 
-                # remarks = []
-                # total_discrepancies = validation_result.get('total_discrepancies', 0)
+            #     # remarks = []
+            #     # total_discrepancies = validation_result.get('total_discrepancies', 0)
 
-                # remarks.append(f"Total Discrepancies Found: {total_discrepancies}")
+            #     # remarks.append(f"Total Discrepancies Found: {total_discrepancies}")
 
-                # if validation_result.get('missing_nps_orders'):
-                #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
-                #     remarks.append(f"Missing NPS Orders: ({len(nps_order_ids)}):")
-                #     remarks.append(', '.join(nps_order_ids))
-                #     remarks.append("")
+            #     # if validation_result.get('missing_nps_orders'):
+            #     #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
+            #     #     remarks.append(f"Missing NPS Orders: ({len(nps_order_ids)}):")
+            #     #     remarks.append(', '.join(nps_order_ids))
+            #     #     remarks.append("")
 
-                # if validation_result.get('missing_agent_orders'):
-                #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
-                #     remarks.append(f"Missing Agent Orders: ({len(agent_order_ids)}):")
-                #     remarks.append(', '.join(agent_order_ids))
-                #     remarks.append("")
+            #     # if validation_result.get('missing_agent_orders'):
+            #     #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
+            #     #     remarks.append(f"Missing Agent Orders: ({len(agent_order_ids)}):")
+            #     #     remarks.append(', '.join(agent_order_ids))
+            #     #     remarks.append("")
 
-                # full_diff = validation_result.get('difference', [])
-                # if full_diff:
-                #     remarks.append("Discrepancies Found:")
-                #     if isinstance(full_diff, list):
-                #         remarks.extend(full_diff)
-                #     elif isinstance(full_diff, str):
-                #         remarks.extend(full_diff)
+            #     # full_diff = validation_result.get('difference', [])
+            #     # if full_diff:
+            #     #     remarks.append("Discrepancies Found:")
+            #     #     if isinstance(full_diff, list):
+            #     #         remarks.extend(full_diff)
+            #     #     elif isinstance(full_diff, str):
+            #     #         remarks.extend(full_diff)
 
                 final_remark = validation_result.get('difference', 'Discrepancy found but no details')
             
@@ -190,7 +195,7 @@ def process_file(doc, method):
 
             jv_doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
-            validation_result = validate_against_database(jv_doc, doc.file_type)
+            validation_result = validate_against_database(doc.file_type, doc=jv_doc)
             
             if validation_result["is_valid"]:
                 frappe.db.set_value("NPS JV Store", jv_doc.name, {
@@ -239,6 +244,7 @@ def process_file(doc, method):
             })
         
     except Exception as e:
+        frappe.db.rollback()
         error_msg = str(e)
         frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
         frappe.db.set_value("NPS Importer", doc.name, {
@@ -246,15 +252,12 @@ def process_file(doc, method):
             "status": "Failed"
         })
 
-def validate_against_database(jv_doc, file_type, file_name=None, file_content=None):
+    finally:
+        frappe.db.commit()
+
+def validate_against_database(file_type, doc=None, filepath=None, file_content=None):
     frappe.log_error(f"Running validation for: {file_type}")
     try:
-        if file_type == "Comparison JV":
-            query_to = query_from = None
-        else:
-            query_from = jv_doc.from_date
-            query_to = jv_doc.to_date
-        
         if file_type == "Contribution JV":
             validation_query = """
             SELECT     
@@ -313,12 +316,12 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
                 "Date Created";
             """
             
-            query_result = frappe.db.sql(validation_query, (query_from, query_to, query_from), as_dict=True)
+            query_result = frappe.db.sql(validation_query, (doc.from_date, doc.to_date, doc.from_date), as_dict=True)
             
             if not query_result:
                 return {
                     "is_valid": False,
-                    "difference": f"No matching data found in database for the date range {query_from} to {query_to}"
+                    "difference": f"No matching data found in database for the date range {doc.from_date} to {doc.to_date}"
                 }
             
             #db contents -> nps_contribution table
@@ -330,14 +333,14 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
             db_gst = float(query_result[0].get("T1 GST", 0)) #T2 = 0
             
             #jv_record contents
-            jv_total_amount = float(jv_doc.total_amount or 0) 
-            jv_order_value = float(jv_doc.order_value or 0)
-            jv_registration_fee = float(jv_doc.registration_fee or 0)
-            jv_comission = float(jv_doc.comission or 0) 
-            jv_service_charges = float(jv_doc.service_charges or 0)
-            jv_central_gst = float(jv_doc.central_gst or 0)
-            jv_state_gst = float(jv_doc.state_gst or 0)
-            jv_integrated_gst = float(jv_doc.integrated_gst or 0)
+            jv_total_amount = float(doc.total_amount or 0) 
+            jv_order_value = float(doc.order_value or 0)
+            jv_registration_fee = float(doc.registration_fee or 0)
+            jv_comission = float(doc.comission or 0) 
+            jv_service_charges = float(doc.service_charges or 0)
+            jv_central_gst = float(doc.central_gst or 0)
+            jv_state_gst = float(doc.state_gst or 0)
+            jv_integrated_gst = float(doc.integrated_gst or 0)
             jv_gst = jv_central_gst + jv_state_gst + jv_integrated_gst
             
             tolerance = 0.1 
@@ -391,7 +394,7 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
                 "Date Created"
             """
 
-            query_result = frappe.db.sql(validation_query, (query_from,), as_dict=True)
+            query_result = frappe.db.sql(validation_query, (doc.from_date,), as_dict=True)
 
             if not query_result:
                 return{
@@ -407,12 +410,12 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
             db_igst = float(query_result[0].get("IGST", 0))
             db_gst = db_cgst + db_sgst + db_igst
 
-            jv_total_amount = float(jv_doc.total_amount or 0)
-            jv_order_value = float(jv_doc.order_value or 0)
-            jv_service_charges = float(jv_doc.service_charges or 0)
-            jv_cgst = float(jv_doc.central_gst or 0)
-            jv_sgst = float(jv_doc.state_gst or 0)
-            jv_igst = float(jv_doc.integrated_gst or 0)
+            jv_total_amount = float(doc.total_amount or 0)
+            jv_order_value = float(doc.order_value or 0)
+            jv_service_charges = float(doc.service_charges or 0)
+            jv_cgst = float(doc.central_gst or 0)
+            jv_sgst = float(doc.state_gst or 0)
+            jv_igst = float(doc.integrated_gst or 0)
             jv_gst = jv_cgst + jv_sgst + jv_igst
 
             tolerance = 0.01
@@ -453,7 +456,7 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
                 AND status = 'captured'
             """
 
-            query_result = frappe.db.sql(validation_query, (query_from,), as_dict=True)
+            query_result = frappe.db.sql(validation_query, (doc.from_date,), as_dict=True)
 
             if not query_result:
                 return{
@@ -462,7 +465,7 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
                 }
             
             db_total_amount = float(query_result[0].get("Total Amount", 0) or 0)
-            jv_total_amount = float(jv_doc.total_amount or 0)
+            jv_total_amount = float(doc.total_amount or 0)
 
             tolerance = 0.01
             difference_total_amount = abs(db_total_amount - jv_total_amount)
@@ -479,383 +482,150 @@ def validate_against_database(jv_doc, file_type, file_name=None, file_content=No
                 }            
 
         elif file_type == "Comparison JV":
-            try:
-                csv_rows = []
-                f = io.StringIO(file_content)  
-                reader = csv.reader(f)
-                csv_rows = list(reader)
-                
-                if len(csv_rows) <= 1:
-                    return{
-                        "is_valid": False,
-                        "difference": "No data rows found in CSV file"
-                    }
-
-                is_nps_agent_transaction = 'agent' in file_name
-                is_nps_transaction = not is_nps_agent_transaction
-
-                if not is_nps_transaction and not is_nps_agent_transaction:
-                    return{
-                        "is_valid": False,
-                        "difference": f"Unable to determine transaction type from filename: {file_name}"
-                    }
-
-                total_discrepancies = 0
-                combined_remarks = []
-                # transaction_file_path = '/tmp/transactions.csv'
-                # agent_transaction_file_path = '/tmp/transactions_agent.csv'
-
-                if is_nps_transaction:
-                    create_temp_table1 = """
-                    CREATE TEMP TABLE "tabNPS Transaction"(
-                    entity_id varchar(50), 
-                    type varchar(30), 
-                    debit float, 
-                    credit float, 
-                    amount float, 
-                    currency varchar(10), 
-                    fee float, 
-                    tax float, 
-                    on_hold int, 
-                    settled int, 
-                    created_at timestamp, 
-                    settled_at date, 
-                    settlement_id varchar(50), 
-                    description varchar(100), 
-                    notes json, 
-                    payment_id varchar(50), 
-                    arn varchar(50), 
-                    settlement_utr varchar(50), 
-                    order_id varchar(50), 
-                    order_receipt varchar(50), 
-                    method varchar(30), 
-                    upi_flow varchar(50), 
-                    card_network varchar(50), 
-                    card_issuer varchar(50), 
-                    card_type varchar(50), 
-                    dispute_id varchar(50), 
-                    additional_utr varchar(50)
-                    );"""
-                    frappe.db.sql(create_temp_table1)
-
-                    alter_table1_notnull = """
-                    ALTER TABLE "tabNPS Transaction" 
-                    ALTER COLUMN entity_id SET NOT NULL, 
-                    ALTER COLUMN type SET NOT NULL, 
-                    ALTER COLUMN debit SET NOT NULL, 
-                    ALTER COLUMN credit SET NOT NULL, 
-                    ALTER COLUMN amount SET NOT NULL, 
-                    ALTER COLUMN currency SET NOT NULL, 
-                    ALTER COLUMN fee SET NOT NULL, 
-                    ALTER COLUMN tax SET NOT NULL, 
-                    ALTER COLUMN on_hold SET NOT NULL, 
-                    ALTER COLUMN settled SET NOT NULL, 
-                    ALTER COLUMN created_at SET NOT NULL, 
-                    ALTER COLUMN settled_at SET NOT NULL;
-                    """
-                    frappe.db.sql(alter_table1_notnull)
-
-                    alter_table1_contraints = """
-                    ALTER TABLE "tabNPS Transaction" 
-                    ADD CONSTRAINT entity_id_unique UNIQUE(entity_id);
-                    """
-                    frappe.db.sql(alter_table1_contraints)
-
-                    # to fix date format of the form dd/mm/yy in order to copy from csv(change to text field)
-                    alter_table1_date_type = """ 
-                    ALTER TABLE "tabNPS Transaction"
-                    ALTER COLUMN created_at TYPE TEXT, 
-                    ALTER COLUMN settled_at TYPE TEXT
-                    """
-                    frappe.db.sql(alter_table1_date_type)
-
-                    # copy_table1 = f"""
-                    # COPY "tabNPS Transaction" FROM '{temp_file_path}' DELIMITER ',' CSV HEADER;
-                    # """
-                    # frappe.db.sql(copy_table1)
-
-                    insert_query = """
-                    INSERT INTO "tabNPS Transaction" (
-                        entity_id, type, debit, credit, amount, currency, fee, tax, 
-                        on_hold, settled, created_at, settled_at, settlement_id, description, 
-                        notes, payment_id, arn, settlement_utr, order_id, order_receipt, 
-                        method, upi_flow, card_network, card_issuer, card_type, dispute_id, additional_utr
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-                    """
-                    
-                    for row in csv_rows[1:]:
-                        if len(row) >= 26:  
-                            try:                                
-                                debit = float(row[2]) if row[2] else 0.0
-                                credit = float(row[3]) if row[3] else 0.0
-                                amount = float(row[4]) if row[4] else 0.0
-                                fee = float(row[6]) if row[6] else 0.0
-                                tax = float(row[7]) if row[7] else 0.0
-                                on_hold = int(row[8]) if row[8] else 0
-                                settled = int(row[9]) if row[9] else 0
-                                
-                                notes = row[14] if row[14] else None  #notes 
-
-                                if not row[18] or row[18] == "":  #skip if order_id is null
-                                    continue
-                                
-                                frappe.db.sql(insert_query, (
-                                    row[0],  # entity_id
-                                    row[1],  # type
-                                    debit,   # debit
-                                    credit,  # credit
-                                    amount,  # amount
-                                    row[5],  # currency
-                                    fee,     # fee
-                                    tax,     # tax
-                                    on_hold, # on_hold
-                                    settled, # settled
-                                    row[10],  # created_at
-                                    row[11] if len(row)>11 else None, # settled_at
-                                    row[12] if len(row)>12 else None, # settlement_id
-                                    row[13] if len(row)>13 else None, # description
-                                    notes,   # notes
-                                    row[15] if len(row) > 15 else None, # payment_id
-                                    row[16] if len(row) > 16 else None, # arn
-                                    row[17] if len(row) > 17 else None, # settlement_utr
-                                    row[18],
-                                    row[19] if len(row) > 19 else None, # order_receipt
-                                    row[20] if len(row) > 20 else None, # method
-                                    row[21] if len(row) > 21 else None, # upi_flow
-                                    row[22] if len(row) > 22 else None, # card_network
-                                    row[23] if len(row) > 23 else None, # card_issuer
-                                    row[24] if len(row) > 24 else None, # card_type
-                                    row[25] if len(row) > 25 else None, # dispute_id
-                                    row[26] if len(row) > 26 else None  # additional_utr
-                                ))
-                            except (ValueError, IndexError) as e:
-                                continue
-
-                    #test query
-                    # count_query1 = 'SELECT COUNT(*) as count FROM "tabNPS Transaction"'
-                    # count1 = frappe.db.sql(count_query1, as_dict=True)
-                    # frappe.log_error(f"Rows inserted into tabNPS Transaction: {count1[0]['count']}")
-
-                    #convert date column back to date type after copying
-                    convert_table1_date = """
-                    ALTER TABLE "tabNPS Transaction"
-                    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-                    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-                    """
-                    frappe.db.sql(convert_table1_date)
-
-                    comparison_query_1 = """
-                    SELECT t.order_id 
-                    FROM "tabNPS Transaction" t
-                    LEFT JOIN tabnps_contribution c
-                    ON t.order_id = c.order_id
-                    WHERE t.order_id IS NOT NULL
-                    AND t.settled_at IS NOT NULL
-                    AND t.description IS NOT NULL
-                    AND c.order_id IS NULL;
-                    """
-                    missing_nps_orders = frappe.db.sql(comparison_query_1, as_dict=True)
-                    missing_nps_count = len(missing_nps_orders)
-
-                    transaction_remarks = []
-                    transaction_remarks.append(f"NPS Discrepancies found: {missing_nps_count}")
-
-                    if missing_nps_count:
-                        nps_order_ids = [row['order_id'] for row in missing_nps_orders]
-                        transaction_remarks.append("Missing NPS Order IDs:")
-                        transaction_remarks.append(", ".join(nps_order_ids))
-                    else:
-                        transaction_remarks.append("No missing NPS Orders")
-                    transaction_remarks.append("")
-
-                    frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Transaction"')
-                    combined_remarks.extend(transaction_remarks)
-                    total_discrepancies += missing_nps_count
-                    
-                elif is_nps_agent_transaction:
-                    create_temp_table2 = """
-                    CREATE TEMP TABLE "tabNPS Agent Transaction"(
-                    entity_id varchar(50), 
-                    type varchar(50), 
-                    debit float, 
-                    credit float, 
-                    amount float, 
-                    currency varchar(3), 
-                    fee float, 
-                    tax float, 
-                    on_hold int, 
-                    settled int, 
-                    created_at timestamp, 
-                    settled_at date, 
-                    settlement_id varchar(50), 
-                    description varchar(300), 
-                    notes json, 
-                    payment_id varchar(50), 
-                    arn varchar(50), 
-                    settlement_utr varchar(50), 
-                    order_id varchar(50), 
-                    order_receipt varchar(50), 
-                    method varchar(50), 
-                    upi_flow varchar(50), 
-                    card_network varchar(50), 
-                    card_issuer varchar(50), 
-                    card_type varchar(50), 
-                    dispute_id varchar(50), 
-                    additional_utr varchar(50)
-                    );"""
-                    frappe.db.sql(create_temp_table2)
-
-                    alter_table2_notnull = """
-                    ALTER TABLE "tabNPS Agent Transaction" 
-                    ALTER COLUMN entity_id SET NOT NULL, 
-                    ALTER COLUMN type SET NOT NULL, 
-                    ALTER COLUMN debit SET NOT NULL, 
-                    ALTER COLUMN credit SET NOT NULL, 
-                    ALTER COLUMN amount SET NOT NULL, 
-                    ALTER COLUMN currency SET NOT NULL, 
-                    ALTER COLUMN fee SET NOT NULL, 
-                    ALTER COLUMN tax SET NOT NULL, 
-                    ALTER COLUMN on_hold SET NOT NULL, 
-                    ALTER COLUMN settled SET NOT NULL, 
-                    ALTER COLUMN created_at SET NOT NULL;
-                    """
-                    frappe.db.sql(alter_table2_notnull)
-
-                    alter_table2_constraints = """
-                    ALTER TABLE "tabNPS Agent Transaction" 
-                    ADD CONSTRAINT entity_id_unique2 UNIQUE(entity_id);
-                    """
-                    frappe.db.sql(alter_table2_constraints)
-
-                    alter_table2_date_type = """
-                    ALTER TABLE "tabNPS Agent Transaction"
-                    ALTER COLUMN created_at TYPE TEXT,
-                    ALTER COLUMN settled_at TYPE TEXT
-                    """
-                    frappe.db.sql(alter_table2_date_type)
-
-                    insert_query = """
-                    INSERT INTO "tabNPS Agent Transaction" (
-                        entity_id, type, debit, credit, amount, currency, fee, tax, 
-                        on_hold, settled, created_at, settled_at, settlement_id, description, 
-                        notes, payment_id, arn, settlement_utr, order_id, order_receipt, 
-                        method, upi_flow, card_network, card_issuer, card_type, dispute_id, additional_utr
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """
-
-                    for row in csv_rows[1:]:
-                        if len(row) >= 15:  
-                            try:                                
-                                debit = float(row[2]) if row[2] else 0.0
-                                credit = float(row[3]) if row[3] else 0.0
-                                amount = float(row[4]) if row[4] else 0.0
-                                fee = float(row[6]) if row[6] else 0.0
-                                tax = float(row[7]) if row[7] else 0.0
-                                on_hold = int(row[8]) if row[8] else 0
-                                settled = int(row[9]) if row[9] else 0
-                            
-                                notes = row[12] if len(row) > 12 and row[12] else None #notes
-                                
-                                frappe.db.sql(insert_query, (
-                                    row[0],  # entity_id
-                                    row[1],  # type
-                                    debit,   # debit
-                                    credit,  # credit
-                                    amount,  # amount
-                                    row[5],  # currency
-                                    fee,     # fee
-                                    tax,     # tax
-                                    on_hold, # on_hold
-                                    settled, # settled
-                                    row[10],  # created_at
-                                    row[11] if len(row) > 11 else None,  # settled_at
-                                    row[11] if len(row) > 11 else None, # settlement_id (not in agent sample)
-                                    row[11] if len(row) > 11 else None, # description (recurring payment info)
-                                    notes,   # notes
-                                    row[13] if len(row) > 13 else None, # payment_id (not in agent sample)
-                                    row[14] if len(row) > 14 else None, # arn (not in agent sample)
-                                    row[15] if len(row) > 15 else None, # settlement_utr (not in agent sample)
-                                    row[13],
-                                    row[14] if len(row) > 14 else None, # order_receipt
-                                    row[15] if len(row) > 15 else None, # method
-                                    row[16] if len(row) > 16 else None, # upi_flow
-                                    row[17] if len(row) > 17 else None, # card_network
-                                    row[18] if len(row) > 18 else None, # card_issuer
-                                    row[19] if len(row) > 19 else None, # card_type
-                                    row[20] if len(row) > 20 else None, # dispute_id
-                                    row[21] if len(row) > 21 else None  # additional_utr
-                                ))
-                            except (ValueError, IndexError) as e:
-                                # Skip invalid rows
-                                continue
-
-                    # copy_table2 = f"""
-                    # COPY "tabNPS Agent Transaction" FROM '{temp_file_path}' DELIMITER ',' CSV HEADER;
-                    # """
-                    # frappe.db.sql(copy_table2)
-
-                    # count_query2 = 'SELECT COUNT(*) as count FROM "tabNPS Agent Transaction"'
-                    # count2 = frappe.db.sql(count_query2, as_dict=True)
-                    # frappe.log_error(f"Rows inserted into tabNPS Agent Transaction: {count2[0]['count']}")
-
-                    convert_table2_date = """
-                    ALTER TABLE "tabNPS Agent Transaction"
-                    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-                    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-                    """
-                    frappe.db.sql(convert_table2_date)
-
-                    comparison_query_2 = """
-                    SELECT t.order_id
-                    FROM "tabNPS Agent Transaction" t
-                    LEFT JOIN tabnps_agent_contribution c
-                    ON t.entity_id = (c.payment_aggregator_meta->>'reference_id')
-                    WHERE t.entity_id LIKE 'pay_%'
-                    AND t.order_id IS NOT NULL
-                    AND t.order_receipt IS NOT NULL
-                    AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
-                    """
-                    missing_agent_orders = frappe.db.sql(comparison_query_2, as_dict=True)
-                    missing_agent_count = len(missing_agent_orders)
-
-                    agent_remarks = []
-                    agent_remarks.append(f"Discrepancies found: {missing_agent_count}")
-                    if missing_agent_count:
-                        agent_order_ids = [row['order_id'] for row in missing_agent_orders]
-                        agent_remarks.append("Missing Agent Order IDs:")
-                        agent_remarks.append(", ".join(agent_order_ids))
-                    else:
-                        agent_remarks.append("No discrepancies found.")
-                    agent_remarks.append("")
-
-                    frappe.db.sql('DROP TABLE IF EXISTS "tabNPS Agent Transaction"')
-                    combined_remarks.extend(agent_remarks)
-                    total_discrepancies += missing_agent_count
-
-                combined_remarks.append(f"Total Discrepancies: {total_discrepancies}")
-
-                return{
-                    "is_valid": total_discrepancies == 0,
-                    "difference": "\n".join(combined_remarks),
-                    "total_discrepancies": total_discrepancies
-                }
-
-            except Exception as comparison_error:
-                frappe.log_error(f"Comparison JV error: {str(comparison_error)}", "Comparison JV Validation Error")
-                return {
-                    "is_valid": False,
-                    "difference": f"Comparison validation error: {str(comparison_error)}"
-                }
-
+            return _fetch_payment_difference(doc)
+            
         else:
             return {
                 "is_valid": False,
                 "difference": f"Unknown File Type: {file_type}"
             }
-                
+
     except Exception as e:
         frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
         return {
             "is_valid": False,
             "difference": f"Validation error: {str(e)}"
         }
+    
+def _fetch_payment_difference(doc):
+    filepath = "{}{}".format(frappe.get_site_path(), doc.uploaded_file)
+    #print(filepath)
+    cmd = "cp {} /tmp/transact.csv".format(os.path.abspath(filepath))
+    os.system(cmd)
+
+    file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
+    is_nps_agent_transaction = 'agent' in file_doc.file_name.lower()
+
+    # is_nps_agent_transaction = 'agent' in os.path.basename(doc.uploaded_file).lower()
+    is_nps_transaction = not is_nps_agent_transaction
+
+    combined_remarks = []
+    total_discrepancies = 0
+
+    create_temp_table_query = """
+        CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+    """
+
+    load_data_query = """
+       COPY tmp_transaction FROM '/tmp/transact.csv' DELIMITER ',' CSV HEADER;
+    """
+
+    # get_few_records = """
+    #     SELECT * from tmp_transaction LIMIT 10;
+    # """
+
+    frappe.db.sql(create_temp_table_query)
+    frappe.db.sql(load_data_query)
+    #records = frappe.db.sql(get_few_records, as_dict=True)
+    #print(records)
+
+    convert_table_date = """
+    ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+    """
+    frappe.db.sql(convert_table_date)
+
+    if is_nps_transaction:
+        comparison_query_1 = """
+        SELECT t.order_id 
+        FROM tmp_transaction t
+        LEFT JOIN tabnps_contribution c
+        ON t.order_id = c.order_id
+        WHERE t.order_id IS NOT NULL
+        AND t.settled_at IS NOT NULL
+        AND t.description IS NOT NULL
+        AND c.order_id IS NULL;
+        """
+        missing_nps_orders = frappe.db.sql(comparison_query_1, as_dict=True)
+        missing_nps_count = len(missing_nps_orders)
+
+        transaction_remarks = []
+        transaction_remarks.append(f"NPS Discrepancies found: {missing_nps_count}")
+
+        if missing_nps_count:
+            nps_order_ids = [row['order_id'] for row in missing_nps_orders]
+            transaction_remarks.append("Missing NPS Order IDs:")
+            transaction_remarks.append(", ".join(nps_order_ids))
+        else:
+            transaction_remarks.append("No missing NPS Orders")
+        transaction_remarks.append("")
+
+        combined_remarks.extend(transaction_remarks)
+        total_discrepancies += missing_nps_count
+
+    elif is_nps_agent_transaction:
+        comparison_query_2 = """
+        SELECT t.order_id
+        FROM tmp_transaction t
+        LEFT JOIN tabnps_agent_contribution c
+        ON t.entity_id = (c.payment_aggregator_meta->>'reference_id')
+        WHERE t.entity_id LIKE 'pay_%'
+        AND t.order_id IS NOT NULL
+        AND t.order_receipt IS NOT NULL
+        AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
+        """
+        missing_agent_orders = frappe.db.sql(comparison_query_2, as_dict=True)
+        missing_agent_count = len(missing_agent_orders)
+
+        agent_remarks = []
+        agent_remarks.append(f"Discrepancies found: {missing_agent_count}")
+        if missing_agent_count:
+            agent_order_ids = [row['order_id'] for row in missing_agent_orders]
+            agent_remarks.append("Missing Agent Order IDs:")
+            agent_remarks.append(", ".join(agent_order_ids))
+        else:
+            agent_remarks.append("No discrepancies found.")
+        agent_remarks.append("")
+
+        combined_remarks.extend(agent_remarks)
+        total_discrepancies += missing_agent_count
+
+    combined_remarks.append(f"Total Discrepancies: {total_discrepancies}")
+
+    frappe.db.sql('DROP TABLE IF EXISTS tmp_transaction;')
+
+    return{
+        "is_valid": total_discrepancies == 0,
+        "difference": "\n".join(combined_remarks),
+        "total_discrepancies": total_discrepancies
+    }
+
