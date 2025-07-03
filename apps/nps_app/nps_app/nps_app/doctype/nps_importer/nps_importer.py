@@ -7,7 +7,8 @@ import frappe.utils
 def process_file(doc, method):
     if doc.status != "Pending" or not doc.uploaded_file:
         return
-    frappe.db.begin()
+    
+    frappe.db.begin() #start transaction
     frappe.db.set_value("NPS Importer", doc.name, "status", "Processing") #set status to processing
     
     try:
@@ -77,82 +78,22 @@ def process_file(doc, method):
                     
                 ledger_count[field_name]+=1
 
-        if not amounts and doc.file_type == "Comparison JV":
-            # filepath = "{}/{}".format(frappe.get_site_path(), doc.uploaded_file)
-            # print("------------------------------------------------")
-            # print(filepath)
+        if doc.file_type == "Comparison JV":
+            response = validate_against_database(doc.file_type, doc=doc) 
 
-            # file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
-            # file_name = file_doc.file_name.lower() if hasattr(file_doc, 'file_name') and file_doc.file_name else ""
-            # file_content = file_doc.get_content()
+            comp_doc = frappe.new_doc("NPS Transactions")
+            comp_doc.discrepancy_count = response["discrepancies"]
+            comp_doc.remarks = response["remark"]
+            comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
-            validation_result = validate_against_database(doc.file_type, doc=doc) #None as this jv entry does not go to jv store table
+            frappe.db.set_value("NPS Importer", doc.name ,{
+                "remark": "Discrepancy log saved" if comp_doc.discrepancy_count else "Comparison completed successfully",
+                "status": "Success"
+            })
 
-            if validation_result["is_valid"]:
-                comp_doc = frappe.new_doc("NPS Transactions")
-                comp_doc.discrepancy_count = 0
-                comp_doc.remarks = "No discrepancies found."
-                comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
-
-                frappe.db.set_value("NPS Importer", doc.name, {
-                    "remark": f"Comparison completed successfully.",
-                    "status": "Success"
-                })
-
-            else:
-                comp_doc = frappe.new_doc("NPS Transactions")
-                comp_doc.discrepancy_count = validation_result.get('total_discrepancies', 0)
-                
-            #     # remarks = []
-            #     # if validation_result.get('missing_nps_orders'):
-            #     #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
-            #     #     remarks.append(f"Missing NPS Orders: {', '.join(nps_order_ids)}")
-            #     # if validation_result.get('missing_agent_orders'):
-            #     #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
-            #     #     remarks.append(f"Missing Agent Orders: {', '.join(agent_order_ids)}")
-                
-            #     # all_remarks = " | ".join(remarks) if remarks else "No discrepancy found."
-            #     # full_diff = validation_result.get('difference', [])
-            #     # if isinstance(full_diff, list):
-            #     #     all_remarks += " | " + " | ".join(full_diff)
-
-            #     # remarks = []
-            #     # total_discrepancies = validation_result.get('total_discrepancies', 0)
-
-            #     # remarks.append(f"Total Discrepancies Found: {total_discrepancies}")
-
-            #     # if validation_result.get('missing_nps_orders'):
-            #     #     nps_order_ids = [order.get('order_id', '') for order in validation_result['missing_nps_orders']]
-            #     #     remarks.append(f"Missing NPS Orders: ({len(nps_order_ids)}):")
-            #     #     remarks.append(', '.join(nps_order_ids))
-            #     #     remarks.append("")
-
-            #     # if validation_result.get('missing_agent_orders'):
-            #     #     agent_order_ids = [order.get('order_id', '') for order in validation_result['missing_agent_orders']]
-            #     #     remarks.append(f"Missing Agent Orders: ({len(agent_order_ids)}):")
-            #     #     remarks.append(', '.join(agent_order_ids))
-            #     #     remarks.append("")
-
-            #     # full_diff = validation_result.get('difference', [])
-            #     # if full_diff:
-            #     #     remarks.append("Discrepancies Found:")
-            #     #     if isinstance(full_diff, list):
-            #     #         remarks.extend(full_diff)
-            #     #     elif isinstance(full_diff, str):
-            #     #         remarks.extend(full_diff)
-
-                final_remark = validation_result.get('difference', 'Discrepancy found but no details')
-            
-                comp_doc.remarks = final_remark
-                comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
-
-                frappe.db.set_value("NPS Importer", doc.name, {
-                    "status": "Success",
-                    "remark": "Discrepancy log saved."
-                })
             return 
 
-        if amounts:
+        elif amounts:
             jv_doc = frappe.new_doc("NPS JV Store")
             
             try:
@@ -232,20 +173,16 @@ def process_file(doc, method):
                     "discrepancy": f"Amount Discrepancy:\n{validation_result['difference']}"
                 })
 
-                frappe.db.set_value("NPS Importer", doc.name, {
-                    "remark": "Record created successfully",
-                    "status": "Success"
-                })
-                
-        else:
-            frappe.db.set_value("NPS Importer", doc.name, {
-                "remark": "Record created successfully",
-                "status": "Success"
-            })
+        frappe.db.set_value("NPS Importer", doc.name, {
+            "remark": "Record created successfully",
+            "status": "Success"
+        })
         
     except Exception as e:
         frappe.db.rollback()
+        
         error_msg = str(e)
+        
         frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
         frappe.db.set_value("NPS Importer", doc.name, {
             "remark": f"Failed: {error_msg}",
@@ -253,7 +190,7 @@ def process_file(doc, method):
         })
 
     finally:
-        frappe.db.commit()
+        frappe.db.commit() #end transaction
 
 def validate_against_database(file_type, doc=None, filepath=None, file_content=None):
     frappe.log_error(f"Running validation for: {file_type}")
@@ -504,12 +441,9 @@ def _fetch_payment_difference(doc):
     os.system(cmd)
 
     file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
-    is_nps_agent_transaction = 'agent' in file_doc.file_name.lower()
+    is_agent = 'agent' in file_doc.file_name.lower()
 
-    # is_nps_agent_transaction = 'agent' in os.path.basename(doc.uploaded_file).lower()
-    is_nps_transaction = not is_nps_agent_transaction
-
-    combined_remarks = []
+    remarks= "No discrepancies found."
     total_discrepancies = 0
 
     create_temp_table_query = """
@@ -548,84 +482,42 @@ def _fetch_payment_difference(doc):
        COPY tmp_transaction FROM '/tmp/transact.csv' DELIMITER ',' CSV HEADER;
     """
 
-    # get_few_records = """
-    #     SELECT * from tmp_transaction LIMIT 10;
-    # """
-
-    frappe.db.sql(create_temp_table_query)
-    frappe.db.sql(load_data_query)
-    #records = frappe.db.sql(get_few_records, as_dict=True)
-    #print(records)
-
-    convert_table_date = """
-    ALTER TABLE tmp_transaction
-    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
-    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
-    """
-    frappe.db.sql(convert_table_date)
-
-    if is_nps_transaction:
-        comparison_query_1 = """
-        SELECT t.order_id 
-        FROM tmp_transaction t
-        LEFT JOIN tabnps_contribution c
-        ON t.order_id = c.order_id
-        WHERE t.order_id IS NOT NULL
-        AND t.settled_at IS NOT NULL
-        AND t.description IS NOT NULL
-        AND c.order_id IS NULL;
-        """
-        missing_nps_orders = frappe.db.sql(comparison_query_1, as_dict=True)
-        missing_nps_count = len(missing_nps_orders)
-
-        transaction_remarks = []
-        transaction_remarks.append(f"NPS Discrepancies found: {missing_nps_count}")
-
-        if missing_nps_count:
-            nps_order_ids = [row['order_id'] for row in missing_nps_orders]
-            transaction_remarks.append("Missing NPS Order IDs:")
-            transaction_remarks.append(", ".join(nps_order_ids))
-        else:
-            transaction_remarks.append("No missing NPS Orders")
-        transaction_remarks.append("")
-
-        combined_remarks.extend(transaction_remarks)
-        total_discrepancies += missing_nps_count
-
-    elif is_nps_agent_transaction:
-        comparison_query_2 = """
+    missing_agent_contribution_query = """
         SELECT t.order_id
         FROM tmp_transaction t
         LEFT JOIN tabnps_agent_contribution c
-        ON t.entity_id = (c.payment_aggregator_meta->>'reference_id')
+            ON t.entity_id = (c.payment_aggregator_meta->>'reference_id')
         WHERE t.entity_id LIKE 'pay_%'
-        AND t.order_id IS NOT NULL
-        AND t.order_receipt IS NOT NULL
-        AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
-        """
-        missing_agent_orders = frappe.db.sql(comparison_query_2, as_dict=True)
-        missing_agent_count = len(missing_agent_orders)
+            AND t.order_id IS NOT NULL
+            AND t.order_receipt IS NOT NULL
+            AND (c.payment_aggregator_meta->>'reference_id') IS NULL;
+    """
 
-        agent_remarks = []
-        agent_remarks.append(f"Discrepancies found: {missing_agent_count}")
-        if missing_agent_count:
-            agent_order_ids = [row['order_id'] for row in missing_agent_orders]
-            agent_remarks.append("Missing Agent Order IDs:")
-            agent_remarks.append(", ".join(agent_order_ids))
-        else:
-            agent_remarks.append("No discrepancies found.")
-        agent_remarks.append("")
+    missing_contribution_query = """
+        SELECT t.order_id 
+        FROM tmp_transaction t
+        LEFT JOIN tabnps_contribution c
+            ON t.order_id = c.order_id
+        WHERE t.order_id IS NOT NULL
+            AND t.settled_at IS NOT NULL
+            AND t.description IS NOT NULL
+            AND c.order_id IS NULL;
+    """
 
-        combined_remarks.extend(agent_remarks)
-        total_discrepancies += missing_agent_count
+    frappe.db.sql(create_temp_table_query)
+    frappe.db.sql(load_data_query)
+    orders = frappe.db.sql(missing_agent_contribution_query if is_agent else missing_contribution_query, as_dict=True)
 
-    combined_remarks.append(f"Total Discrepancies: {total_discrepancies}")
-
-    frappe.db.sql('DROP TABLE IF EXISTS tmp_transaction;')
+    if len(orders):
+        total_discrepancies = len(orders)
+        order_ids = [row['order_id'] for row in orders]
+        
+        remarks = "Discrepancies found for {count} records. Missing Order IDs: {order_ids}".format(
+            count=len(orders),
+            order_ids=", ".join(order_ids)
+        )
 
     return{
-        "is_valid": total_discrepancies == 0,
-        "difference": "\n".join(combined_remarks),
-        "total_discrepancies": total_discrepancies
+        "remark": "".join(remarks),
+        "discrepancies": total_discrepancies
     }
-
