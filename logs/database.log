@@ -1164,3 +1164,603 @@ ALTER TABLE tmp_transaction
     ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
 2025-07-03 13:59:26,133 WARNING database DDL Query made to DB:
 DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:13:00,086 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:13:00,092 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:13:00,093 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:13:37,580 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:13:37,583 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:13:37,584 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:16:43,655 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:16:43,656 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:16:43,657 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:17:02,967 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:17:02,972 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:17:02,973 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:18:31,238 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:18:31,240 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:18:31,242 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:18:59,927 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:18:59,931 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:18:59,932 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:26:44,299 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:26:44,304 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:26:44,305 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:27:58,714 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:27:58,719 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:27:58,720 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:28:36,832 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:28:36,835 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:28:36,837 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 14:29:24,288 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 14:29:24,292 WARNING database DDL Query made to DB:
+ALTER TABLE tmp_transaction
+    ALTER COLUMN created_at TYPE TIMESTAMP USING TO_TIMESTAMP(created_at, 'DD/MM/YYYY HH24:MI:SS'),
+    ALTER COLUMN settled_at TYPE DATE USING TO_DATE(settled_at, 'DD-MM-YYYY');
+2025-07-03 14:29:24,293 WARNING database DDL Query made to DB:
+DROP TABLE IF EXISTS tmp_transaction;
+2025-07-03 15:16:00,050 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 15:17:06,173 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 15:21:12,285 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 15:22:11,821 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 15:27:47,545 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-03 15:35:50,233 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-07 22:58:17,367 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );
+2025-07-07 22:58:47,423 WARNING database DDL Query made to DB:
+CREATE TEMP TABLE "tmp_transaction"(
+            entity_id varchar(50), 
+            type varchar(30), 
+            debit float, 
+            credit float, 
+            amount float, 
+            currency varchar(10), 
+            fee float, 
+            tax float, 
+            on_hold int, 
+            settled int, 
+            created_at text, 
+            settled_at text, 
+            settlement_id varchar(50), 
+            description varchar(100), 
+            notes json, 
+            payment_id varchar(50), 
+            arn varchar(50), 
+            settlement_utr varchar(50), 
+            order_id varchar(50), 
+            order_receipt varchar(50), 
+            method varchar(30), 
+            upi_flow varchar(50), 
+            card_network varchar(50), 
+            card_issuer varchar(50), 
+            card_type varchar(50), 
+            dispute_id varchar(50), 
+            additional_utr varchar(50)
+        );

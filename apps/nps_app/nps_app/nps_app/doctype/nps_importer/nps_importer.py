@@ -2,126 +2,82 @@ import io
 import os
 import csv
 import frappe
-import frappe.utils
 
-def process_file(doc, method):
-    if doc.status != "Pending" or not doc.uploaded_file:
-        return
+ledger_mapping = {
+    "25065": "total_amount",
+    "15181": "order_value",
+    "30064": "registration_fee", 
+    "30063": "comission", 
+    "15006": "central_gst",
+    "15007": "state_gst", 
+    "15008": "integrated_gst",
+    "30091": "service_charges"
+}
+
+def process_file(doc, method=None):
+    if doc.status != "Pending":
+        raise Exception("Only pending imports can be processed.")
+    
+    if not doc.uploaded_file:
+        raise Exception("No supporting file found.")
     
     frappe.db.begin() #start transaction
     frappe.db.set_value("NPS Importer", doc.name, "status", "Processing") #set status to processing
     
     try:
-        file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
-        file_content = file_doc.get_content()
-            
-        rows = None
-        for delimiter in ['\t', ',', ';']: #test for all delimiters
-            f = io.StringIO(file_content)
-            reader = csv.reader(f, delimiter=delimiter)
-            test_rows = list(reader) #content of csv
-            if len(test_rows) > 1 and len(test_rows[0]) > 8:
-                rows = test_rows
-                break
-
-        if not rows or len(rows) <= 1: #only header in csv file
-            frappe.db.set_value("NPS Importer", doc.name, {
-                "remark": "No valid data rows found in file",
-                "status": "Failed"
-            })
-            return
-        
-        data_rows = rows  
-
-        ledger_mapping = {
-            "25065": "total_amount",
-            "15181": "order_value",
-            "30064": "registration_fee", 
-            "30063": "comission", 
-            "15006": "central_gst",
-            "15007": "state_gst", 
-            "15008": "integrated_gst",
-            "30091": "service_charges"
-        }
-        
-        amounts = {}
-        ledger_count = {}
-        #date_val = ""
-        user_val = ""
-        
-        for idx, row in enumerate(data_rows):
-            if not any(row) or len(row) < 10: 
-                continue
-                
-            try:
-                #date_val = row[3].strip()
-                ledger_code = row[5].strip()
-                amount_val = row[8].strip()
-                user_val = row[10].strip()
-            
-            except IndexError:
-                continue
-
-            try:
-                amount_float = float(amount_val.replace(',', '').replace(' ', ''))
-            except:
-                amount_float = 0
-                
-            if ledger_code in ledger_mapping:
-                field_name = ledger_mapping[ledger_code]
-
-                if field_name not in ledger_count:
-                    ledger_count[field_name] = 0
-                    amounts[field_name] = amount_float
-                else:
-                    amounts[field_name] = 0 #deals with duplicates
-                    
-                ledger_count[field_name]+=1
-
         if doc.file_type == "Comparison JV":
             response = validate_against_database(doc.file_type, doc=doc) 
 
             comp_doc = frappe.new_doc("NPS Transactions")
-            comp_doc.discrepancy_count = response["discrepancies"]
+            comp_doc.discrepancy_count = response["record_count"]
             comp_doc.remarks = response["remark"]
             comp_doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
             frappe.db.set_value("NPS Importer", doc.name ,{
-                "remark": "Discrepancy log saved" if comp_doc.discrepancy_count else "Comparison completed successfully",
+                "remark": "Discrepancy log saved." if comp_doc.discrepancy_count else "Comparison completed successfully.",
                 "status": "Success"
             })
 
-            return 
+        else:
+            rows = None
+            file_doc = frappe.get_doc("File", {"file_url": doc.uploaded_file})
+            file_content = file_doc.get_content()
+                
+            f = io.StringIO(file_content)
+            reader = csv.reader(f, delimiter=',')
+            rows = list(reader) #content of csv
 
-        elif amounts:
+            if len(rows) > 1 and len(rows[0]) >= 10:
+                rows = rows
+            else:
+                frappe.db.set_value("NPS Importer", doc.name, {
+                    "remark": "No valid data rows found in file",
+                    "status": "Failed"
+                })
+                
+            amounts = {}
+            tmp_ledger_pool = []
+            
+            for idx, row in enumerate(rows):
+                #date_val = row[3].strip()
+                ledger_code = row[5].strip()
+                amount = float(row[8].strip())
+
+                if ledger_code in ledger_mapping:
+                    if ledger_code in tmp_ledger_pool:
+                        raise Exception(f"Invalid file content. Ledger code {ledger_code} repeats in the file.")
+                    
+                    tmp_ledger_pool.append(ledger_code)
+                    amounts[ledger_mapping[ledger_code]] = amount
+
+            if amounts.get("total_amount", 0) < 1:
+                raise Exception("Invalid file content. Missing `total_amount`.")
+            
             jv_doc = frappe.new_doc("NPS JV Store")
             
-            try:
-                # if '/' in date_val:
-                #     day, month, year = date_val.split('/')
-                #     formatted_date = f"{year}-{month.zfill(2)}-{day.zfill(2)}"
-                #     jv_doc.for_date = getdate(formatted_date)
-                # else:
-                #     jv_doc.for_date = getdate(date_val)
-                from_date = getattr(doc, "from_date", None)
-                to_date = getattr(doc, "to_date", None)
-
-                if from_date:
-                    jv_doc.from_date = from_date
-                else:
-                    jv_doc.from_date = frappe.utils.today()
-                
-                if to_date:
-                    jv_doc.to_date = to_date
-                else:
-                    jv_doc.to_date = frappe.utils.today()
-
-            except Exception as date_error:
-                frappe.log_error(f"Date parsing error: {str(date_error)}", "NPS Date Parse")
-                jv_doc.from_date = frappe.utils.today()
-                jv_doc.to_date = frappe.utils.today()
- 
-            jv_doc.user_id = user_val
+            jv_doc.from_date = doc.from_date
+            jv_doc.to_date = doc.to_date
+            jv_doc.user_id = row[10].strip()
             jv_doc.status = "Pending"  # set to pending during processing
             jv_doc.import_ref = doc.name
             
@@ -143,27 +99,9 @@ def process_file(doc, method):
                     "status": "Valid",
                     "discrepancy": "Successfully inserted. No discrepancies found."
                 })
-                
-                processed_ledgers = []
-                for key in amounts:
-                    if amounts[key] != 0:
-                        processed_ledgers.append(f"{key}: {amounts[key]}")
-
-                duplicate_ledgers = []
-                for key in ledger_count:
-                    if ledger_count[key] > 1:
-                        duplicate_ledgers.append(key)
-
-                success_msg = "Record created successfully \n"
-
-                if processed_ledgers:
-                    success_msg += "Processed: " + ", ".join(processed_ledgers)
-
-                if duplicate_ledgers:
-                    success_msg += " Duplicate ledgers set to 0: " + ", ".join(duplicate_ledgers)
 
                 frappe.db.set_value("NPS Importer", doc.name, {
-                    "remark": success_msg,
+                    "remark": "Record created successfully.",
                     "status": "Success"
                 })
                 
@@ -173,19 +111,16 @@ def process_file(doc, method):
                     "discrepancy": f"Amount Discrepancy:\n{validation_result['difference']}"
                 })
 
-        frappe.db.set_value("NPS Importer", doc.name, {
-            "remark": "Record created successfully",
-            "status": "Success"
-        })
+                frappe.db.set_value("NPS Importer", doc.name, {
+                    "remark": "Record created successfully. Discrepancies found, please review.",
+                    "status": "Success"
+                })
         
     except Exception as e:
         frappe.db.rollback()
-        
-        error_msg = str(e)
-        
         frappe.log_error(frappe.get_traceback(), "NPS Importer Failure")
         frappe.db.set_value("NPS Importer", doc.name, {
-            "remark": f"Failed: {error_msg}",
+            "remark": f"Failed: {str(e)}",
             "status": "Failed"
         })
 
@@ -197,60 +132,51 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
     try:
         if file_type == "Contribution JV":
             validation_query = """
-            SELECT     
-                "Date Created",     
-                SUM("T1 Base Amount") AS "T1 Base Amount",     
-                SUM("T1 GST") AS "T1 GST",      
-                SUM("T1 Transaction Charges") AS "T1 Transaction Charges",     
-                SUM("T2 Base Amount") AS "T2 Base Amount",     
-                SUM("T2 GST") AS "T2 GST",     
-                SUM("T2 Transaction Charges") AS "T2 Transaction Charges",      
-                SUM("Registration") AS "Registration",     
-                SUM("T1 Base Amount" + "T1 GST" + "T1 Transaction Charges" + "T2 Base Amount" + "T2 GST" + "T2 Transaction Charges" + "Registration") AS "Total Amount" 
+            SELECT created_date,     
+                SUM(t1_base_amount) AS t1_base_amount,     
+                SUM(t1_gst) AS t1_gst,      
+                SUM(t1_transaction_charges) AS t1_transaction_charges,     
+                SUM(t2_base_amount) AS t2_base_amount,     
+                SUM(t2_gst) AS t2_gst,     
+                SUM(t2_transaction_Charges) AS t2_transaction_charges,      
+                SUM(registration) AS registration,     
+                SUM(t1_base_amount + t1_gst + t1_transaction_charges + t2_base_amount + t2_gst + t2_transaction_charges + registration) AS total_amount 
             FROM (     
-                SELECT         
-                    (creation - INTERVAL '9 hours')::DATE AS "Date Created",         
-                    COALESCE((order_details->'notes'->>'t1_amount')::NUMERIC,0) AS "T1 Base Amount",         
-                    COALESCE((order_details->'notes'->>'t1_gst')::NUMERIC,0) + CASE WHEN COALESCE((order_details->'notes'->>'registration')::NUMERIC, 0)>0 THEN 36 ELSE 0 END AS "T1 GST",         
-                    COALESCE((order_details->'notes'->>'t1_transaction_charges')::NUMERIC, 0) AS "T1 Transaction Charges",         
-                    COALESCE((order_details->'notes'->>'t2_amount')::NUMERIC,0) AS "T2 Base Amount",         
-                    COALESCE((order_details->'notes'->>'t2_gst')::NUMERIC,0) AS "T2 GST",         
-                    COALESCE((order_details->'notes'->>'t2_transaction_charges')::NUMERIC,0) AS "T2 Transaction Charges",         
+                SELECT (creation - INTERVAL '9 hours')::DATE AS created_date,         
+                    COALESCE((order_details->'notes'->>'t1_amount')::NUMERIC,0) AS t1_base_amount,         
+                    COALESCE((order_details->'notes'->>'t1_gst')::NUMERIC,0) + CASE WHEN COALESCE((order_details->'notes'->>'registration')::NUMERIC, 0)>0 THEN 36 ELSE 0 END AS t1_gst,         
+                    COALESCE((order_details->'notes'->>'t1_transaction_charges')::NUMERIC, 0) AS t1_transaction_charges,         
+                    COALESCE((order_details->'notes'->>'t2_amount')::NUMERIC,0) AS t2_base_amount,         
+                    COALESCE((order_details->'notes'->>'t2_gst')::NUMERIC,0) AS t2_gst,         
+                    COALESCE((order_details->'notes'->>'t2_transaction_charges')::NUMERIC,0) AS t2_transaction_charges,         
                     CASE
                         WHEN COALESCE((order_details->'notes'->>'registration')::NUMERIC, 0)>0
                         THEN COALESCE((order_details->'notes'->>'registration')::NUMERIC, 0)-36
                         ELSE 0
-                    END AS "Registration"     
-                FROM         
-                    tabnps_contribution     
-                WHERE         
-                    order_details IS NOT NULL         
+                    END AS registration     
+                FROM tabnps_contribution     
+                WHERE order_details IS NOT NULL         
                     AND order_details->'notes' IS NOT NULL
                     AND status = 'captured'
                     AND (creation - INTERVAL '9 hours')::DATE BETWEEN %s AND %s
-                    
                 UNION ALL
-                SELECT
-                    (contribution_timestamp)::DATE AS "Date Created",
-                    COALESCE((item->>'amount')::NUMERIC, 0) AS "T1 Base Amount",
-                    (COALESCE((item->>'cgst')::NUMERIC, 0) + COALESCE((item->>'sgst')::NUMERIC, 0) + COALESCE((item->>'igst')::NUMERIC, 0)) AS "T1 GST",
-                    COALESCE((item->>'service_charge')::NUMERIC, 0) AS "T1 Transaction Charges",
-                    0 AS "T2 Base Amount",
-                    0 AS "T2 GST",
-                    0 AS "T2 Transaction Charges",
-                    0 AS "Registration"
-                FROM
-                    tabnps_agent_contribution, 
+                SELECT (contribution_timestamp)::DATE AS created_date,
+                    COALESCE((item->>'amount')::NUMERIC, 0) AS t1_base_amount,
+                    (COALESCE((item->>'cgst')::NUMERIC, 0) + COALESCE((item->>'sgst')::NUMERIC, 0) + COALESCE((item->>'igst')::NUMERIC, 0)) AS t1_gst,
+                    COALESCE((item->>'service_charge')::NUMERIC, 0) AS t1_transaction_charges,
+                    0 AS t2_base_amount,
+                    0 AS t2_gst,
+                    0 AS t2_transaction_charges,
+                    0 AS registration
+                FROM tabnps_agent_contribution, 
                     jsonb_array_elements(contribution::jsonb->'items') AS item
-                WHERE
-                    contribution IS NOT NULL
+                WHERE contribution IS NOT NULL
                     AND (contribution_timestamp)::DATE = %s
-
             ) AS contribution_data 
             GROUP BY     
-                "Date Created" 
+                created_date 
             ORDER BY     
-                "Date Created";
+                created_date;
             """
             
             query_result = frappe.db.sql(validation_query, (doc.from_date, doc.to_date, doc.from_date), as_dict=True)
@@ -262,12 +188,12 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
                 }
             
             #db contents -> nps_contribution table
-            db_total_amount = float(query_result[0].get("Total Amount", 0))
-            db_order_value = float(query_result[0].get("T1 Base Amount", 0)) #T2 = 0
-            db_registration_fee = float(query_result[0].get("Registration", 0))
-            db_comission = float(query_result[0].get("T1 Transaction Charges", 0)) + float(query_result[0].get("Service Charges", 0)) #T2 = 0
-            db_service_charges = float(query_result[0].get("Service Charges", 0))
-            db_gst = float(query_result[0].get("T1 GST", 0)) #T2 = 0
+            db_total_amount = float(query_result[0].get("total_amount", 0))
+            db_order_value = float(query_result[0].get("t1_base_amount", 0)) #T2 = 0
+            db_registration_fee = float(query_result[0].get("registration", 0))
+            db_comission = float(query_result[0].get("t1_transaction_charges", 0)) #T2 = 0
+            db_service_charges = float(query_result[0].get("service_charges", 0))
+            db_gst = float(query_result[0].get("t1_gst", 0)) #T2 = 0
             
             #jv_record contents
             jv_total_amount = float(doc.total_amount or 0) 
@@ -280,7 +206,7 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
             jv_integrated_gst = float(doc.integrated_gst or 0)
             jv_gst = jv_central_gst + jv_state_gst + jv_integrated_gst
             
-            tolerance = 0.1 
+            tolerance = 0.01 
             difference_total_amount = abs(db_total_amount - jv_total_amount)
             difference_order_value = abs(db_order_value - jv_order_value)
             difference_registration_fee = abs(db_registration_fee - jv_registration_fee)
@@ -313,22 +239,22 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
         elif file_type == "Agent Contribution JV":
             validation_query = """
             SELECT
-                contribution_timestamp::DATE AS "Date Created", 
-                SUM((item->>'amount')::NUMERIC) AS "Base Amount",
-                SUM((item->>'cgst')::NUMERIC) AS "CGST",
-                SUM((item->>'igst')::NUMERIC) AS "IGST",
-                SUM((item->>'sgst')::NUMERIC) AS "SGST",
-                SUM((item->>'service_charge')::NUMERIC) AS "Service Charge",
-                SUM((item->>'total_amount')::NUMERIC) As "Total Amount"
+                contribution_timestamp::DATE AS created_date, 
+                SUM((item->>'amount')::NUMERIC) AS base_amount,
+                SUM((item->>'cgst')::NUMERIC) AS cgst,
+                SUM((item->>'igst')::NUMERIC) AS igst,
+                SUM((item->>'sgst')::NUMERIC) AS sgst,
+                SUM((item->>'service_charge')::NUMERIC) AS service_charge,
+                SUM((item->>'total_amount')::NUMERIC) As total_amount
             FROM
                 tabnps_agent_contribution,
                 jsonb_array_elements(contribution::jsonb->'items') AS item  
             WHERE
                 (contribution_timestamp)::DATE = %s
             GROUP BY
-                "Date Created"
+                created_date
             ORDER BY 
-                "Date Created"
+                created_date
             """
 
             query_result = frappe.db.sql(validation_query, (doc.from_date,), as_dict=True)
@@ -339,12 +265,12 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
                     "difference": "No matching data found in the database for this date"
                 }
             
-            db_total_amount = float(query_result[0].get("Total Amount", 0))
-            db_order_value = float(query_result[0].get("Base Amount", 0))
-            db_service_charges = float(query_result[0].get("Service Charge", 0))
-            db_cgst = float(query_result[0].get("CGST", 0))
-            db_sgst = float(query_result[0].get("SGST", 0))
-            db_igst = float(query_result[0].get("IGST", 0))
+            db_total_amount = float(query_result[0].get("total_amount", 0))
+            db_order_value = float(query_result[0].get("base_amount", 0))
+            db_service_charges = float(query_result[0].get("service_charge", 0))
+            db_cgst = float(query_result[0].get("cgst", 0))
+            db_sgst = float(query_result[0].get("sgst", 0))
+            db_igst = float(query_result[0].get("igst", 0))
             db_gst = db_cgst + db_sgst + db_igst
 
             jv_total_amount = float(doc.total_amount or 0)
@@ -385,7 +311,7 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
         elif file_type == "Modification JV":
             validation_query = """
             SELECT 
-                SUM(amount) AS "Total Amount"
+                SUM(amount) AS total_amount
             FROM
                 "tabNPS Charge"
             WHERE 
@@ -401,7 +327,7 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
                     "difference": "No matching data found in NPS Charge table for this data"
                 }
             
-            db_total_amount = float(query_result[0].get("Total Amount", 0) or 0)
+            db_total_amount = float(query_result[0].get("total_amount", 0) or 0)
             jv_total_amount = float(doc.total_amount or 0)
 
             tolerance = 0.01
@@ -421,17 +347,15 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
         elif file_type == "Comparison JV":
             return _fetch_payment_difference(doc)
             
-        else:
-            return {
-                "is_valid": False,
-                "difference": f"Unknown File Type: {file_type}"
-            }
-
+        raise Exception("Invalid file type.")
+    
     except Exception as e:
         frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
         return {
             "is_valid": False,
-            "difference": f"Validation error: {str(e)}"
+            "difference": f"Validation error: {str(e)}",
+            "remark": f"Error: {str(e)}",
+            "record_count": 0
         }
     
 def _fetch_payment_difference(doc):
@@ -519,5 +443,5 @@ def _fetch_payment_difference(doc):
 
     return{
         "remark": "".join(remarks),
-        "discrepancies": total_discrepancies
+        "record_count": total_discrepancies
     }
