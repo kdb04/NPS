@@ -213,3 +213,12 @@ Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-impo
 2025-07-07 22:36:41,303 ERROR frappe New Exception collected in error log
 Site: NPS.local
 Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-lsbhjauvjb","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"Pending","from_date":"2025-06-02","to_date":"2025-06-03","uploaded_file":"/private/files/JV_03.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-07-08 14:36:31,954 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-zzlmfjkgrf","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"pending","from_date":"2025-06-02","to_date":"2025-06-03","uploaded_file":"/private/files/JV_03.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-07-08 14:40:02,258 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-sbrlmehbkz","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"pending","from_date":"2025-06-02","to_date":"2025-06-03","uploaded_file":"/private/files/JV_03.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
+2025-07-08 14:43:28,834 ERROR frappe New Exception collected in error log
+Site: NPS.local
+Form Dict: {'doc': '{"docstatus":0,"doctype":"NPS Importer","name":"new-nps-importer-abocchicfn","__islocal":1,"__unsaved":1,"owner":"Administrator","file_type":"Contribution JV","status":"pending","from_date":"2025-06-02","to_date":"2025-06-03","uploaded_file":"/private/files/JV_03.06.2025.csv"}', 'action': 'Save', 'cmd': 'frappe.desk.form.save.savedocs'}
