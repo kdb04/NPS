@@ -33,7 +33,7 @@ def process_file(doc, method=None):
             if response["status"].lower() == "error":
                 frappe.db.set_value("NPS Importer", doc.name, {
                     "remark": response["remark"],
-                    "status": "Failed"
+                    "status": "failed"
                 })
 
             else:
@@ -44,7 +44,7 @@ def process_file(doc, method=None):
 
                 frappe.db.set_value("NPS Importer", doc.name ,{
                     "remark": "Discrepancy log saved." if comp_doc.discrepancy_count else "Comparison completed successfully.",
-                    "status": "Success"
+                    "status": "success"
                 })
 
         else:
@@ -61,7 +61,7 @@ def process_file(doc, method=None):
             else:
                 frappe.db.set_value("NPS Importer", doc.name, {
                     "remark": "No valid data rows found in file",
-                    "status": "Failed"
+                    "status": "failed"
                 })
                 
             amounts = {}
@@ -103,19 +103,19 @@ def process_file(doc, method=None):
 
             validation_result = validate_against_database(doc.file_type, doc=jv_doc)
             
-            if (validation_result["status"].lower()=="valid"):
+            if (validation_result["status"]=="valid"):
                 frappe.db.set_value("NPS JV Store", jv_doc.name, {
                     "status": validation_result["status"],
                     "remark": validation_result["remark"]
                 })
 
-            elif (validation_result["status"].lower()=="error"):
+            elif (validation_result["status"]=="error"):
                 frappe.db.set_value("NPS JV Store", jv_doc.name, {
                     "status": validation_result["status"],
                     "remark": f"Error during processing: {validation_result['remark']}"         
                 })
                 
-            elif (validation_result["status"].lower()=="discrepancy"):
+            elif (validation_result["status"]=="discrepancy"):
                 frappe.db.set_value("NPS JV Store", jv_doc.name, {
                     "status": validation_result["status"],
                     "discrepancy": f"Amount Discrepancy:\n{validation_result['remark']}"
@@ -142,8 +142,7 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
     try:
         if file_type == "Contribution JV":
             validation_query = """
-            SELECT created_date,     
-                SUM(t1_base_amount) AS t1_base_amount,     
+            SELECT SUM(t1_base_amount) AS t1_base_amount,     
                 SUM(t1_gst) AS t1_gst,      
                 SUM(t1_transaction_charges) AS t1_transaction_charges,     
                 SUM(t2_base_amount) AS t2_base_amount,     
@@ -182,22 +181,17 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
                     jsonb_array_elements(contribution::jsonb->'items') AS item
                 WHERE contribution IS NOT NULL
                     AND (contribution_timestamp)::DATE = %s
-            ) AS contribution_data 
-            GROUP BY     
-                created_date 
-            ORDER BY 
-                created_date;
+            ) AS contribution_data;
             """
             
             query_result = frappe.db.sql(validation_query, (doc.from_date, doc.to_date, doc.from_date), as_dict=True) #to deal with weekend case
             
             if not query_result:
                 return {
-                    "status": "Error",
+                    "status": "error",
                     "remark": f"No matching data found in database for the date range {doc.from_date} to {doc.to_date}"
                 }
-            
-            #db contents -> nps_contribution table
+
             db_total_amount = float(query_result[0].get("total_amount", 0))
             db_order_value = float(query_result[0].get("t1_base_amount", 0)) #T2 = 0
             db_registration_fee = float(query_result[0].get("registration", 0))
@@ -223,40 +217,38 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
             difference_gst = abs(db_gst-jv_gst)
             difference_service_charges = abs(db_service_charges - jv_service_charges)
 
-            status = "Discrepancy"
+            status = "discrepancy"
 
             differences = []
-            if difference_total_amount>tolerance:
-                differences.append(f"DB Total: {db_total_amount}, JV Total: {jv_total_amount}, Difference in Total Amount: {difference_total_amount}")
+            if difference_total_amount > tolerance:
+                differences.append(f"DB Total: {db_total_amount}, JV Total: {jv_total_amount}, Difference in Total Amount: {difference_total_amount}.")
             
-            if difference_order_value>tolerance:
-                differences.append(f"DB Order Value: {db_order_value}, JV Order Value: {jv_order_value}, Difference in Order Value: {difference_order_value}")
+            if difference_order_value > tolerance:
+                differences.append(f"DB Order Value: {db_order_value}, JV Order Value: {jv_order_value}, Difference in Order Value: {difference_order_value}.")
             
-            if difference_registration_fee>tolerance:
-                differences.append(f"DB Registration Fee: {db_registration_fee}, JV Registration Fee: {jv_registration_fee}, Difference in Registration Fee: {difference_registration_fee}")
+            if difference_registration_fee > tolerance:
+                differences.append(f"DB Registration Fee: {db_registration_fee}, JV Registration Fee: {jv_registration_fee}, Difference in Registration Fee: {difference_registration_fee}.")
             
-            if difference_comission>tolerance:
-                differences.append(f"DB Commision Value: {db_comission}, JV Commission Value: {jv_comission}, Difference in Commission Value: {difference_comission}")
+            if difference_comission > tolerance:
+                differences.append(f"DB Commision Value: {db_comission}, JV Commission Value: {jv_comission}, Difference in Commission Value: {difference_comission}.")
             
-            if difference_gst>tolerance:
-                differences.append(f"DB GST Value: {db_gst}, JV GST Value: {jv_gst}, Difference in GST Value: {difference_gst}")
+            if difference_gst > tolerance:
+                differences.append(f"DB GST Value: {db_gst}, JV GST Value: {jv_gst}, Difference in GST Value: {difference_gst}.")
             
-            if difference_service_charges>tolerance:
-                differences.append(f"DB Service Charges: {db_service_charges}, JV Service Charges: {jv_service_charges}, Difference in Service Charges: {difference_service_charges}")
+            if difference_service_charges > tolerance:
+                differences.append(f"DB Service Charges: {db_service_charges}, JV Service Charges: {jv_service_charges}, Difference in Service Charges: {difference_service_charges}.")
             
             if len(differences) == 0:
-                status = "Valid"
+                status = "valid"
  
             return {
                 "status": status,
-                "remark": " |\n".join(differences)
+                "remark": " ".join(differences)
             }
             
         elif file_type == "Agent Contribution JV":
             validation_query = """
-            SELECT
-                contribution_timestamp::DATE AS created_date, 
-                SUM((item->>'amount')::NUMERIC) AS base_amount,
+            SELECT SUM((item->>'amount')::NUMERIC) AS base_amount,
                 SUM((item->>'cgst')::NUMERIC) AS cgst,
                 SUM((item->>'igst')::NUMERIC) AS igst,
                 SUM((item->>'sgst')::NUMERIC) AS sgst,
@@ -267,17 +259,13 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
                 jsonb_array_elements(contribution::jsonb->'items') AS item  
             WHERE
                 (contribution_timestamp)::DATE = %s
-            GROUP BY
-                created_date
-            ORDER BY 
-                created_date;
             """
 
             query_result = frappe.db.sql(validation_query, (doc.from_date,), as_dict=True)
 
             if not query_result:
                 return{
-                    "status": "Error",
+                    "status": "error",
                     "remark": "No matching data found in the database for this date"
                 }
             
@@ -302,24 +290,24 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
             difference_service_charges = abs(db_service_charges - jv_service_charges)
             difference_gst = abs(db_gst - jv_gst)
 
-            status = "Discrepancy"
+            status = "discrepancy"
 
             differences = []
             if difference_total_amount > tolerance:
-                differences.append(f"DB Total: {db_total_amount}, JV Total: {jv_total_amount}, Difference in Total Amount: {difference_total_amount}")
+                differences.append(f"DB Total: {db_total_amount}, JV Total: {jv_total_amount}, Difference in Total Amount: {difference_total_amount}.")
             if difference_order_value > tolerance:
-                differences.append(f"DB Order Value: {db_order_value}, JV Order Value: {jv_order_value}, Difference in Order Value: {difference_order_value}")
+                differences.append(f"DB Order Value: {db_order_value}, JV Order Value: {jv_order_value}, Difference in Order Value: {difference_order_value}.")
             if difference_service_charges > tolerance:
-                differences.append(f"DB Service Charge: {db_service_charges}, JV Service Charges: {jv_service_charges}, Difference in Service Charge: {difference_service_charges}")
+                differences.append(f"DB Service Charge: {db_service_charges}, JV Service Charges: {jv_service_charges}, Difference in Service Charge: {difference_service_charges}.")
             if difference_gst > tolerance:
-                differences.append(f"DB GST: {db_gst}, JV GST: {jv_gst}, Difference in GST Value: {difference_gst}")
+                differences.append(f"DB GST: {db_gst}, JV GST: {jv_gst}, Difference in GST Value: {difference_gst}.")
 
             if len(differences) == 0:
-                status = "Valid"
+                status = "valid"
     
             return{
                 "status": status,
-                "remark": "|\n".join(differences)
+                "remark": " ".join(differences)
             }
             
         elif file_type == "Modification JV":
@@ -337,7 +325,7 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
 
             if not query_result:
                 return{
-                    "status": "Error",
+                    "status": "error",
                     "remark": "No matching data found in NPS Charge table for this data"
                 }
             
@@ -348,12 +336,12 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
 
             if difference_total_amount <= tolerance:
                 return{
-                    "status": "Valid",
+                    "status": "valid",
                     "remark": "No discrepancies found."
                 }
             else:
                 return{
-                    "status": "Discrepancy",
+                    "status": "discrepancy",
                     "remark": f"DB Total Amount:{db_total_amount}, JV Total Amount:{jv_total_amount}, Difference:{difference_total_amount}"
                 }            
 
@@ -365,7 +353,7 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
     except Exception as e:
         frappe.log_error(f"Validation error: {str(e)}", "NPS Validation Error")
         return {
-            "status": "Error",
+            "status": "error",
             "difference": f"Validation error: {str(e)}",
             "remark": f"Error: {str(e)}",
             "record_count": 0
@@ -373,10 +361,14 @@ def validate_against_database(file_type, doc=None, filepath=None, file_content=N
     
 def _fetch_payment_difference(doc):
     filepath = "{}{}".format(frappe.get_site_path(), doc.uploaded_file)
-    #print(filepath)
 
     expected_columns = {
-        "entity_id", "type", "debit", "credit", "amount", "currency", "fee", "tax", "on_hold", "settled", "created_at", "settled_at", "settlement_id", "description", "notes", "payment_id", "arn", "settlement_utr", "order_id", "order_receipt", "method", "upi_flow", "card_network", "card_issuer", "card_type", "dispute_id", "additional_utr"
+        "entity_id", "type", "debit", "credit", "amount", "currency", 
+        "fee", "tax", "on_hold", "settled", "created_at", "settled_at", 
+        "settlement_id", "description", "notes", "payment_id", "arn", 
+        "settlement_utr", "order_id", "order_receipt", "method", 
+        "upi_flow", "card_network", "card_issuer", "card_type", 
+        "dispute_id", "additional_utr"
     }
 
     with open(os.path.abspath(filepath)) as csvfile:
@@ -387,7 +379,7 @@ def _fetch_payment_difference(doc):
 
     if actual_columns != expected_columns:
         return{
-            "status": "Error",
+            "status": "error",
             "remark": "Invalid file for comparison.",
             "record_count": 0
         }
@@ -472,7 +464,7 @@ def _fetch_payment_difference(doc):
         )
 
     return{
-        "status": "Success",
+        "status": "success",
         "remark": "".join(remarks),
         "record_count": total_discrepancies
     }
